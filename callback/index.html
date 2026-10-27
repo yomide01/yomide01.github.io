@@ -4,33 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="tiktok-developers-site-verification" content="0pzui3oWkSqRng1y7Sv53CdMaKnpWLvX">
-  <title>AAT - Autonomous Automation TikTok</title>
+  <title>AAT - Account Connection</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; color: #222; }
     h1 { color: #111; }
     a { color: #fe2c55; text-decoration: none; font-weight: bold; }
-    a:hover { text-decoration: underline; }
     .badge { display: inline-block; background: #fe2c55; color: white; padding: 4px 12px; border-radius: 20px; font-size: 14px; }
+    .codebox { display:none; margin-top:24px; padding:20px; background:#f0fdf4; border: 2px solid #22c55e; border-radius:12px; }
+    .copybtn { background: #111; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 8px; }
   </style>
 </head>
 <body>
   <div class="badge">Official Creator Platform</div>
-  <h1>AAT (Autonomous Automation TikTok)</h1>
-  <p>AAT is an intelligent video compilation and scheduling platform for viral social media content creators, integrating with official TikTok for Developers APIs.</p>
+  <h1>AAT (Autonomous Automation TikTok & YouTube)</h1>
+  <p>AAT is an intelligent video compilation and scheduling platform for social media creators.</p>
   <ul>
     <li><a href="terms.html">Terms of Service</a></li>
     <li><a href="privacy.html">Privacy Policy</a></li>
   </ul>
-  <div id="codebox" style="display:none; margin-top:24px; padding:16px; background:#f6f6f6; border-radius:12px;">
-    <p>Send this code to your bot on Telegram, exactly like this:</p>
-    <p id="codeline" style="font-size:18px; word-break:break-all; font-weight:bold;"></p>
-    <p>It expires quickly. If the bot says it was rejected, open the link again.</p>
+  <div id="codebox" class="codebox">
+    <h3 id="platform_title" style="margin-top:0;">Authorization Code Ready</h3>
+    <p>Copy and send this exact command to your Telegram Bot (<b>@AATTK01_bot</b>):</p>
+    <p id="codeline" style="font-size:18px; word-break:break-all; font-weight:bold; background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd;"></p>
+    <button class="copybtn" onclick="navigator.clipboard.writeText(document.getElementById('codeline').textContent); this.textContent='Copied! Paste in Telegram';">Copy Command</button>
+    <p style="font-size:13px; color:#555;">Note: Codes expire within a few minutes. Paste it in your Telegram bot chat right away.</p>
   </div>
   <script>
-    var code = new URLSearchParams(window.location.search).get("code");
+    var params = new URLSearchParams(window.location.search);
+    var code = params.get("code");
+    var state = params.get("state") || "";
     if (code) {
+      var isYt = state.indexOf("youtube") !== -1;
+      var cmd = isYt ? "/youtube " : "/tiktok ";
+      document.getElementById("platform_title").textContent = isYt ? "YouTube Channel Authorization Ready!" : "TikTok Account Authorization Ready!";
       document.getElementById("codebox").style.display = "block";
-      document.getElementById("codeline").textContent = "/tiktok " + code;
+      document.getElementById("codeline").textContent = cmd + code;
     }
   </script>
 </body>
