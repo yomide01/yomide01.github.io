@@ -1,308 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Creator Authentication Gateway — AAT Studio</title>
-  <meta name="robots" content="noindex, nofollow" />
-  <link rel="icon" type="image/png" href="/aat_app_icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AAT — Workstation Session Handshake</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0d0d0c">
+  <link rel="icon" type="image/png" href="/aat_app_icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #07090e;
-      --card: rgba(18, 24, 36, 0.82);
-      --border: rgba(255, 255, 255, 0.09);
-      --text: #f3f6fc;
-      --muted: #94a3b8;
-      --accent: #ff5545;
-      --emerald: #10b981;
-      --amber: #f59e0b;
+    @layer reset, base, theme, components, utilities;
+
+    @layer reset {
+      html, body, div, span, header, main, footer, section, article,
+      h1, h2, p, pre, code, button, a, svg, strong {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      button {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: none;
+        cursor: pointer;
+        touch-action: manipulation;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      background-image:
-        radial-gradient(circle at 20% 15%, rgba(255, 85, 69, 0.14), transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.1), transparent 42%);
+
+    @layer theme {
+      :root {
+        --bg-obsidian: #0d0d0c;
+        --bg-panel: #141412;
+        --bg-well: #090908;
+        --ink-primary: #f3efe6;
+        --ink-secondary: #a6a196;
+        --ink-muted: #6e6a61;
+        --hairline: #282723;
+        --hairline-strong: #3b3933;
+        --signal-vermilion: #ff3d1f;
+        --signal-amber: #e6a832;
+        --signal-jade: #2fba78;
+        --state-color: #e6a832;
+        --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-mono: 'IBM Plex Mono', monospace;
+      }
     }
-    a { color: inherit; text-decoration: none; }
-    .topbar {
-      padding: 20px 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-      background: rgba(7, 9, 14, 0.75);
-      backdrop-filter: blur(14px);
+
+    @layer base {
+      @media (prefers-reduced-motion: no-preference) {
+        @view-transition {
+          navigation: auto;
+        }
+      }
+
+      html {
+        background-color: var(--bg-obsidian);
+        color: var(--ink-primary);
+        font-family: var(--font-sans);
+        line-height: 1.5;
+        color-scheme: dark;
+      }
+
+      body {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--signal-vermilion);
+        outline-offset: 2px;
+      }
     }
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 1.05rem;
+
+    @layer components {
+      .masthead {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-block: 0.75rem;
+        padding-inline: clamp(1rem, 3vw, 2rem);
+        border-block-end: 1px solid var(--hairline);
+        background-color: var(--bg-panel);
+        font-family: var(--font-mono);
+        font-size: 0.74rem;
+      }
+
+      .stage-center {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+      }
+
+      .terminal-sheet {
+        width: 100%;
+        max-width: 580px;
+        border: 1px solid var(--hairline-strong);
+        background-color: var(--bg-panel);
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7);
+      }
+
+      .terminal-sheet:has(pre:focus-visible) {
+        border-color: var(--signal-vermilion);
+      }
+
+      .sheet-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.7rem 1.15rem;
+        border-block-end: 1px solid var(--hairline);
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-secondary);
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        color: var(--state-color);
+      }
+
+      .status-dot {
+        width: 0.45rem;
+        height: 0.45rem;
+        border-radius: 999px;
+        background-color: var(--state-color);
+      }
+
+      .sheet-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.15rem;
+      }
+
+      .sheet-title {
+        font-size: 1.35rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+
+      .sheet-desc {
+        font-size: 0.88rem;
+        color: var(--ink-secondary);
+        line-height: 1.6;
+      }
+
+      .payload-well {
+        display: none;
+        flex-direction: column;
+        gap: 0.65rem;
+      }
+
+      .payload-well[data-visible="true"] {
+        display: flex;
+      }
+
+      .payload-label {
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-muted);
+      }
+
+      .payload-pre {
+        padding: 0.95rem;
+        border: 1px solid var(--hairline-strong);
+        background-color: var(--bg-well);
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--signal-jade);
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+
+      .action-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        padding-block-start: 0.4rem;
+      }
+
+      .studio-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        padding: 0.55rem 1rem;
+        border: 1px solid var(--hairline-strong);
+        background-color: #1d1d1a;
+        font-family: var(--font-mono);
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .studio-btn-primary {
+        background-color: var(--signal-vermilion);
+        border-color: var(--signal-vermilion);
+        color: #0d0d0c;
+        font-weight: 600;
+      }
+
+      .studio-footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem clamp(1rem, 3vw, 2rem);
+        border-block-start: 1px solid var(--hairline);
+        background-color: var(--bg-panel);
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        color: var(--ink-muted);
+      }
     }
-    .brand img { width: 32px; height: 32px; border-radius: 8px; }
-    .main-wrap {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 32px 20px;
-    }
-    .gateway-card {
-      width: 100%;
-      max-width: 600px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 34px;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(16px);
-    }
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 5px 12px;
-      border-radius: 999px;
-      margin-bottom: 18px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--border);
-      color: var(--muted);
-    }
-    .status-pill.verified {
-      background: rgba(16, 185, 129, 0.14);
-      border-color: rgba(16, 185, 129, 0.4);
-      color: #6ee7b7;
-    }
-    .status-pill.error {
-      background: rgba(239, 68, 68, 0.14);
-      border-color: rgba(239, 68, 68, 0.4);
-      color: #fca5a5;
-    }
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: currentColor;
-    }
-    h1 {
-      font-size: 1.55rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 10px;
-    }
-    p.desc {
-      color: var(--muted);
-      font-size: 0.94rem;
-      line-height: 1.6;
-      margin-bottom: 22px;
-    }
-    .cmd-container {
-      background: #06080d;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .cmd-label {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-    }
-    code.cmd-box {
-      display: block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.92rem;
-      color: #6ee7b7;
-      word-break: break-all;
-      line-height: 1.5;
-      user-select: all;
-    }
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 18px;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 20px;
-      border-radius: 11px;
-      font-weight: 600;
-      font-size: 0.92rem;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: all 0.18s ease;
-    }
-    .btn-primary {
-      flex: 1;
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: #fff;
-      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.28);
-    }
-    .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.06); }
-    .btn-ghost {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: var(--border);
-      color: var(--text);
-    }
-    .btn-ghost:hover { background: rgba(255, 255, 255, 0.1); }
-    .scope-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 20px;
-      padding-top: 18px;
-      border-top: 1px solid var(--border);
-    }
-    .scope-chip {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      color: var(--muted);
-    }
-    footer {
-      padding: 20px 28px;
-      border-top: 1px solid var(--border);
-      font-size: 0.82rem;
-      color: var(--muted);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    footer a:hover { color: var(--text); }
   </style>
 </head>
 <body>
-  <div class="topbar">
-    <a href="/" class="brand">
-      <img src="/aat_app_icon.png" alt="AAT Studio" />
-      <span>AAT Studio</span>
-    </a>
-    <a href="/" style="font-size:0.86rem; color:var(--muted);">← Back to Studio</a>
-  </div>
+  <header class="masthead">
+    <span>AAT // WORKSTATION HANDSHAKE RELAY</span>
+    <a href="/">← Return to 9:16 Mastering Deck</a>
+  </header>
 
-  <div class="main-wrap">
-    <div class="gateway-card">
-      <div id="statusBadge" class="status-pill">
-        <span class="dot"></span>
-        <span id="statusText">OAuth 2.0 Channel Gateway</span>
+  <main class="stage-center">
+    <section class="terminal-sheet" id="relay-sheet" aria-labelledby="sheet-heading">
+      <div class="sheet-bar">
+        <span>OAUTH 2.0 LOOPBACK // CLIENT-SIDE BUFFER</span>
+        <span class="status-pill">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="relay-badge-text">STANDBY</span>
+        </span>
       </div>
-      <h1 id="heading">Creator Authentication Gateway</h1>
-      <p id="desc" class="desc">
-        This endpoint processes Google OAuth 2.0 channel authorization handshakes for AAT Studio. Initiate channel linking from your active studio session to generate a verified handshake token.
-      </p>
 
-      <div id="dynamicArea">
-        <div class="cmd-container">
-          <div class="cmd-label">
-            <span>Session Status</span>
-            <span>TLS 1.3 • NaCl Vault</span>
-          </div>
-          <code class="cmd-box" style="color:#94a3b8;">Awaiting OAuth 2.0 redirect parameters (?code=...)</code>
+      <div class="sheet-body">
+        <h1 class="sheet-title" id="sheet-heading">Awaiting Authorization Payload</h1>
+        <p class="sheet-desc" id="sheet-desc">
+          No active OAuth 2.0 parameter was detected in the current URL. Start a channel handshake from your studio controller to populate this buffer.
+        </p>
+
+        <div class="payload-well" id="payload-well" data-visible="false">
+          <span class="payload-label" id="payload-label">Workstation Relay Command</span>
+          <pre class="payload-pre" tabindex="0"><code id="payload-code"></code></pre>
         </div>
-        <div class="btn-row">
-          <a href="/" class="btn btn-ghost" style="width:100%;">Return to AAT Studio</a>
+
+        <div class="action-row">
+          <button type="button" class="studio-btn studio-btn-primary" id="copy-cmd-btn" hidden>
+            Copy Command Payload
+          </button>
+          <a href="/" class="studio-btn">Open Mastering Workbench</a>
         </div>
       </div>
+    </section>
+  </main>
 
-      <div class="scope-list" id="scopeList">
-        <span class="scope-chip">youtube.upload</span>
-        <span class="scope-chip">youtube.readonly</span>
-        <span class="scope-chip">youtube.force-ssl</span>
-        <span class="scope-chip">yt-analytics.readonly</span>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <span>AAT Studio • OAuth 2.0 Security Gateway</span>
-    <div style="display:flex; gap:18px;">
-      <a href="/privacy.html">Privacy Policy</a>
-      <a href="/terms.html">Terms of Service</a>
-    </div>
+  <footer class="studio-footer">
+    <span>ZERO SERVER TELEMETRY // PARSED IN LOCAL BROWSER MEMORY</span>
+    <span><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></span>
   </footer>
 
-  <script>
-    (function () {
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get("code");
-      const error = params.get("error");
-      const state = params.get("state") || "studio_session";
+  <script type="module">
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    const error = params.get('error');
 
-      const badge = document.getElementById("statusBadge");
-      const statusText = document.getElementById("statusText");
-      const heading = document.getElementById("heading");
-      const desc = document.getElementById("desc");
-      const area = document.getElementById("dynamicArea");
+    const sheet = document.getElementById('relay-sheet');
+    const badgeText = document.getElementById('relay-badge-text');
+    const heading = document.getElementById('sheet-heading');
+    const desc = document.getElementById('sheet-desc');
+    const well = document.getElementById('payload-well');
+    const codeEl = document.getElementById('payload-code');
+    const copyBtn = document.getElementById('copy-cmd-btn');
 
-      if (error) {
-        badge.className = "status-pill error";
-        statusText.textContent = "Authorization Declined";
-        heading.textContent = "OAuth Handshake Cancelled";
-        desc.textContent = "Google returned an authorization error (" + error + "). Start a fresh authorization link from your studio session whenever you are ready.";
-        area.innerHTML = '<div class="btn-row"><a href="/" class="btn btn-ghost" style="width:100%;">Return to AAT Studio</a></div>';
-        return;
-      }
+    let payloadValue = '';
 
-      if (code) {
-        const cmd = "/youtube " + code;
-        badge.className = "status-pill verified";
-        statusText.textContent = "OAuth 2.0 Handshake Verified";
-        heading.textContent = "YouTube Channel Handshake Ready";
-        desc.textContent = "Your single-use authorization token has been verified. Copy the studio command below to complete encrypted token storage:";
+    if (code) {
+      payloadValue = `/youtube ${code}`;
+      sheet.style.setProperty('--state-color', '#2fba78');
+      badgeText.textContent = 'HANDSHAKE VERIFIED';
+      heading.textContent = 'Session Token Ready';
+      desc.textContent = 'Copy the formatted workstation command below and paste it into your operator console to complete the token exchange.';
+      well.dataset.visible = 'true';
+      codeEl.textContent = payloadValue;
+      copyBtn.hidden = false;
+    } else if (error) {
+      sheet.style.setProperty('--state-color', '#ff3d1f');
+      badgeText.textContent = 'HANDSHAKE DECLINED';
+      heading.textContent = 'Authorization Interrupted';
+      desc.textContent = 'The provider returned an error response during the redirect flow.';
+      well.dataset.visible = 'true';
+      codeEl.textContent = `ERROR: ${error}`;
+    }
 
-        area.innerHTML =
-          '<div class="cmd-container">' +
-            '<div class="cmd-label"><span>Studio Handshake Command</span><span>State: ' + state.replace(/[^a-zA-Z0-9_-]/g, "") + '</span></div>' +
-            '<code class="cmd-box" id="cmdBox"></code>' +
-          '</div>' +
-          '<div class="btn-row">' +
-            '<button class="btn btn-primary" id="copyCmdBtn">Copy Handshake Command</button>' +
-            '<button class="btn btn-ghost" id="copyRawBtn">Copy Raw Code</button>' +
-          '</div>';
-
-        document.getElementById("cmdBox").textContent = cmd;
-        const copyCmdBtn = document.getElementById("copyCmdBtn");
-        const copyRawBtn = document.getElementById("copyRawBtn");
-
-        copyCmdBtn.onclick = function () {
-          navigator.clipboard.writeText(cmd);
-          copyCmdBtn.textContent = "✓ Copied Handshake Command!";
-          setTimeout(function () { copyCmdBtn.textContent = "Copy Handshake Command"; }, 2500);
-        };
-        copyRawBtn.onclick = function () {
-          navigator.clipboard.writeText(code);
-          copyRawBtn.textContent = "✓ Raw Code Copied";
-          setTimeout(function () { copyRawBtn.textContent = "Copy Raw Code"; }, 2500);
-        };
-      }
-    })();
+    copyBtn.addEventListener('click', () => {
+      if (!payloadValue) return;
+      navigator.clipboard.writeText(payloadValue).then(() => {
+        copyBtn.textContent = 'Copied to Clipboard ✓';
+        setTimeout(() => {
+          copyBtn.textContent = 'Copy Command Payload';
+        }, 2000);
+      });
+    });
   </script>
 </body>
 </html>

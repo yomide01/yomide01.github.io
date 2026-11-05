@@ -1,86 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terms of Service — AAT Studio</title>
-  <link rel="icon" type="image/png" href="/aat_app_icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service — AAT Post-Production Workbench</title>
+  <meta name="theme-color" content="#0d0d0c">
+  <link rel="icon" type="image/png" href="/aat_app_icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #07090e;
-      --card: rgba(18, 24, 36, 0.78);
-      --border: rgba(255, 255, 255, 0.09);
-      --text: #f3f6fc;
-      --muted: #94a3b8;
-      --accent: #ff5545;
+    @layer reset, base, theme, components, utilities;
+
+    @layer reset {
+      html, body, div, span, header, main, footer, section, article, nav,
+      h1, h2, p, ul, li, a {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      background-image: radial-gradient(circle at 85% 10%, rgba(99, 102, 241, 0.1), transparent 35%);
+
+    @layer theme {
+      :root {
+        --bg-obsidian: #0d0d0c;
+        --bg-panel: #141412;
+        --ink-primary: #f3efe6;
+        --ink-secondary: #a6a196;
+        --ink-muted: #6e6a61;
+        --hairline: #282723;
+        --signal-vermilion: #ff3d1f;
+        --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-mono: 'IBM Plex Mono', monospace;
+      }
     }
-    a { color: #ff7a6e; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .topbar {
-      padding: 20px 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-      background: rgba(7, 9, 14, 0.8);
-      backdrop-filter: blur(12px);
+
+    @layer base {
+      @media (prefers-reduced-motion: no-preference) {
+        @view-transition {
+          navigation: auto;
+        }
+      }
+
+      html {
+        background-color: var(--bg-obsidian);
+        color: var(--ink-primary);
+        font-family: var(--font-sans);
+        line-height: 1.65;
+        color-scheme: dark;
+      }
+
+      body {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      a {
+        color: var(--ink-primary);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--signal-vermilion);
+        outline-offset: 2px;
+      }
     }
-    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; color: var(--text); }
-    .brand img { width: 32px; height: 32px; border-radius: 8px; }
-    .container { max-width: 820px; margin: 48px auto; padding: 0 24px; }
-    .doc-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 40px;
+
+    @layer components {
+      .masthead {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.85rem clamp(1rem, 3vw, 2rem);
+        border-block-end: 1px solid var(--hairline);
+        background-color: var(--bg-panel);
+        font-family: var(--font-mono);
+        font-size: 0.74rem;
+      }
+
+      .doc-container {
+        max-width: 780px;
+        width: 100%;
+        margin-inline: auto;
+        padding: clamp(2rem, 5vw, 4rem) 1.5rem;
+      }
+
+      .kicker {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--signal-vermilion);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-block-end: 0.5rem;
+      }
+
+      h1 {
+        font-size: clamp(1.75rem, 3vw, 2.4rem);
+        margin-block-end: 2rem;
+        letter-spacing: -0.02em;
+      }
+
+      .clause {
+        padding-block: 1.25rem;
+        border-block-start: 1px solid var(--hairline);
+      }
+
+      h2 {
+        font-size: 1.05rem;
+        margin-block-end: 0.45rem;
+      }
+
+      p {
+        color: var(--ink-secondary);
+        font-size: 0.92rem;
+      }
+
+      .studio-footer {
+        margin-block-start: auto;
+        padding: 1rem clamp(1rem, 3vw, 2rem);
+        border-block-start: 1px solid var(--hairline);
+        background-color: var(--bg-panel);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--ink-muted);
+      }
     }
-    h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.02em; }
-    .meta { font-size: 0.86rem; color: var(--muted); margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-    h2 { font-size: 1.15rem; font-weight: 700; margin: 26px 0 10px; color: #fff; }
-    p, ul { color: var(--muted); font-size: 0.95rem; margin-bottom: 14px; }
-    ul { padding-left: 20px; }
-    li { margin-bottom: 6px; }
   </style>
 </head>
 <body>
-  <div class="topbar">
-    <a href="/" class="brand">
-      <img src="/aat_app_icon.png" alt="AAT Studio" />
-      <span>AAT Studio</span>
-    </a>
-    <a href="/" style="color:var(--muted); font-size:0.88rem;">← Back to Studio</a>
-  </div>
+  <header class="masthead">
+    <span>AAT // EDITORIAL POST-PRODUCTION</span>
+    <a href="/">← Back to Mastering Suite</a>
+  </header>
 
-  <div class="container">
-    <div class="doc-card">
-      <h1>Terms of Service</h1>
-      <div class="meta">Effective Date: November 2026 • AAT Studio Digital Media Platform</div>
+  <main class="doc-container">
+    <p class="kicker">DOCUMENT // TERMS-01</p>
+    <h1>Terms of Service</h1>
 
-      <p>By accessing or using AAT Studio ("the Studio"), you agree to these Terms of Service and all applicable platform policies.</p>
+    <section class="clause">
+      <h2>1. Proprietary Studio Workbench</h2>
+      <p>The AAT web workbench is provided as an interactive reference monitor, cut-sheet utility, and first-party session handshake endpoint. Access to publishing pipelines is restricted to the authorized studio owner.</p>
+    </section>
 
-      <h2>1. Scope of Service</h2>
-      <p>AAT Studio provides vertical video editorial mastering, ranking HUD synthesis, pacing diagnostics, and authorized channel publishing via official YouTube API Services.</p>
+    <section class="clause">
+      <h2>2. Transformative Editorial Standards</h2>
+      <p>All vertical productions mastered through the AAT suite incorporate multi-source ranking structure, custom typographic HUD overlays, frame-accurate pacing adjustments, and ITU-R BS.1770-4 loudness normalization.</p>
+    </section>
 
-      <h2>2. YouTube Terms of Service</h2>
-      <p>Use of AAT Studio's YouTube publishing and analytics integrations is also governed by the <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">YouTube Terms of Service</a>. By connecting a YouTube channel via OAuth 2.0, you agree to be bound by the YouTube Terms of Service.</p>
+    <section class="clause">
+      <h2>3. Platform Compliance</h2>
+      <p>Operations utilizing YouTube API Services are governed by the <a href="https://www.youtube.com/t/terms" rel="noopener noreferrer">YouTube Terms of Service</a>.</p>
+    </section>
+  </main>
 
-      <h2>3. Editorial Standards &amp; Content Responsibility</h2>
-      <p>Authorized creators retain full editorial approval over every video prior to publication and are responsible for ensuring all published works include transformative commentary, visual restructuring, creator attribution, and compliance with platform community guidelines.</p>
-
-      <h2>4. Limitation of Liability</h2>
-      <p>AAT Studio is provided on an "as is" and "as available" basis without warranties of any kind, either express or implied.</p>
-    </div>
-  </div>
+  <footer class="studio-footer">
+    <span>AAT POST-PRODUCTION WORKBENCH · <a href="/privacy.html">Privacy Policy</a></span>
+  </footer>
 </body>
 </html>
