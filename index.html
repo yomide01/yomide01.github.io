@@ -1,1071 +1,624 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AAT — Editorial Post-Production &amp; 9:16 Mastering Suite</title>
-  <meta name="description" content="Independent short-form editorial workbench, 9:16 reference monitor, and cut-sheet mastering suite.">
-  <meta name="theme-color" content="#0d0d0c">
-  <link rel="icon" type="image/png" href="/aat_app_icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;family=Instrument+Serif:ital@0;1&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AAT Studio — Short-Form Video &amp; Editorial Suite</title>
+  <meta name="description" content="AAT Studio is a short-form video production and pacing suite for vertical 9:16 countdowns, editorial timing, and channel analytics." />
+  <link rel="icon" type="image/png" href="/aat_app_icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet" />
   <style>
     @layer reset, base, theme, components, utilities;
 
     @layer reset {
-      html, body, div, span, header, main, footer, section, article, aside, nav,
-      h1, h2, h3, h4, p, ul, ol, li, dl, dt, dd, figure, figcaption, pre, code,
-      button, input, select, label, dialog, canvas, svg, kbd, small, strong, em {
+      html, body, div, span, header, main, footer, section, nav,
+      h1, h2, h3, p, a, img, button, input, label, code, pre, svg, strong {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
+    }
 
-      ul, ol {
-        list-style: none;
+    @layer theme {
+      :root {
+        --bg: #090b10;
+        --bg-elevated: #10141d;
+        --bg-card: #121722;
+        --border: rgba(255, 255, 255, 0.08);
+        --border-hover: rgba(255, 255, 255, 0.16);
+        --text: #f3f6fc;
+        --text-muted: #94a3b8;
+        --accent: #ff5545;
+        --emerald: #10b981;
+        --radius: 16px;
+      }
+    }
+
+    @layer base {
+      @media (prefers-reduced-motion: no-preference) {
+        html {
+          scroll-behavior: smooth;
+        }
+        @view-transition {
+          navigation: auto;
+        }
       }
 
-      button, input, select {
-        font: inherit;
-        color: inherit;
-        background: none;
-        border: none;
-      }
-
-      button {
-        cursor: pointer;
-        touch-action: manipulation;
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.035), transparent 55%);
       }
 
       a {
         color: inherit;
         text-decoration: none;
       }
-    }
-
-    @layer theme {
-      :root {
-        --bg-obsidian: #0d0d0c;
-        --bg-panel: #141412;
-        --bg-elevated: #1b1b18;
-        --bg-well: #090908;
-        --ink-primary: #f3efe6;
-        --ink-secondary: #a6a196;
-        --ink-muted: #6e6a61;
-        --hairline: #282723;
-        --hairline-strong: #3b3933;
-        --signal-vermilion: #ff3d1f;
-        --signal-amber: #e6a832;
-        --signal-jade: #2fba78;
-        --signal-cyan: #4ea8de;
-        --accent-active: #ff3d1f;
-        --playhead-pct: 18%;
-        --vu-left: 68%;
-        --vu-right: 64%;
-        --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-        --font-serif: 'Instrument Serif', Georgia, serif;
-        --font-mono: 'IBM Plex Mono', monospace;
-      }
-    }
-
-    @layer base {
-      @media (prefers-reduced-motion: no-preference) {
-        @view-transition {
-          navigation: auto;
-        }
-      }
-
-      html {
-        background-color: var(--bg-obsidian);
-        color: var(--ink-primary);
-        font-family: var(--font-sans);
-        line-height: 1.5;
-        -webkit-font-smoothing: antialiased;
-        color-scheme: dark;
-      }
-
-      body {
-        min-height: 100dvh;
-        display: flex;
-        flex-direction: column;
-        background-color: var(--bg-obsidian);
-        overflow-x: hidden;
-      }
 
       :focus-visible {
-        outline: 2px solid var(--signal-vermilion);
+        outline: 2px solid var(--accent);
         outline-offset: 2px;
-      }
-
-      ::selection {
-        background-color: var(--signal-vermilion);
-        color: var(--bg-obsidian);
       }
     }
 
     @layer components {
-      /* Top Studio Telemetry Masthead */
-      .masthead {
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        align-items: center;
-        gap: 1.25rem;
-        padding-block: 0.75rem;
-        padding-inline: clamp(1rem, 2.5vw, 2rem);
-        border-block-end: 1px solid var(--hairline);
-        background-color: var(--bg-panel);
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
+      .container {
+        max-width: 1160px;
+        margin-inline: auto;
+        padding-inline: 24px;
       }
 
-      .brand-cluster {
+      /* Navigation */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: rgba(9, 11, 16, 0.85);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
+        justify-content: space-between;
+        height: 70px;
       }
 
-      .brand-mark {
-        display: inline-flex;
+      .brand {
+        display: flex;
         align-items: center;
-        justify-content: center;
-        width: 1.75rem;
-        height: 1.75rem;
-        border: 1px solid var(--hairline-strong);
-        background-color: var(--bg-obsidian);
-        overflow: hidden;
+        gap: 12px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: -0.02em;
       }
 
-      .brand-mark img {
-        width: 100%;
-        height: 100%;
+      .brand img {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
         object-fit: cover;
       }
 
-      .brand-title {
-        font-family: var(--font-sans);
-        font-weight: 700;
+      .brand-badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        font-weight: 500;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+      }
+
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      .btn-console {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 15px;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border);
+      }
+
+      .btn-console:hover {
+        border-color: var(--border-hover);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .dot-live {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--emerald);
+      }
+
+      /* OAuth Handshake Alert Banner (only shown if ?code= lands on root) */
+      #oauthRootBanner {
+        display: none;
+        margin: 24px auto 0;
+        padding: 20px 24px;
+        border-radius: var(--radius);
+        background: var(--bg-elevated);
+        border: 1px solid rgba(16, 185, 129, 0.35);
+      }
+
+      .oauth-banner-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .mono-box {
+        font-family: 'JetBrains Mono', monospace;
         font-size: 0.88rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        padding: 12px 14px;
+        border-radius: 10px;
+        color: #6ee7b7;
+        word-break: break-all;
       }
 
-      .brand-sub {
-        color: var(--ink-muted);
-        padding-inline-start: 0.65rem;
-        border-inline-start: 1px solid var(--hairline);
-      }
-
-      .masthead-telemetry {
-        display: flex;
+      /* Hero Section */
+      .hero {
+        padding: 72px 0 56px;
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 48px;
         align-items: center;
-        gap: 1.5rem;
-        color: var(--ink-secondary);
-        font-variant-numeric: tabular-nums;
-        overflow-x: auto;
       }
 
-      .telemetry-item {
+      .eyebrow {
         display: inline-flex;
         align-items: center;
-        gap: 0.45rem;
-        white-space: nowrap;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        margin-bottom: 20px;
       }
 
-      .status-led {
-        width: 0.45rem;
-        height: 0.45rem;
-        border-radius: 999px;
-        background-color: var(--signal-jade);
+      h1 {
+        font-size: clamp(2.25rem, 4.2vw, 3.45rem);
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        margin-bottom: 20px;
+        color: var(--text);
       }
 
-      .masthead:has(button[data-playing="true"]) .status-led {
-        background-color: var(--signal-vermilion);
+      h1 span {
+        color: var(--accent);
       }
 
-      .masthead-actions {
+      .hero p {
+        font-size: 1.05rem;
+        color: var(--text-muted);
+        max-width: 540px;
+        margin-bottom: 32px;
+      }
+
+      .hero-actions {
         display: flex;
-        align-items: center;
-        gap: 0.5rem;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 36px;
       }
 
-      .studio-btn {
+      .btn-primary {
         display: inline-flex;
         align-items: center;
-        gap: 0.45rem;
-        padding-block: 0.42rem;
-        padding-inline: 0.75rem;
-        border: 1px solid var(--hairline-strong);
-        background-color: var(--bg-elevated);
-        color: var(--ink-primary);
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
+        gap: 8px;
+        padding: 12px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.92rem;
+        background: var(--accent);
+        color: #fff;
+        border: 1px solid var(--accent);
+        cursor: pointer;
+      }
+
+      .btn-primary:hover {
+        background: #ff6759;
+      }
+
+      .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.92rem;
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        border: 1px solid var(--border);
+        cursor: pointer;
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: var(--border-hover);
+      }
+
+      .hero-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+      }
+
+      .metric-val {
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .metric-lbl {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      /* Vertical 9:16 Studio Frame Preview */
+      .studio-preview-wrap {
+        display: flex;
+        justify-content: center;
+      }
+
+      .phone-frame {
+        width: 310px;
+        height: 540px;
+        border-radius: 28px;
+        background: #0d111a;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+        padding: 16px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+      }
+
+      .hud-banner {
+        position: relative;
+        z-index: 2;
+        background: #141926;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 10px;
+        padding: 10px 12px;
+        text-align: center;
+        font-weight: 700;
+        font-size: 0.84rem;
         letter-spacing: 0.03em;
         text-transform: uppercase;
-      }
-
-      .studio-btn:hover {
-        border-color: var(--ink-secondary);
-        background-color: #23231f;
-      }
-
-      .studio-btn[aria-pressed="true"],
-      .studio-btn[data-active="true"] {
-        border-color: var(--signal-vermilion);
-        background-color: rgba(255, 61, 31, 0.14);
         color: #fff;
       }
 
-      .studio-btn-primary {
-        background-color: var(--signal-vermilion);
-        border-color: var(--signal-vermilion);
-        color: #0d0d0c;
-        font-weight: 600;
+      .hud-banner span {
+        color: var(--accent);
       }
 
-      .studio-btn-primary:hover {
-        background-color: #ff553b;
-        border-color: #ff553b;
-      }
-
-      /* Editorial Intro Strip */
-      .editorial-header {
-        display: grid;
-        grid-template-columns: 1.35fr 1fr;
-        border-block-end: 1px solid var(--hairline);
-      }
-
-      .editorial-headline-cell {
-        padding-block: clamp(1.5rem, 3vw, 2.5rem);
-        padding-inline: clamp(1rem, 2.5vw, 2rem);
-        border-inline-end: 1px solid var(--hairline);
-      }
-
-      .eyebrow-tag {
-        display: inline-flex;
+      .hud-middle {
+        position: relative;
+        z-index: 2;
+        display: flex;
         align-items: center;
-        gap: 0.5rem;
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--signal-vermilion);
-        margin-block-end: 0.65rem;
+        justify-content: space-between;
+        margin: auto 0;
+        gap: 10px;
       }
 
-      .editorial-title {
-        font-size: clamp(1.85rem, 3.4vw, 3.1rem);
-        font-weight: 600;
-        line-height: 1.06;
-        letter-spacing: -0.03em;
-        max-width: 24ch;
-      }
-
-      .editorial-title em {
-        font-family: var(--font-serif);
-        font-weight: 400;
-        font-style: italic;
-        color: var(--ink-secondary);
-        padding-inline: 0.1em;
-      }
-
-      .editorial-meta-cell {
+      .rank-tower {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        padding-block: clamp(1.5rem, 3vw, 2.5rem);
-        padding-inline: clamp(1rem, 2.5vw, 2rem);
-        gap: 1.25rem;
+        gap: 6px;
+        background: #121722;
+        padding: 8px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        flex: 1;
       }
 
-      .editorial-lead {
-        color: var(--ink-secondary);
-        font-size: 0.95rem;
-        max-width: 54ch;
+      .rank-slot {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        text-align: left;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.73rem;
+        color: var(--text-muted);
+        padding: 6px 8px;
+        border-radius: 8px;
+        background: transparent;
+        border: 1px solid transparent;
+        cursor: pointer;
+      }
+
+      .rank-slot:hover {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .rank-slot.active {
+        background: rgba(255, 85, 69, 0.14);
+        color: #fff;
+        font-weight: 600;
+        border-color: rgba(255, 85, 69, 0.38);
+      }
+
+      .rank-num {
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        font-weight: 700;
+        font-size: 0.7rem;
+        background: rgba(255, 255, 255, 0.07);
+        flex-shrink: 0;
+      }
+
+      .rank-slot.active .rank-num {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .telemetry-floating {
+        background: #121722;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        color: var(--text-muted);
         line-height: 1.6;
       }
 
-      .reel-switcher-bar {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 0.45rem;
-      }
-
-      .reel-switcher-label {
-        font-family: var(--font-mono);
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: var(--ink-muted);
-        margin-inline-end: 0.35rem;
-      }
-
-      .reel-pill {
-        padding-block: 0.38rem;
-        padding-inline: 0.75rem;
-        border: 1px solid var(--hairline-strong);
-        background-color: var(--bg-panel);
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-        color: var(--ink-secondary);
-      }
-
-      .reel-pill:hover {
-        color: var(--ink-primary);
-        border-color: var(--ink-secondary);
-      }
-
-      .reel-pill[aria-selected="true"] {
-        background-color: var(--ink-primary);
-        color: var(--bg-obsidian);
-        border-color: var(--ink-primary);
+      .telemetry-floating strong {
+        color: #6ee7b7;
         font-weight: 600;
       }
 
-      /* Main 3-Column Mastering Workbench */
-      .workbench-grid {
-        display: grid;
-        grid-template-columns: 300px minmax(340px, 1fr) 360px;
-        border-block-end: 1px solid var(--hairline);
-        background-color: var(--bg-obsidian);
+      .hud-footer {
+        position: relative;
+        z-index: 2;
+        background: #141926;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 10px 12px;
       }
 
-      .workbench-col {
+      .hud-caption {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--text);
+        margin-bottom: 6px;
+      }
+
+      .hud-meta {
         display: flex;
-        flex-direction: column;
-        border-inline-end: 1px solid var(--hairline);
-      }
-
-      .workbench-col:last-child {
-        border-inline-end: none;
-      }
-
-      .pane-header {
-        display: flex;
-        align-items: center;
         justify-content: space-between;
-        padding-block: 0.65rem;
-        padding-inline: 1rem;
-        border-block-end: 1px solid var(--hairline);
-        background-color: var(--bg-panel);
-        font-family: var(--font-mono);
-        font-size: 0.7rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--ink-secondary);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.68rem;
+        color: var(--text-muted);
       }
 
-      .pane-index {
-        color: var(--ink-muted);
+      /* Section Styling */
+      section {
+        padding: 64px 0;
       }
 
-      /* Left Column: Cut Bin & Camera Color Pipeline */
-      .cut-bin-list {
-        display: flex;
-        flex-direction: column;
-        border-block-end: 1px solid var(--hairline);
+      .section-head {
+        text-align: center;
+        max-width: 640px;
+        margin: 0 auto 44px;
       }
 
-      .cut-bin-item {
+      .section-head h2 {
+        font-size: clamp(1.65rem, 2.8vw, 2.2rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
+      }
+
+      .section-head p {
+        color: var(--text-muted);
+        font-size: 0.98rem;
+      }
+
+      /* Capabilities Grid */
+      .grid-4 {
         display: grid;
-        grid-template-columns: 2.2rem 1fr auto;
-        align-items: center;
-        gap: 0.65rem;
-        width: 100%;
-        text-align: left;
-        padding-block: 0.75rem;
-        padding-inline: 1rem;
-        border-block-end: 1px solid var(--hairline);
-        background-color: var(--bg-obsidian);
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
       }
 
-      .cut-bin-item:last-child {
-        border-block-end: none;
+      .card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 26px;
       }
 
-      .cut-bin-item:hover {
-        background-color: var(--bg-panel);
+      .card:hover {
+        border-color: var(--border-hover);
       }
 
-      .cut-bin-item[aria-current="true"] {
-        background-color: var(--bg-elevated);
-        box-shadow: inset 3px 0 0 var(--signal-vermilion);
-      }
-
-      .cut-rank-badge {
+      .card-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding-block: 0.18rem;
-        padding-inline: 0.35rem;
-        border: 1px solid var(--hairline-strong);
-        font-family: var(--font-mono);
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: var(--ink-secondary);
+        margin-bottom: 16px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border);
+        color: var(--accent);
       }
 
-      .cut-bin-item[aria-current="true"] .cut-rank-badge {
-        border-color: var(--signal-vermilion);
-        color: var(--signal-vermilion);
+      .card h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 8px;
       }
 
-      .cut-bin-title {
-        display: block;
-        font-size: 0.84rem;
-        font-weight: 500;
-        color: var(--ink-primary);
+      .card p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
       }
 
-      .cut-bin-sub {
-        display: block;
-        font-family: var(--font-mono);
-        font-size: 0.68rem;
-        color: var(--ink-muted);
-      }
-
-      .cut-bin-tc {
-        font-family: var(--font-mono);
-        font-size: 0.7rem;
-        font-variant-numeric: tabular-nums;
-        color: var(--ink-secondary);
-      }
-
-      .pipeline-controls {
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .control-group-label {
-        display: flex;
-        justify-content: space-between;
-        font-family: var(--font-mono);
-        font-size: 0.68rem;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: var(--ink-muted);
-        margin-block-end: 0.45rem;
-      }
-
-      .lut-grid {
+      /* Interactive Pacing & Retention Workbench */
+      .workbench {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 32px;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 0.4rem;
+        gap: 36px;
+        align-items: start;
       }
 
-      .lut-btn {
-        padding-block: 0.45rem;
-        padding-inline: 0.55rem;
-        border: 1px solid var(--hairline-strong);
-        background-color: var(--bg-panel);
-        font-family: var(--font-mono);
-        font-size: 0.68rem;
-        text-align: left;
-        color: var(--ink-secondary);
+      .control-group {
+        margin-bottom: 22px;
       }
 
-      .lut-btn[aria-pressed="true"] {
-        border-color: var(--signal-amber);
-        color: var(--ink-primary);
-        background-color: rgba(230, 168, 50, 0.12);
-      }
-
-      .overlay-toggles {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.4rem;
-      }
-
-      /* Center Column: 9:16 Reference Canvas Monitor & Transport */
-      .monitor-stage {
-        flex: 1;
+      .control-label {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding-block: 1.25rem;
-        padding-inline: 1.25rem;
-        background-color: var(--bg-well);
-        background-image:
-          linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-        background-size: 24px 24px;
-      }
-
-      .monitor-frame-wrap {
-        display: flex;
-        align-items: stretch;
-        gap: 0.85rem;
-      }
-
-      .canvas-bezel {
-        position: relative;
-        width: 270px;
-        height: 480px;
-        border: 1px solid var(--hairline-strong);
-        background-color: #050505;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
-      }
-
-      .canvas-bezel canvas {
-        display: block;
-        width: 100%;
-        height: 100%;
-        cursor: crosshair;
-      }
-
-      /* Stereo VU Meter Column beside Monitor */
-      .vu-bridge {
-        display: flex;
-        flex-direction: column;
         justify-content: space-between;
-        padding-block: 0.5rem;
-        padding-inline: 0.45rem;
-        border: 1px solid var(--hairline);
-        background-color: var(--bg-panel);
-        font-family: var(--font-mono);
-        font-size: 0.62rem;
-        color: var(--ink-muted);
-      }
-
-      .vu-bars {
-        flex: 1;
-        display: flex;
-        gap: 0.3rem;
-        align-items: flex-end;
-        margin-block: 0.4rem;
-      }
-
-      .vu-track {
-        width: 0.42rem;
-        height: 100%;
-        background-color: var(--bg-well);
-        border: 1px solid var(--hairline);
-        display: flex;
-        align-items: flex-end;
-      }
-
-      .vu-fill {
-        width: 100%;
-        background: linear-gradient(
-          to top,
-          var(--signal-jade) 0%,
-          var(--signal-jade) 70%,
-          var(--signal-amber) 88%,
-          var(--signal-vermilion) 100%
-        );
-      }
-
-      .vu-fill-l {
-        height: var(--vu-left);
-      }
-
-      .vu-fill-r {
-        height: var(--vu-right);
-      }
-
-      .transport-deck {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.75rem;
-        padding-block: 0.75rem;
-        padding-inline: 1rem;
-        border-block-start: 1px solid var(--hairline);
-        background-color: var(--bg-panel);
-      }
-
-      .transport-deck:has(button[data-playing="true"]) {
-        border-block-start-color: var(--signal-vermilion);
-      }
-
-      .transport-buttons {
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-      }
-
-      .tc-readout {
-        font-family: var(--font-mono);
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         font-weight: 600;
-        font-variant-numeric: tabular-nums;
-        letter-spacing: 0.04em;
-        padding-block: 0.3rem;
-        padding-inline: 0.6rem;
-        border: 1px solid var(--hairline);
-        background-color: var(--bg-well);
-        color: var(--signal-amber);
+        margin-bottom: 8px;
       }
 
-      /* Right Column: Inspector Dossier (Morphs with View Transitions) */
-      .inspector-body {
-        padding: 1.15rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1.1rem;
-        view-transition-name: clip-inspector;
-      }
-
-      .inspector-header-block {
-        border-block-end: 1px solid var(--hairline);
-        padding-block-end: 0.9rem;
-      }
-
-      .inspector-kicker {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-family: var(--font-mono);
-        font-size: 0.7rem;
-        color: var(--signal-vermilion);
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        margin-block-end: 0.35rem;
-      }
-
-      .inspector-clip-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        letter-spacing: -0.02em;
-        margin-block-end: 0.35rem;
-      }
-
-      .inspector-clip-synopsis {
-        font-size: 0.84rem;
-        color: var(--ink-secondary);
-        line-height: 1.55;
-      }
-
-      .spec-table {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        border: 1px solid var(--hairline);
-        background-color: var(--bg-panel);
-      }
-
-      .spec-cell {
-        padding: 0.6rem 0.75rem;
-        border-block-end: 1px solid var(--hairline);
-        border-inline-end: 1px solid var(--hairline);
-      }
-
-      .spec-cell:nth-child(2n) {
-        border-inline-end: none;
-      }
-
-      .spec-cell:nth-last-child(-n+2) {
-        border-block-end: none;
-      }
-
-      .spec-label {
-        display: block;
-        font-family: var(--font-mono);
-        font-size: 0.64rem;
-        text-transform: uppercase;
-        color: var(--ink-muted);
-      }
-
-      .spec-val {
-        display: block;
-        font-family: var(--font-mono);
-        font-size: 0.8rem;
-        font-weight: 600;
-        font-variant-numeric: tabular-nums;
-        color: var(--ink-primary);
-        margin-block-start: 0.15rem;
-      }
-
-      .trim-field {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-        padding: 0.7rem;
-        border: 1px solid var(--hairline);
-        background-color: var(--bg-panel);
-      }
-
-      .trim-field:has(input:focus-visible) {
-        border-color: var(--signal-vermilion);
-      }
-
-      .trim-row {
-        display: flex;
-        justify-content: space-between;
-        font-family: var(--font-mono);
-        font-size: 0.7rem;
-        color: var(--ink-secondary);
+      .control-label span.val {
+        font-family: 'JetBrains Mono', monospace;
+        color: var(--accent);
       }
 
       input[type="range"] {
         width: 100%;
-        accent-color: var(--signal-vermilion);
-        cursor: ew-resize;
+        accent-color: var(--accent);
+        cursor: pointer;
       }
 
-      /* Interactive Multi-Track NLE Timeline */
-      .timeline-section {
-        border-block-end: 1px solid var(--hairline);
-        background-color: var(--bg-panel);
+      .sim-output {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 22px;
       }
 
-      .timeline-toolbar {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        padding-block: 0.6rem;
-        padding-inline: clamp(1rem, 2.5vw, 2rem);
-        border-block-end: 1px solid var(--hairline);
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-        color: var(--ink-secondary);
-      }
-
-      .timeline-tracks-wrap {
-        position: relative;
-        padding-block: 0.85rem;
-        padding-inline: clamp(1rem, 2.5vw, 2rem);
-        background-color: var(--bg-obsidian);
-        user-select: none;
-      }
-
-      .timeline-ruler {
-        display: flex;
-        justify-content: space-between;
-        font-family: var(--font-mono);
-        font-size: 0.65rem;
-        color: var(--ink-muted);
-        padding-inline-start: 110px;
-        margin-block-end: 0.45rem;
-        font-variant-numeric: tabular-nums;
-      }
-
-      .track-row {
-        display: grid;
-        grid-template-columns: 110px 1fr;
-        align-items: stretch;
-        border: 1px solid var(--hairline);
-        margin-block-end: 0.4rem;
-        background-color: var(--bg-well);
-      }
-
-      .track-header {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding-block: 0.45rem;
-        padding-inline: 0.65rem;
-        border-inline-end: 1px solid var(--hairline);
-        background-color: var(--bg-panel);
-        font-family: var(--font-mono);
-        font-size: 0.66rem;
-        color: var(--ink-secondary);
-      }
-
-      .track-lane {
-        position: relative;
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        min-height: 2.5rem;
-      }
-
-      .timeline-clip-block {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 0.35rem 0.55rem;
-        border-inline-end: 1px solid var(--bg-obsidian);
-        background-color: #1e2229;
-        text-align: left;
-        font-family: var(--font-mono);
-        font-size: 0.66rem;
-        color: var(--ink-primary);
-        overflow: hidden;
-      }
-
-      .timeline-clip-block:hover {
-        background-color: #272d37;
-      }
-
-      .timeline-clip-block[aria-selected="true"] {
-        background-color: rgba(255, 61, 31, 0.22);
-        box-shadow: inset 0 0 0 1px var(--signal-vermilion);
-      }
-
-      .hud-lane-bar {
-        grid-column: 1 / -1;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-inline: 0.75rem;
-        font-family: var(--font-mono);
-        font-size: 0.66rem;
-        color: var(--signal-amber);
-        background: repeating-linear-gradient(
-          -45deg,
-          rgba(230, 168, 50, 0.08),
-          rgba(230, 168, 50, 0.08) 8px,
-          rgba(230, 168, 50, 0.15) 8px,
-          rgba(230, 168, 50, 0.15) 16px
-        );
-      }
-
-      .audio-lane-bar {
-        grid-column: 1 / -1;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-inline: 0.75rem;
-        font-family: var(--font-mono);
-        font-size: 0.66rem;
-        color: var(--signal-jade);
-        background-color: rgba(47, 186, 120, 0.1);
-      }
-
-      .playhead-line {
-        position: absolute;
-        top: 0.5rem;
-        bottom: 0.5rem;
-        left: calc(110px + (100% - 110px) * var(--playhead-ratio, 0.12));
-        width: 2px;
-        background-color: var(--signal-vermilion);
-        pointer-events: none;
-        z-index: 5;
-      }
-
-      .playhead-line::before {
-        content: "";
-        position: absolute;
-        top: -4px;
-        left: -5px;
-        width: 12px;
-        height: 8px;
-        background-color: var(--signal-vermilion);
-      }
-
-      /* Editorial Architecture & Craft Notes */
-      .editorial-notes-grid {
+      .sim-kpis {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        border-block-end: 1px solid var(--hairline);
+        gap: 12px;
+        margin-bottom: 18px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
       }
 
-      .note-column {
-        padding-block: clamp(1.5rem, 3vw, 2.25rem);
-        padding-inline: clamp(1rem, 2.5vw, 2rem);
-        border-inline-end: 1px solid var(--hairline);
+      .sim-kpi-val {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #fff;
       }
 
-      .note-column:last-child {
-        border-inline-end: none;
-      }
-
-      .note-number {
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-        color: var(--signal-vermilion);
-        margin-block-end: 0.65rem;
-      }
-
-      .note-heading {
-        font-size: 1.12rem;
-        font-weight: 600;
-        margin-block-end: 0.55rem;
-        letter-spacing: -0.01em;
-      }
-
-      .note-copy {
-        font-size: 0.88rem;
-        color: var(--ink-secondary);
-        line-height: 1.65;
-      }
-
-      /* Popover & Modal Dialog */
-      [popover] {
-        margin: auto;
-        padding: 1.25rem;
-        border: 1px solid var(--hairline-strong);
-        background-color: var(--bg-panel);
-        color: var(--ink-primary);
-        max-width: 380px;
-        width: calc(100% - 2rem);
-        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
-      }
-
-      [popover]:where(:popover-open, .\:popover-open) {
-        display: block;
-      }
-
-      [popover]::backdrop {
-        background-color: rgba(5, 5, 5, 0.55);
-      }
-
-      .hotkey-list {
-        display: flex;
-        flex-direction: column;
-        gap: 0.55rem;
-        margin-block-start: 0.85rem;
-        font-family: var(--font-mono);
+      .sim-kpi-lbl {
         font-size: 0.75rem;
+        color: var(--text-muted);
       }
 
-      .hotkey-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-block-end: 0.45rem;
-        border-block-end: 1px solid var(--hairline);
-      }
-
-      kbd {
-        padding: 0.15rem 0.45rem;
-        border: 1px solid var(--hairline-strong);
-        background-color: var(--bg-obsidian);
-        color: var(--signal-amber);
-        font-family: var(--font-mono);
-        font-size: 0.7rem;
-      }
-
-      dialog {
-        margin: auto;
-        padding: 0;
-        border: 1px solid var(--hairline-strong);
-        background-color: var(--bg-panel);
-        color: var(--ink-primary);
-        max-width: 680px;
-        width: calc(100% - 2rem);
-        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.85);
-      }
-
-      dialog::backdrop {
-        background-color: rgba(5, 5, 5, 0.75);
-        backdrop-filter: blur(3px);
-      }
-
-      .dialog-inner {
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .dialog-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-block-end: 1px solid var(--hairline);
-        padding-block-end: 0.85rem;
-      }
-
-      .edl-pre {
-        padding: 1rem;
-        border: 1px solid var(--hairline);
-        background-color: var(--bg-well);
-        font-family: var(--font-mono);
-        font-size: 0.74rem;
-        line-height: 1.55;
-        color: var(--ink-secondary);
-        overflow-x: auto;
-        max-height: 300px;
+      .cut-sheet {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        color: #cbd5e1;
+        max-height: 210px;
+        overflow-y: auto;
+        line-height: 1.75;
       }
 
       /* Footer */
-      .studio-footer {
-        margin-block-start: auto;
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 36px 0;
+        margin-top: 48px;
+        color: var(--text-muted);
+        font-size: 0.86rem;
+      }
+
+      .footer-row {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
-        gap: 1rem;
-        padding-block: 1.15rem;
-        padding-inline: clamp(1rem, 2.5vw, 2rem);
-        background-color: var(--bg-panel);
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-        color: var(--ink-muted);
+        gap: 20px;
       }
 
-      .footer-nav {
+      .footer-links {
         display: flex;
         flex-wrap: wrap;
-        gap: 1.25rem;
+        gap: 22px;
       }
 
-      .footer-nav a:hover {
-        color: var(--ink-primary);
+      .footer-links a:hover {
+        color: var(--text);
       }
 
-      /* Motion Preferences */
       @media (prefers-reduced-motion: no-preference) {
-        .studio-btn,
-        .reel-pill,
-        .cut-bin-item,
-        .lut-btn,
-        .timeline-clip-block {
-          transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
-        }
-
-        .vu-fill {
-          transition: height 90ms linear;
+        .btn-console,
+        .btn-primary,
+        .btn-secondary,
+        .card,
+        .rank-slot {
+          transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
         }
       }
 
-      @media (prefers-reduced-motion: reduce) {
-        .vu-fill {
-          transition: none;
-        }
-      }
-
-      /* Responsive Breakpoints */
-      @media (max-width: 1120px) {
-        .editorial-header {
+      @media (max-width: 860px) {
+        .hero,
+        .workbench {
           grid-template-columns: 1fr;
         }
-
-        .editorial-headline-cell {
-          border-inline-end: none;
-          border-block-end: 1px solid var(--hairline);
-        }
-
-        .workbench-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .workbench-col {
-          border-inline-end: none;
-          border-block-end: 1px solid var(--hairline);
-        }
-
-        .editorial-notes-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .note-column {
-          border-inline-end: none;
-          border-block-end: 1px solid var(--hairline);
-        }
-      }
-
-      @media (max-width: 680px) {
-        .masthead {
-          grid-template-columns: 1fr;
-        }
-
-        .track-row {
-          grid-template-columns: 1fr;
-        }
-
-        .timeline-ruler {
-          padding-inline-start: 0;
-        }
-
-        .playhead-line {
+        .nav-links .hide-mobile {
           display: none;
         }
       }
@@ -1073,1091 +626,326 @@
   </style>
 </head>
 <body>
-  <header class="masthead">
-    <div class="brand-cluster">
-      <span class="brand-mark">
-        <img src="/aat_app_icon.png" alt="AAT Studio mark" width="28" height="28">
-      </span>
-      <span class="brand-title">AAT // Post-Production</span>
-      <span class="brand-sub">9:16 Mastering Deck</span>
-    </div>
-
-    <div class="masthead-telemetry" aria-label="Broadcast monitor telemetry">
-      <span class="telemetry-item">
-        <span class="status-led" aria-hidden="true"></span>
-        <span id="deck-transport-state">STANDBY</span>
-      </span>
-      <span class="telemetry-item">RASTER: 1080×1920</span>
-      <span class="telemetry-item">RATE: 60.00 FPS</span>
-      <span class="telemetry-item">LOUDNESS: <strong id="loudness-readout">-14.0 LUFS</strong></span>
-      <span class="telemetry-item">GRADE: <strong id="active-lut-readout">KODAK 2383</strong></span>
-    </div>
-
-    <div class="masthead-actions">
-      <button type="button" class="studio-btn" commandfor="hotkeys-popover" command="toggle-popover">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-          <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-          <path d="M6 9h2M10 9h2M14 9h2M18 9h.01M6 13h12"></path>
-        </svg>
-        Hotkeys
-      </button>
-      <button type="button" id="open-edl-btn" class="studio-btn studio-btn-primary" commandfor="edl-dialog" command="show-modal">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-          <path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"></path>
-        </svg>
-        Export Cut Sheet
-      </button>
+  <header>
+    <div class="container nav">
+      <a href="/" class="brand">
+        <img src="/aat_app_icon.png" alt="AAT Studio Icon" />
+        <span>AAT Studio</span>
+        <span class="brand-badge">Studio Suite</span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#capabilities" class="hide-mobile">Architecture</a>
+        <a href="#workbench" class="hide-mobile">Pacing Lab</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/callback/" class="btn-console" title="Creator OAuth 2.0 Gateway">
+          <span class="dot-live" aria-hidden="true"></span>
+          <span>Studio Auth</span>
+        </a>
+      </nav>
     </div>
   </header>
 
-  <main>
-    <section class="editorial-header" aria-label="Studio workbench introduction">
-      <div class="editorial-headline-cell">
-        <p class="eyebrow-tag">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"></circle>
-            <circle cx="12" cy="12" r="3"></circle>
-          </svg>
-          Vertical Editorial &amp; Finishing Workbench
-        </p>
-        <h1 class="editorial-title">
-          Frame-accurate assembly for <em>short-form</em> visual storytelling.
+  <main class="container">
+    <!-- Automatic OAuth Handshake Banner if ?code= lands on root -->
+    <div id="oauthRootBanner">
+      <div class="oauth-banner-row">
+        <div>
+          <strong style="color:#6ee7b7; font-size:0.98rem;">Studio OAuth 2.0 Handshake Ready</strong>
+          <p style="font-size:0.86rem; color:var(--text-muted); margin-top:4px;">Copy your authorization command below to complete channel binding:</p>
+        </div>
+        <button type="button" id="rootCopyBtn" class="btn-primary" style="padding:10px 18px; font-size:0.86rem;">Copy Command</button>
+      </div>
+      <pre id="rootCmdBox" class="mono-box" tabindex="0" style="margin-top:12px;"></pre>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div>
+        <div class="eyebrow">
+          <span class="dot-live" aria-hidden="true"></span>
+          <span>9:16 Video Production • Editorial Pacing • Channel Analytics</span>
+        </div>
+        <h1>
+          Editorial Mastering for <span>Short-Form Video.</span>
         </h1>
-      </div>
-
-      <div class="editorial-meta-cell">
-        <p class="editorial-lead">
-          Every vertical reel has its own rhythm—whether it is a breathless stoppage-time football save, a quiet golden-hour moment, or an unexpected street skate transfer. Audition the five-cut sequence below, inspect safe-area overlays, switch print LUTs, and export a frame-accurate CMX 3600 cut sheet.
+        <p>
+          AAT Studio brings together frame-accurate 9:16 video assembly, scene-level audio and timing adjustments, clean countdown graphics, and YouTube Analytics retention tracking.
         </p>
-
-        <div class="reel-switcher-bar" role="tablist" aria-label="Select editorial reel program">
-          <span class="reel-switcher-label">Program Reel:</span>
-          <button type="button" role="tab" class="reel-pill" data-reel="pitch" aria-selected="true">01 / Matchday Pitch</button>
-          <button type="button" role="tab" class="reel-pill" data-reel="warmth" aria-selected="false">02 / Golden Hour</button>
-          <button type="button" role="tab" class="reel-pill" data-reel="kinetic" aria-selected="false">03 / Street Kinetic</button>
-          <button type="button" role="tab" class="reel-pill" data-reel="latewit" aria-selected="false">04 / Offbeat Wit</button>
+        <div class="hero-actions">
+          <a href="#workbench" class="btn-primary">Open Pacing Workbench</a>
+          <a href="https://www.youtube.com/@aatfunnyclip" target="_blank" rel="noopener" class="btn-secondary">Official Channel (@aatfunnyclip)</a>
         </div>
-      </div>
-    </section>
-
-    <section class="workbench-grid" aria-label="Interactive NLE mastering bay">
-      <!-- Left Column: Ranked Cut Bin & Color LUTs -->
-      <aside class="workbench-col" aria-label="Sequence cut bin and color pipeline">
-        <div class="pane-header">
-          <span>Sequence Cut Bin (#5 → #1)</span>
-          <span class="pane-index" id="bin-reel-code">REEL-01</span>
-        </div>
-
-        <div class="cut-bin-list" id="cut-bin-list" role="listbox" aria-label="Clips in active sequence">
-          <!-- Populated dynamically by JS -->
-        </div>
-
-        <div class="pane-header">
-          <span>Print Film LUT &amp; Scopes</span>
-          <span class="pane-index">3D LUT</span>
-        </div>
-
-        <div class="pipeline-controls">
+        <div class="hero-metrics">
           <div>
-            <div class="control-group-label">
-              <span>Color Transform</span>
-              <span id="lut-gamma-label">Rec.709 / 2.4</span>
-            </div>
-            <div class="lut-grid">
-              <button type="button" class="lut-btn" data-lut="kodak" aria-pressed="true">Kodak 2383</button>
-              <button type="button" class="lut-btn" data-lut="natural" aria-pressed="false">Rec.709 Clean</button>
-              <button type="button" class="lut-btn" data-lut="bleach" aria-pressed="false">Bleach Bypass</button>
-              <button type="button" class="lut-btn" data-lut="mono" aria-pressed="false">Tri-X 400 B&amp;W</button>
-            </div>
+            <div class="metric-val">1080×1920</div>
+            <div class="metric-lbl">60fps Vertical Output</div>
           </div>
-
           <div>
-            <div class="control-group-label">
-              <span>Monitor Overlays</span>
-              <span>9:16 Guides</span>
-            </div>
-            <div class="overlay-toggles">
-              <button type="button" class="studio-btn" id="toggle-safe-btn" aria-pressed="true">Safe Zones</button>
-              <button type="button" class="studio-btn" id="toggle-hud-btn" aria-pressed="true">Rank HUD</button>
-              <button type="button" class="studio-btn" id="toggle-grid-btn" aria-pressed="false">Thirds Grid</button>
-              <button type="button" class="studio-btn" id="toggle-grain-btn" aria-pressed="true">35mm Grain</button>
-            </div>
+            <div class="metric-val">Adaptive</div>
+            <div class="metric-lbl">Scene &amp; Audio Timing</div>
           </div>
-        </div>
-      </aside>
-
-      <!-- Center Column: Live 9:16 Reference Monitor -->
-      <div class="workbench-col">
-        <div class="pane-header">
-          <span id="monitor-scene-label">PROGRAM MONITOR // CUT #5</span>
-          <span class="pane-index" id="monitor-fps-badge">60 FPS LOCK</span>
-        </div>
-
-        <div class="monitor-stage">
-          <div class="monitor-frame-wrap">
-            <div class="canvas-bezel">
-              <canvas id="reference-canvas" width="540" height="960" aria-label="Interactive 9:16 vertical broadcast reference monitor"></canvas>
-            </div>
-
-            <div class="vu-bridge" aria-label="Stereo loudness meter">
-              <span>0</span>
-              <div class="vu-bars">
-                <div class="vu-track"><div class="vu-fill vu-fill-l"></div></div>
-                <div class="vu-track"><div class="vu-fill vu-fill-r"></div></div>
-              </div>
-              <span>L R</span>
-            </div>
+          <div>
+            <div class="metric-val">OAuth 2.0</div>
+            <div class="metric-lbl">YouTube API v3 Publishing</div>
           </div>
-        </div>
-
-        <div class="transport-deck">
-          <div class="transport-buttons">
-            <button type="button" class="studio-btn" id="step-prev-btn" title="Previous Frame (Left Arrow)">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M19 20L9 12l10-8v16zM5 19V5"></path>
-              </svg>
-              -1F
-            </button>
-            <button type="button" class="studio-btn studio-btn-primary" id="play-toggle-btn" data-playing="true">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" id="play-icon-svg">
-                <rect x="6" y="4" width="4" height="16"></rect>
-                <rect x="14" y="4" width="4" height="16"></rect>
-              </svg>
-              <span id="play-btn-text">Pause</span>
-            </button>
-            <button type="button" class="studio-btn" id="step-next-btn" title="Next Frame (Right Arrow)">
-              +1F
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path d="M5 4l10 8-10 8V4zM19 5v14"></path>
-              </svg>
-            </button>
-          </div>
-
-          <div class="tc-readout" id="smpte-readout" aria-live="off">00:00:00:00</div>
         </div>
       </div>
 
-      <!-- Right Column: Clip Inspector Dossier -->
-      <aside class="workbench-col" aria-label="Active cut inspector and trim controls">
-        <div class="pane-header">
-          <span>Active Cut Dossier</span>
-          <span class="pane-index" id="inspector-rank-tag">RANK #5</span>
-        </div>
-
-        <div class="inspector-body" id="inspector-container" tabindex="-1">
-          <div class="inspector-header-block">
-            <div class="inspector-kicker">
-              <span id="inspector-tone-pill">TONE // THRILL &amp; SKILL</span>
-              <span id="inspector-source-id">SRC-A01</span>
-            </div>
-            <h2 class="inspector-clip-title" id="inspector-title">Curled Top-Corner Free Kick</h2>
-            <p class="inspector-clip-synopsis" id="inspector-synopsis">
-              Clean 28-yard strike bends around a four-man wall in stoppage time; crowd eruption peaks 1.4 seconds after net impact.
-            </p>
+      <div class="studio-preview-wrap">
+        <div class="phone-frame" aria-label="AAT Studio 9:16 Vertical Mastering Preview">
+          <div class="hud-banner" id="previewBanner">
+            TOP 5 MOMENTS: <span id="previewBannerAccent">#1 DEFIES PHYSICS</span>
           </div>
-
-          <div class="spec-table">
-            <div class="spec-cell">
-              <span class="spec-label">In Point</span>
-              <span class="spec-val" id="spec-in">00:00.0s</span>
+          <div class="hud-middle">
+            <div class="rank-tower" role="listbox" aria-label="Interactive countdown preview">
+              <button type="button" class="rank-slot" data-rank="1" data-label="Stoppage-Time Bicycle" data-avp="91.2%" data-stay="79.4%" data-caption="“Chest control with his back to goal right before the overhead finish…”">
+                <span class="rank-num">1</span><span>Stoppage Winner</span>
+              </button>
+              <button type="button" class="rank-slot" data-rank="2" data-label="Sideline Reflex Save" data-avp="89.5%" data-stay="77.8%" data-caption="“Full-stretch parry across the six-yard box to deny the rebound…”">
+                <span class="rank-num">2</span><span>Sideline Save</span>
+              </button>
+              <button type="button" class="rank-slot active" data-rank="3" data-label="Mid-Air Recovery" data-avp="88.4%" data-stay="76.2%" data-caption="“Watch the back foot right before he recovers his balance…”">
+                <span class="rank-num">3</span><span>Mid-Air Recovery</span>
+              </button>
+              <button type="button" class="rank-slot" data-rank="4" data-label="Touchline Nutmeg" data-avp="86.9%" data-stay="74.8%" data-caption="“Threads the ball cleanly between two pressing defenders…”">
+                <span class="rank-num">4</span><span>Touchline Skill</span>
+              </button>
+              <button type="button" class="rank-slot" data-rank="5" data-label="Curled Free Kick" data-avp="85.1%" data-stay="73.5%" data-caption="“Bends around the four-man wall into the top corner…”">
+                <span class="rank-num">5</span><span>Opening Strike</span>
+              </button>
             </div>
-            <div class="spec-cell">
-              <span class="spec-label">Out Point</span>
-              <span class="spec-val" id="spec-out">00:07.8s</span>
-            </div>
-            <div class="spec-cell">
-              <span class="spec-label">Cut Duration</span>
-              <span class="spec-val" id="spec-dur">7.8s</span>
-            </div>
-            <div class="spec-cell">
-              <span class="spec-label">Peak Moment</span>
-              <span class="spec-val" id="spec-peak">04.9s</span>
+            <div class="telemetry-floating">
+              <div>AVP: <strong id="previewAvp">88.4%</strong></div>
+              <div>STAY: <strong id="previewStay">76.2%</strong></div>
+              <div>LUFS: <strong>-14.0</strong></div>
             </div>
           </div>
-
-          <div class="trim-field">
-            <div class="trim-row">
-              <label for="trim-duration-slider">Trim Cut Window</label>
-              <span id="trim-duration-val">7.8s</span>
+          <div class="hud-footer">
+            <div class="hud-caption" id="previewCaption">“Watch the back foot right before he recovers his balance…”</div>
+            <div class="hud-meta">
+              <span id="previewCutTag">CUT #3 • 1080p60</span>
+              <span>AAT STUDIO</span>
             </div>
-            <input type="range" id="trim-duration-slider" min="4.5" max="12.0" step="0.1" value="7.8">
-          </div>
-
-          <div class="trim-field">
-            <div class="trim-row">
-              <label for="hud-offset-slider">HUD Title Safe Offset</label>
-              <span id="hud-offset-val">14%</span>
-            </div>
-            <input type="range" id="hud-offset-slider" min="8" max="24" step="1" value="14">
-          </div>
-
-          <div class="trim-field">
-            <div class="trim-row">
-              <label for="audio-gain-slider">Printmaster Trim (LUFS)</label>
-              <span id="audio-gain-val">-14.0 LUFS</span>
-            </div>
-            <input type="range" id="audio-gain-slider" min="-18.0" max="-10.0" step="0.2" value="-14.0">
           </div>
         </div>
-      </aside>
-    </section>
-
-    <!-- Multi-Track Timeline Section -->
-    <section class="timeline-section" aria-label="Multi-track sequence timeline">
-      <div class="timeline-toolbar">
-        <span>SEQUENCE TIMELINE // 5 RANKED CUTS (V1 PICTURE, G1 OVERLAY HUD, A1 STEREO PRINT)</span>
-        <span id="sequence-total-readout">TOTAL RUNTIME: 38.4s | AVG PACING: 7.7s / CUT</span>
       </div>
+    </div>
 
-      <div class="timeline-tracks-wrap" id="timeline-scrub-area">
-        <div class="timeline-ruler" aria-hidden="true">
-          <span>00:00:00:00</span>
-          <span>00:00:08:00</span>
-          <span>00:00:16:00</span>
-          <span>00:00:24:00</span>
-          <span>00:00:32:00</span>
-          <span id="ruler-end-tc">00:00:38:24</span>
+    <!-- Capabilities -->
+    <section id="capabilities">
+      <div class="section-head">
+        <h2>Studio Workflow &amp; Architecture</h2>
+        <p>Built on Google Cloud and YouTube API services to handle vertical video assembly, cut verification, and audience retention diagnostics.</p>
+      </div>
+      <div class="grid-4">
+        <div class="card">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <path d="M10 4v4M14 4v4M10 16v4M14 16v4M2 12h20"></path>
+            </svg>
+          </div>
+          <h3>Scene-Accurate Trimming</h3>
+          <p>Frame and audio inspection isolates the setup, peak action, and reaction window for each segment in a sequence.</p>
         </div>
-
-        <div class="playhead-line" id="timeline-playhead" aria-hidden="true"></div>
-
-        <div class="track-row">
-          <div class="track-header">
-            <strong>V1 // PICTURE</strong>
-            <span>1080p60 H.264</span>
+        <div class="card">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="6" y="2" width="12" height="20" rx="2"></rect>
+              <path d="M9 6h6M9 18h6"></path>
+            </svg>
           </div>
-          <div class="track-lane" id="v1-track-lane" role="tablist" aria-label="V1 video cuts">
-            <!-- Populated by JS -->
-          </div>
+          <h3>Clean 9:16 Layouts</h3>
+          <p>Composes readable title banners, 5-to-1 countdown badges, and safe-zone captions tailored for vertical mobile players.</p>
         </div>
-
-        <div class="track-row">
-          <div class="track-header">
-            <strong>G1 // HUD</strong>
-            <span>SAFE GRAPHICS</span>
+        <div class="card">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 20V10M12 20V4M6 20v-6"></path>
+            </svg>
           </div>
-          <div class="track-lane">
-            <div class="hud-lane-bar">
-              <span id="g1-banner-preview">HUD BANNER // TOP 5 MATCHDAY MOMENTS</span>
-              <span>ALPHA CHANNEL LOCKED</span>
-            </div>
-          </div>
+          <h3>Retention Diagnostics</h3>
+          <p>Connects with YouTube Analytics API v2 to review Average View Percentage (AVP), Stayed-to-Watch rates, and clip pacing.</p>
         </div>
-
-        <div class="track-row">
-          <div class="track-header">
-            <strong>A1 // STEREO</strong>
-            <span>48kHz / 24-BIT</span>
+        <div class="card">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
           </div>
-          <div class="track-lane">
-            <div class="audio-lane-bar">
-              <span>ITU-R BS.1770-4 LOUDNESS NORMALIZED</span>
-              <span id="a1-gain-preview">INTEGRATED: -14.0 LUFS // TRUE PEAK: -1.2 dBTP</span>
-            </div>
-          </div>
+          <h3>Encrypted OAuth 2.0</h3>
+          <p>Handles channel authorization via Google OAuth 2.0 Web Client handshakes and NaCl SecretBox encrypted token storage.</p>
         </div>
       </div>
     </section>
 
-    <!-- Human Editorial Craft Notes -->
-    <section class="editorial-notes-grid" aria-label="Editorial standards and technical architecture">
-      <article class="note-column">
-        <p class="note-number">01 // TONE-TRUE EDITORIAL</p>
-        <h2 class="note-heading">Pacing shaped by the footage, never forced.</h2>
-        <p class="note-copy">
-          Not every vertical reel is a comedy sketch. A stoppage-time football volley demands room for the crowd roar; a quiet golden-hour clip needs unhurried warmth; a 200-IQ sleight of hand needs the full setup before the reveal. Our cuts adapt their cadence and typography to the genuine mood of the clip.
-        </p>
-      </article>
+    <!-- Interactive Workbench -->
+    <section id="workbench">
+      <div class="section-head">
+        <h2>Interactive Short-Form Pacing Workbench</h2>
+        <p>Adjust your countdown size, average clip duration, and opening hook timing to generate a timestamped editorial cut sheet.</p>
+      </div>
+      <div class="workbench">
+        <div>
+          <div class="control-group">
+            <div class="control-label">
+              <label for="clipCountInput">Ranked Segments (Countdown Size)</label>
+              <span class="val" id="clipCountVal">5 Clips</span>
+            </div>
+            <input type="range" id="clipCountInput" min="3" max="7" step="1" value="5" />
+          </div>
+          <div class="control-group">
+            <div class="control-label">
+              <label for="pacingInput">Average Segment Pacing</label>
+              <span class="val" id="pacingVal">8.5s / clip</span>
+            </div>
+            <input type="range" id="pacingInput" min="5.0" max="13.0" step="0.5" value="8.5" />
+          </div>
+          <div class="control-group">
+            <div class="control-label">
+              <label for="hookInput">Opening Hook Window (Rank #5 Lead)</label>
+              <span class="val" id="hookVal">2.0s</span>
+            </div>
+            <input type="range" id="hookInput" min="1.0" max="3.5" step="0.5" value="2.0" />
+          </div>
+          <button type="button" id="copySheetBtn" class="btn-secondary" style="width:100%; justify-content:center; margin-top:8px;">
+            Copy Timestamped Cut Sheet
+          </button>
+        </div>
 
-      <article class="note-column">
-        <p class="note-number">02 // SAFE-AREA GEOMETRY</p>
-        <h2 class="note-heading">Designed around mobile player chrome.</h2>
-        <p class="note-copy">
-          Vertical feeds reserve the bottom 22% of the frame for captions and the right rail for action buttons. Every subject crop and rank badge is composed inside our central 9:16 optical safe zone so crucial motion is never buried behind platform UI.
-        </p>
-      </article>
-
-      <article class="note-column">
-        <p class="note-number">03 // BROADCAST PRINTMASTER</p>
-        <h2 class="note-heading">Consistent loudness from Cut #5 to Cut #1.</h2>
-        <p class="note-copy">
-          Jarring volume jumps between sourced clips break viewer immersion immediately. Each cut is metered and normalized to -14.0 LUFS with true-peak limiting at -1.2 dBTP, preserving natural room acoustics without clipping.
-        </p>
-      </article>
+        <div class="sim-output">
+          <div class="sim-kpis">
+            <div>
+              <div class="sim-kpi-val" id="totalDurKpi">42.5s</div>
+              <div class="sim-kpi-lbl">Total Runtime</div>
+            </div>
+            <div>
+              <div class="sim-kpi-val" id="targetAvpKpi">84%</div>
+              <div class="sim-kpi-lbl">Target AVP</div>
+            </div>
+            <div>
+              <div class="sim-kpi-val" id="stayedKpi">72%+</div>
+              <div class="sim-kpi-lbl">Stay vs. Swipe Goal</div>
+            </div>
+          </div>
+          <div class="cut-sheet" id="cutSheetBox" tabindex="0"></div>
+        </div>
+      </div>
     </section>
   </main>
 
-  <!-- Declarative Hotkeys Popover -->
-  <div id="hotkeys-popover" popover="auto" role="region" aria-label="Workbench keyboard shortcuts">
-    <div class="pane-header" style="margin: -1.25rem -1.25rem 0.75rem -1.25rem;">
-      <span>Studio Deck Shortcuts</span>
-      <span class="pane-index">KEYMAP</span>
-    </div>
-    <div class="hotkey-list">
-      <div class="hotkey-row"><span>Play / Pause Monitor</span><kbd>Space</kbd></div>
-      <div class="hotkey-row"><span>Step 1 Frame Back / Forward</span><span><kbd>←</kbd> <kbd>→</kbd></span></div>
-      <div class="hotkey-row"><span>Jump to Cut #5 – #1</span><span><kbd>1</kbd> – <kbd>5</kbd></span></div>
-      <div class="hotkey-row"><span>Toggle Safe-Area Guides</span><kbd>G</kbd></div>
-      <div class="hotkey-row"><span>Cycle Print LUT</span><kbd>L</kbd></div>
-    </div>
-  </div>
-
-  <!-- Light-Dismiss Modal Dialog for CMX 3600 EDL Cut Sheet -->
-  <dialog id="edl-dialog" closedby="any" aria-labelledby="edl-dialog-title">
-    <div class="dialog-inner">
-      <div class="dialog-top">
-        <div>
-          <p class="eyebrow-tag" style="margin-block-end: 0.2rem;">CMX 3600 &amp; JSON MANIFEST</p>
-          <h2 id="edl-dialog-title" style="font-size: 1.15rem; font-weight: 600;">Active Sequence Cut Sheet</h2>
-        </div>
-        <button type="button" class="studio-btn" commandfor="edl-dialog" command="close">Close [ESC]</button>
+  <footer>
+    <div class="container footer-row">
+      <div>
+        <strong>AAT Studio</strong> — Short-Form Video Production Suite
       </div>
-
-      <p style="font-size: 0.84rem; color: var(--ink-secondary);">
-        Generated live from your current reel selection, trim durations, LUT grade, and loudness settings:
-      </p>
-
-      <pre class="edl-pre" tabindex="0"><code id="edl-code-output"></code></pre>
-
-      <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
-        <button type="button" class="studio-btn" id="copy-edl-btn">Copy EDL to Clipboard</button>
-        <button type="button" class="studio-btn studio-btn-primary" id="download-edl-btn">Download .EDL File</button>
+      <div class="footer-links">
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="/callback/">Creator Auth Gateway</a>
+        <a href="https://www.youtube.com/@aatfunnyclip" target="_blank" rel="noopener">YouTube (@aatfunnyclip)</a>
       </div>
     </div>
-  </dialog>
-
-  <footer class="studio-footer">
-    <span>AAT POST-PRODUCTION WORKBENCH // INDEPENDENT VERTICAL MASTERING</span>
-    <nav class="footer-nav" aria-label="Legal and workstation links">
-      <a href="/privacy.html">Privacy Policy</a>
-      <a href="/terms.html">Terms of Service</a>
-      <a href="/callback">Workstation Handshake</a>
-    </nav>
   </footer>
 
-  <script type="module">
-    if (!('commandForElement' in HTMLButtonElement.prototype)) {
-      import('https://esm.run/invokers-polyfill');
-    }
-    if (!('popover' in HTMLElement.prototype)) {
-      import('https://unpkg.com/@oddbird/popover-polyfill@latest/dist/popover.min.js');
-    }
-
-    const edlDialog = document.getElementById('edl-dialog');
-    if (edlDialog && !('closedBy' in HTMLDialogElement.prototype)) {
-      edlDialog.addEventListener('click', (event) => {
-        const rect = edlDialog.getBoundingClientRect();
-        const clickedInDialog = (
-          rect.top <= event.clientY &&
-          event.clientY <= rect.top + rect.height &&
-          rect.left <= event.clientX &&
-          event.clientX <= rect.left + rect.width
-        );
-        if (!clickedInDialog) {
-          edlDialog.close();
-        }
-      });
-    }
-
-    const REEL_PROGRAMS = {
-      pitch: {
-        code: 'REEL-01',
-        banner: 'TOP 5 MATCHDAY MOMENTS',
-        tone: 'TONE // THRILL & SKILL',
-        accent: '#ff3d1f',
-        secondary: '#2fba78',
-        cuts: [
-          { rank: 5, id: 'MT-105', title: 'Stoppage-Time Corner Volley', sub: '1st Touch Outside-Foot', dur: 7.8, peak: 4.9, motif: 'arc', synopsis: 'Clean 24-yard strike bends around a four-man wall in stoppage time; stadium roar peaks 1.2s after net impact.' },
-          { rank: 4, id: 'MT-104', title: 'Double Reflex Goal-Line Save', sub: 'Keeper Point-Blank Reaction', dur: 7.4, peak: 3.8, motif: 'pulse', synopsis: 'Goalkeeper parries a deflected header at full stretch, then scrambles across the six-yard box to block the rebound.' },
-          { rank: 3, id: 'MT-103', title: 'Touchline Nutmeg & Counter', sub: 'Box-to-Box Sprint', dur: 8.2, peak: 5.4, motif: 'chevron', synopsis: 'Winger threads the ball between two pressing defenders on the wet touchline and launches a three-pass counterattack.' },
-          { rank: 2, id: 'MT-102', title: '40-Yard Outside-Boot Trivela', sub: 'Midfield Vision Pass', dur: 7.6, peak: 4.5, motif: 'orbit', synopsis: 'Playmaker spots the diagonal run early and slices a low outside-of-the-boot pass that curls behind the back line.' },
-          { rank: 1, id: 'MT-101', title: '94th-Minute Bicycle Winner', sub: 'Floodlight Overhead Finish', dur: 8.6, peak: 5.8, motif: 'burst', synopsis: 'Chest control with back to goal followed by an overhead kick into the top left corner under heavy rain.' }
-        ]
-      },
-      warmth: {
-        code: 'REEL-02',
-        banner: 'QUIET GOLDEN HOUR MOMENTS',
-        tone: 'TONE // WHOLESOME & WARM',
-        accent: '#e6a832',
-        secondary: '#f3efe6',
-        cuts: [
-          { rank: 5, id: 'GH-205', title: 'Airport Arrival Double-Take', sub: 'Unannounced Family Visit', dur: 8.0, peak: 4.7, motif: 'pulse', synopsis: 'Traveler walks past her brother at baggage claim before pausing, turning back, and dropping her carry-on in disbelief.' },
-          { rank: 4, id: 'GH-204', title: 'Golden Retriever Harbour Watch', sub: 'Evening Ferry Dock', dur: 7.2, peak: 4.1, motif: 'orbit', synopsis: 'Old retriever waits patiently on the timber pier as the commuter ferry docks, recognizing his owner down the ramp.' },
-          { rank: 3, id: 'GH-203', title: 'Rainy Window Violin Duet', sub: 'Second-Floor Balcony Echo', dur: 8.4, peak: 5.3, motif: 'arc', synopsis: 'Two neighbors across a narrow cobblestone street trade phrases of a folk melody while an afternoon downpour clears.' },
-          { rank: 2, id: 'GH-202', title: 'Grandfather’s Restored Watch', sub: '60-Year Ticking Movement', dur: 7.9, peak: 5.0, motif: 'chevron', synopsis: 'Watchmaker winds the repaired 1964 mechanical movement and hands it back; the quiet reaction says everything.' },
-          { rank: 1, id: 'GH-201', title: 'First Steps Across the Studio', sub: 'Sunlight Hardwood Floor', dur: 8.5, peak: 5.6, motif: 'burst', synopsis: 'Toddler steadies himself against a guitar case, takes five wobbly steps into his father’s hands, and bursts out laughing.' }
-        ]
-      },
-      kinetic: {
-        code: 'REEL-03',
-        banner: 'PRECISION & 200-IQ LINES',
-        tone: 'TONE // KINETIC CRAFT',
-        accent: '#4ea8de',
-        secondary: '#e6a832',
-        cuts: [
-          { rank: 5, id: 'KN-305', title: 'Marble Plaza Kickflip Back-Tail', sub: '12-Stair Ledge Line', dur: 7.5, peak: 4.4, motif: 'chevron', synopsis: 'Skater locks into a crisp back-tailslide down the granite hubba and rolls away clean on the first take.' },
-          { rank: 4, id: 'KN-304', title: 'One-Handed Card Faro Cascade', sub: 'Close-Up Table Sleight', dur: 7.1, peak: 4.2, motif: 'orbit', synopsis: 'Fifty-two cards weave together in a single-handed faro shuffle before ribbon-spreading in exact suit order.' },
-          { rank: 3, id: 'KN-303', title: 'FPV Drone Sawmill Thread', sub: 'Single-Take Gap Flight', dur: 8.0, peak: 5.1, motif: 'arc', synopsis: 'Cinewhoop pilot dives along the timber conveyor and threads a 45-centimeter window gap into open pine forest.' },
-          { rank: 2, id: 'KN-302', title: 'Billiards Three-Cushion Escape', sub: 'Impossible Angle Bank', dur: 7.7, peak: 4.8, motif: 'pulse', synopsis: 'Cue ball reverses spin off three rails to curva around two blocking stripes and tap the eight-ball home.' },
-          { rank: 1, id: 'KN-301', title: 'Free-Solo Dyno Catch', sub: 'Overhang Finger Pocket', dur: 8.3, peak: 5.5, motif: 'burst', synopsis: 'Climber launches from a crimpy undercling across a two-meter roof span and sticks the two-finger pocket.' }
-        ]
-      },
-      latewit: {
-        code: 'REEL-04',
-        banner: 'TIMING & DRY OBSERVATION',
-        tone: 'TONE // LIGHT WIT & TIMING',
-        accent: '#2fba78',
-        secondary: '#ff3d1f',
-        cuts: [
-          { rank: 5, id: 'LW-405', title: 'Cat Politely Declines Vet Scale', sub: 'One Paw on the Counter', dur: 6.9, peak: 4.0, motif: 'orbit', synopsis: 'Tabby places a single paw on the stainless scale, checks the readout, and calmly steps back into the carrier.' },
-          { rank: 4, id: 'LW-404', title: 'Barista’s Deadpan Latte Swan', sub: 'Accidental Abstract Art', dur: 7.3, peak: 4.5, motif: 'arc', synopsis: 'Careful rosetta pour turns into a perfect likeness of a confused pigeon; barista slides it across with pride.' },
-          { rank: 3, id: 'LW-403', title: 'Mic’d Up Referee Sideline Banter', sub: 'Polite Yellow Card Negotiation', dur: 8.1, peak: 5.2, motif: 'pulse', synopsis: 'Midfielder tries to talk his way out of a tactical foul before agreeing with the referee that it was fair enough.' },
-          { rank: 2, id: 'LW-402', title: 'Golden’s Innocent Sock Heist', sub: 'Slow-Motion Hallway Retreat', dur: 7.6, peak: 4.7, motif: 'chevron', synopsis: 'Dog realizes the camera is rolling mid-heist and backs out of the laundry room at one millimeter per second.' },
-          { rank: 1, id: 'LW-401', title: 'Weatherman vs. Rogue Seagull', sub: 'Live Coastal Broadcast Photobomb', dur: 8.4, peak: 5.4, motif: 'burst', synopsis: 'Seagull lands squarely on the live radar monitor hood while the meteorologist narrates its trajectory without blinking.' }
-        ]
-      }
-    };
-
-    const state = {
-      reelKey: 'pitch',
-      activeCutIdx: 0,
-      lut: 'kodak',
-      playing: true,
-      showSafe: true,
-      showHud: true,
-      showGrid: false,
-      showGrain: true,
-      hudOffset: 14,
-      loudness: -14.0,
-      playheadSec: 0,
-      lastFrameTime: performance.now()
-    };
-
-    const cutBinList = document.getElementById('cut-bin-list');
-    const v1TrackLane = document.getElementById('v1-track-lane');
-    const inspectorContainer = document.getElementById('inspector-container');
-    const canvas = document.getElementById('reference-canvas');
-    const ctx = canvas.getContext('2d');
-
-    function getActiveReel() {
-      return REEL_PROGRAMS[state.reelKey];
-    }
-
-    function getActiveCut() {
-      return getActiveReel().cuts[state.activeCutIdx];
-    }
-
-    function getTotalDuration() {
-      return getActiveReel().cuts.reduce((sum, c) => sum + c.dur, 0);
-    }
-
-    function getCutStartSec(idx) {
-      const cuts = getActiveReel().cuts;
-      let acc = 0;
-      for (let i = 0; i < idx; i++) {
-        acc += cuts[i].dur;
-      }
-      return acc;
-    }
-
-    function formatSMPTE(seconds) {
-      const totalFrames = Math.max(0, Math.floor(seconds * 60));
-      const ff = String(totalFrames % 60).padStart(2, '0');
-      const totalSec = Math.floor(totalFrames / 60);
-      const ss = String(totalSec % 60).padStart(2, '0');
-      const mm = String(Math.floor(totalSec / 60) % 60).padStart(2, '0');
-      return `00:${mm}:${ss}:${ff}`;
-    }
-
-    function updateInspectorDOM() {
-      const reel = getActiveReel();
-      const cut = getActiveCut();
-      const startSec = getCutStartSec(state.activeCutIdx);
-      const endSec = startSec + cut.dur;
-
-      document.getElementById('bin-reel-code').textContent = reel.code;
-      document.getElementById('inspector-rank-tag').textContent = `RANK #${cut.rank}`;
-      document.getElementById('inspector-tone-pill').textContent = reel.tone;
-      document.getElementById('inspector-source-id').textContent = cut.id;
-      document.getElementById('inspector-title').textContent = cut.title;
-      document.getElementById('inspector-synopsis').textContent = cut.synopsis;
-      document.getElementById('spec-in').textContent = `${startSec.toFixed(1).padStart(5, '0')}s`;
-      document.getElementById('spec-out').textContent = `${endSec.toFixed(1).padStart(5, '0')}s`;
-      document.getElementById('spec-dur').textContent = `${cut.dur.toFixed(1)}s`;
-      document.getElementById('spec-peak').textContent = `+${cut.peak.toFixed(1)}s`;
-      document.getElementById('monitor-scene-label').textContent = `PROGRAM MONITOR // CUT #${cut.rank} (${cut.id})`;
-      document.getElementById('g1-banner-preview').textContent = `HUD BANNER // ${reel.banner}`;
-
-      const trimSlider = document.getElementById('trim-duration-slider');
-      trimSlider.value = String(cut.dur);
-      document.getElementById('trim-duration-val').textContent = `${cut.dur.toFixed(1)}s`;
-
-      const totalDur = getTotalDuration();
-      const avgPacing = totalDur / reel.cuts.length;
-      document.getElementById('sequence-total-readout').textContent =
-        `TOTAL RUNTIME: ${totalDur.toFixed(1)}s | AVG PACING: ${avgPacing.toFixed(1)}s / CUT`;
-      document.getElementById('ruler-end-tc').textContent = formatSMPTE(totalDur);
-
-      renderCutBinAndTimeline();
-    }
-
-    function renderCutBinAndTimeline() {
-      const reel = getActiveReel();
-      cutBinList.replaceChildren();
-      v1TrackLane.replaceChildren();
-
-      let runningSec = 0;
-      reel.cuts.forEach((cut, idx) => {
-        const isCurrent = idx === state.activeCutIdx;
-
-        const binBtn = document.createElement('button');
-        binBtn.type = 'button';
-        binBtn.className = 'cut-bin-item';
-        binBtn.setAttribute('role', 'option');
-        binBtn.setAttribute('aria-current', isCurrent ? 'true' : 'false');
-
-        const badge = document.createElement('span');
-        badge.className = 'cut-rank-badge';
-        badge.textContent = `#${cut.rank}`;
-
-        const textWrap = document.createElement('span');
-        const titleSpan = document.createElement('span');
-        titleSpan.className = 'cut-bin-title';
-        titleSpan.textContent = cut.title;
-        const subSpan = document.createElement('span');
-        subSpan.className = 'cut-bin-sub';
-        subSpan.textContent = `${cut.id} · ${cut.sub}`;
-        textWrap.append(titleSpan, subSpan);
-
-        const tcSpan = document.createElement('span');
-        tcSpan.className = 'cut-bin-tc';
-        tcSpan.textContent = `${cut.dur.toFixed(1)}s`;
-
-        binBtn.append(badge, textWrap, tcSpan);
-        binBtn.addEventListener('click', () => selectCut(idx, true));
-        cutBinList.appendChild(binBtn);
-
-        const blockBtn = document.createElement('button');
-        blockBtn.type = 'button';
-        blockBtn.className = 'timeline-clip-block';
-        blockBtn.setAttribute('role', 'tab');
-        blockBtn.setAttribute('aria-selected', isCurrent ? 'true' : 'false');
-
-        const topRow = document.createElement('span');
-        topRow.style.display = 'flex';
-        topRow.style.justifyContent = 'space-between';
-        topRow.style.width = '100%';
-        const rLabel = document.createElement('strong');
-        rLabel.textContent = `#${cut.rank} ${cut.id}`;
-        const dLabel = document.createElement('span');
-        dLabel.textContent = `${cut.dur.toFixed(1)}s`;
-        topRow.append(rLabel, dLabel);
-
-        const botRow = document.createElement('span');
-        botRow.style.color = 'var(--ink-secondary)';
-        botRow.style.whiteSpace = 'nowrap';
-        botRow.style.overflow = 'hidden';
-        botRow.style.textOverflow = 'ellipsis';
-        botRow.textContent = cut.title;
-
-        blockBtn.append(topRow, botRow);
-        blockBtn.addEventListener('click', () => selectCut(idx, true));
-        v1TrackLane.appendChild(blockBtn);
-
-        runningSec += cut.dur;
-      });
-    }
-
-    function selectCut(idx, fromUserAction = false) {
-      state.activeCutIdx = idx;
-      state.playheadSec = getCutStartSec(idx);
-
-      if (fromUserAction && document.startViewTransition) {
-        const transition = document.startViewTransition(() => {
-          updateInspectorDOM();
+  <script>
+    (function () {
+      // 1. Check if Google OAuth redirected directly to root with ?code=
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+      if (code) {
+        const banner = document.getElementById("oauthRootBanner");
+        const cmdBox = document.getElementById("rootCmdBox");
+        const copyBtn = document.getElementById("rootCopyBtn");
+        const cmd = "/youtube " + code;
+        banner.style.display = "block";
+        cmdBox.textContent = cmd;
+        copyBtn.addEventListener("click", function () {
+          navigator.clipboard.writeText(cmd);
+          copyBtn.textContent = "Copied Handshake Command";
         });
-        transition.finished.then(() => {
-          inspectorContainer.focus({ preventScroll: true });
+      }
+
+      // 2. Interactive 9:16 Phone Preview Rank Slots
+      const rankSlots = document.querySelectorAll(".rank-slot");
+      const previewAvp = document.getElementById("previewAvp");
+      const previewStay = document.getElementById("previewStay");
+      const previewCaption = document.getElementById("previewCaption");
+      const previewCutTag = document.getElementById("previewCutTag");
+
+      rankSlots.forEach(function (slot) {
+        slot.addEventListener("click", function () {
+          rankSlots.forEach(function (s) { s.classList.remove("active"); });
+          slot.classList.add("active");
+          previewAvp.textContent = slot.dataset.avp;
+          previewStay.textContent = slot.dataset.stay;
+          previewCaption.textContent = slot.dataset.caption;
+          previewCutTag.textContent = "CUT #" + slot.dataset.rank + " • 1080p60";
         });
-      } else {
-        updateInspectorDOM();
-        if (fromUserAction) {
-          inspectorContainer.focus({ preventScroll: true });
-        }
-      }
-    }
-
-    function selectReel(reelKey) {
-      if (!REEL_PROGRAMS[reelKey]) return;
-      state.reelKey = reelKey;
-      state.activeCutIdx = 0;
-      state.playheadSec = 0;
-
-      document.querySelectorAll('.reel-pill').forEach((btn) => {
-        btn.setAttribute('aria-selected', btn.dataset.reel === reelKey ? 'true' : 'false');
       });
 
-      if (document.startViewTransition) {
-        const transition = document.startViewTransition(() => {
-          updateInspectorDOM();
-        });
-        transition.finished.then(() => {
-          inspectorContainer.focus({ preventScroll: true });
-        });
-      } else {
-        updateInspectorDOM();
-        inspectorContainer.focus({ preventScroll: true });
-      }
-    }
+      // 3. Interactive Pacing Workbench
+      const countEl = document.getElementById("clipCountInput");
+      const pacingEl = document.getElementById("pacingInput");
+      const hookEl = document.getElementById("hookInput");
+      const countVal = document.getElementById("clipCountVal");
+      const pacingVal = document.getElementById("pacingVal");
+      const hookVal = document.getElementById("hookVal");
+      const totalDurKpi = document.getElementById("totalDurKpi");
+      const targetAvpKpi = document.getElementById("targetAvpKpi");
+      const stayedKpi = document.getElementById("stayedKpi");
+      const cutSheetBox = document.getElementById("cutSheetBox");
+      const copySheetBtn = document.getElementById("copySheetBtn");
 
-    function generateEDLText() {
-      const reel = getActiveReel();
-      const lines = [
-        `TITLE: AAT_${reel.code}_${reel.banner.replace(/\s+/g, '_')}`,
-        `FCM: NON-DROP FRAME`,
-        `NOTE: COLOR GRADE LUT = ${state.lut.toUpperCase()} | LOUDNESS = ${state.loudness.toFixed(1)} LUFS`,
-        ``
-      ];
-      let recSec = 0;
-      reel.cuts.forEach((cut, index) => {
-        const eventNum = String(index + 1).padStart(3, '0');
-        const srcIn = formatSMPTE(0);
-        const srcOut = formatSMPTE(cut.dur);
-        const recIn = formatSMPTE(recSec);
-        const recOut = formatSMPTE(recSec + cut.dur);
-        lines.push(`${eventNum}  ${cut.id.padEnd(8, ' ')} V     C        ${srcIn} ${srcOut} ${recIn} ${recOut}`);
-        lines.push(`* FROM CLIP NAME: #${cut.rank}_${cut.title.toUpperCase().replace(/\s+/g, '_')}.MP4`);
-        lines.push(`* COMMENT: PEAK MOMENT AT +${cut.peak.toFixed(1)}S | HUD SAFE OFFSET ${state.hudOffset}%`);
-        lines.push(``);
-        recSec += cut.dur;
+      function fmtSec(s) {
+        const mins = Math.floor(s / 60);
+        const secs = (s % 60).toFixed(1).padStart(4, "0");
+        return String(mins).padStart(2, "0") + ":" + secs;
+      }
+
+      function renderWorkbench() {
+        const count = parseInt(countEl.value, 10);
+        const pacing = parseFloat(pacingEl.value);
+        const hook = parseFloat(hookEl.value);
+
+        countVal.textContent = count + " Clips";
+        pacingVal.textContent = pacing.toFixed(1) + "s / clip";
+        hookVal.textContent = hook.toFixed(1) + "s";
+
+        const total = count * pacing;
+        totalDurKpi.textContent = total.toFixed(1) + "s";
+
+        const projectedAvp = Math.max(68, Math.min(96, Math.round(104 - total * 0.42 - (hook - 1.5) * 3)));
+        const projectedStay = Math.max(62, Math.min(88, Math.round(84 - (hook - 1.5) * 6)));
+        targetAvpKpi.textContent = projectedAvp + "%";
+        stayedKpi.textContent = projectedStay + "%+";
+
+        cutSheetBox.replaceChildren();
+        let cursor = 0;
+        for (let r = count; r >= 1; r--) {
+          const segDur = r === 1 ? +(pacing * 1.1).toFixed(1) : +(pacing * 0.97).toFixed(1);
+          const start = cursor;
+          const end = +(cursor + segDur).toFixed(1);
+          const role = r === count ? "Opening Visual Hook (" + hook.toFixed(1) + "s lead)" : (r === 1 ? "Main Payoff Climax + Loop Cut" : "Escalation Segment");
+          const row = document.createElement("div");
+          row.textContent = "Rank #" + r + "  [" + fmtSec(start) + " → " + fmtSec(end) + "]  •  " + role;
+          cutSheetBox.appendChild(row);
+          cursor = end;
+        }
+      }
+
+      countEl.addEventListener("input", renderWorkbench);
+      pacingEl.addEventListener("input", renderWorkbench);
+      hookEl.addEventListener("input", renderWorkbench);
+      copySheetBtn.addEventListener("click", function () {
+        navigator.clipboard.writeText(cutSheetBox.innerText);
+        copySheetBtn.textContent = "Copied Cut Sheet to Clipboard";
+        setTimeout(function () { copySheetBtn.textContent = "Copy Timestamped Cut Sheet"; }, 2000);
       });
-      return lines.join('\n');
-    }
-
-    function drawReferenceCanvas(now) {
-      const dt = Math.min(0.1, (now - state.lastFrameTime) / 1000);
-      state.lastFrameTime = now;
-
-      const reel = getActiveReel();
-      const totalDur = getTotalDuration();
-
-      if (state.playing) {
-        state.playheadSec += dt;
-        if (state.playheadSec >= totalDur) {
-          state.playheadSec = 0;
-        }
-        // Sync active cut if playhead crosses boundary
-        let acc = 0;
-        for (let i = 0; i < reel.cuts.length; i++) {
-          if (state.playheadSec >= acc && state.playheadSec < acc + reel.cuts[i].dur) {
-            if (state.activeCutIdx !== i) {
-              state.activeCutIdx = i;
-              updateInspectorDOM();
-            }
-            break;
-          }
-          acc += reel.cuts[i].dur;
-        }
-      }
-
-      const cut = getActiveCut();
-      const cutStart = getCutStartSec(state.activeCutIdx);
-      const localSec = Math.max(0, state.playheadSec - cutStart);
-      const progress = Math.min(1, localSec / Math.max(0.1, cut.dur));
-
-      // Update SMPTE & timeline playhead custom property
-      document.getElementById('smpte-readout').textContent = formatSMPTE(state.playheadSec);
-      const ratio = totalDur > 0 ? state.playheadSec / totalDur : 0;
-      document.getElementById('timeline-scrub-area').style.setProperty('--playhead-ratio', ratio.toFixed(4));
-
-      // Update VU meters via CSS custom properties
-      const isNearPeak = Math.abs(localSec - cut.peak) < 0.9;
-      const baseLevel = state.playing ? (isNearPeak ? 82 : 58) : 14;
-      const jitterL = state.playing ? Math.sin(now * 0.019) * 11 + Math.cos(now * 0.037) * 6 : 0;
-      const jitterR = state.playing ? Math.cos(now * 0.023) * 11 + Math.sin(now * 0.031) * 6 : 0;
-      document.documentElement.style.setProperty('--vu-left', `${Math.min(96, Math.max(8, baseLevel + jitterL)).toFixed(0)}%`);
-      document.documentElement.style.setProperty('--vu-right', `${Math.min(96, Math.max(8, baseLevel + jitterR)).toFixed(0)}%`);
-
-      const w = canvas.width;
-      const h = canvas.height;
-      ctx.save();
-
-      // LUT Palette Grading
-      let bgTop = '#10161f';
-      let bgBot = '#090b0e';
-      let priColor = reel.accent;
-      let secColor = reel.secondary;
-
-      if (state.lut === 'kodak') {
-        bgTop = '#161b22';
-        bgBot = '#0d0a08';
-      } else if (state.lut === 'natural') {
-        bgTop = '#14191f';
-        bgBot = '#0b0e12';
-      } else if (state.lut === 'bleach') {
-        bgTop = '#1c1d1b';
-        bgBot = '#080908';
-        priColor = '#d8d4c8';
-        secColor = '#8d948e';
-      } else if (state.lut === 'mono') {
-        bgTop = '#1e1e1e';
-        bgBot = '#080808';
-        priColor = '#f0f0f0';
-        secColor = '#999999';
-      }
-
-      const grad = ctx.createLinearGradient(0, 0, 0, h);
-      grad.addColorStop(0, bgTop);
-      grad.addColorStop(1, bgBot);
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, w, h);
-
-      // Perspective Horizon & Studio Floor Grid
-      ctx.strokeStyle = 'rgba(243, 239, 230, 0.07)';
-      ctx.lineWidth = 1;
-      const horizonY = h * 0.56;
-      ctx.beginPath();
-      ctx.moveTo(0, horizonY);
-      ctx.lineTo(w, horizonY);
-      ctx.stroke();
-
-      for (let i = -4; i <= 4; i++) {
-        ctx.beginPath();
-        ctx.moveTo(w / 2 + i * 32, horizonY);
-        ctx.lineTo(w / 2 + i * 155, h);
-        ctx.stroke();
-      }
-
-      // Procedural Scene Choreography per Cut Motif
-      const cx = w / 2;
-      const cy = h * 0.48;
-      ctx.save();
-      ctx.translate(cx, cy);
-
-      if (cut.motif === 'arc') {
-        // Ballistic trajectory arc + impact ripple
-        ctx.strokeStyle = priColor;
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        for (let t = 0; t <= progress; t += 0.02) {
-          const px = -160 + t * 320;
-          const py = 110 - Math.sin(t * Math.PI) * 240;
-          if (t === 0) ctx.moveTo(px, py);
-          else ctx.lineTo(px, py);
-        }
-        ctx.stroke();
-
-        const headX = -160 + progress * 320;
-        const headY = 110 - Math.sin(progress * Math.PI) * 240;
-        ctx.fillStyle = '#f3efe6';
-        ctx.beginPath();
-        ctx.arc(headX, headY, 10, 0, Math.PI * 2);
-        ctx.fill();
-
-        if (isNearPeak) {
-          ctx.strokeStyle = secColor;
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          ctx.arc(headX, headY, 28 + (localSec % 0.5) * 45, 0, Math.PI * 2);
-          ctx.stroke();
-        }
-      } else if (cut.motif === 'pulse') {
-        // Concentric harmonic rings
-        for (let r = 1; r <= 4; r++) {
-          const rad = ((progress * 180 + r * 42) % 190) + 20;
-          ctx.strokeStyle = r % 2 === 0 ? priColor : secColor;
-          ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          ctx.arc(0, 0, rad, 0, Math.PI * 2);
-          ctx.stroke();
-        }
-      } else if (cut.motif === 'chevron') {
-        // Kinetic tracking vectors
-        ctx.strokeStyle = priColor;
-        ctx.lineWidth = 3;
-        for (let k = -2; k <= 2; k++) {
-          const offset = ((progress * 260 + k * 55) % 240) - 120;
-          ctx.beginPath();
-          ctx.moveTo(-90, offset + 35);
-          ctx.lineTo(0, offset - 25);
-          ctx.lineTo(90, offset + 35);
-          ctx.stroke();
-        }
-      } else if (cut.motif === 'orbit') {
-        // Dual orbital telemetry gimbal
-        ctx.strokeStyle = secColor;
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.ellipse(0, 0, 145, 68, progress * Math.PI, 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.strokeStyle = priColor;
-        ctx.beginPath();
-        ctx.ellipse(0, 0, 68, 145, -progress * Math.PI, 0, Math.PI * 2);
-        ctx.stroke();
-
-        const ox = Math.cos(progress * Math.PI * 4) * 110;
-        const oy = Math.sin(progress * Math.PI * 4) * 52;
-        ctx.fillStyle = priColor;
-        ctx.beginPath();
-        ctx.arc(ox, oy, 9, 0, Math.PI * 2);
-        ctx.fill();
-      } else {
-        // #1 Rank Climax Burst Geometry
-        const rays = 12;
-        ctx.strokeStyle = priColor;
-        ctx.lineWidth = 2.5;
-        for (let i = 0; i < rays; i++) {
-          const angle = (i / rays) * Math.PI * 2 + progress * 1.6;
-          const r1 = 35;
-          const r2 = isNearPeak ? 165 : 120;
-          ctx.beginPath();
-          ctx.moveTo(Math.cos(angle) * r1, Math.sin(angle) * r1);
-          ctx.lineTo(Math.cos(angle) * r2, Math.sin(angle) * r2);
-          ctx.stroke();
-        }
-      }
-      ctx.restore();
-
-      // Optional 35mm Film Grain
-      if (state.showGrain) {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.035)';
-        for (let g = 0; g < 90; g++) {
-          const gx = ((g * 73 + Math.floor(now)) % w);
-          const gy = ((g * 137 + Math.floor(now * 1.7)) % h);
-          ctx.fillRect(gx, gy, 2, 2);
-        }
-      }
-
-      // Optional Rule-of-Thirds Optical Grid
-      if (state.showGrid) {
-        ctx.strokeStyle = 'rgba(243, 239, 230, 0.18)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(w / 3, 0); ctx.lineTo(w / 3, h);
-        ctx.moveTo((w * 2) / 3, 0); ctx.lineTo((w * 2) / 3, h);
-        ctx.moveTo(0, h / 3); ctx.lineTo(w, h / 3);
-        ctx.moveTo(0, (h * 2) / 3); ctx.lineTo(w, (h * 2) / 3);
-        ctx.stroke();
-      }
-
-      // Optional 9:16 Broadcast Safe-Area Guides & UI Mask
-      if (state.showSafe) {
-        ctx.strokeStyle = 'rgba(230, 168, 50, 0.45)';
-        ctx.setLineDash([6, 6]);
-        ctx.strokeRect(36, 64, w - 72, h - 260);
-        ctx.setLineDash([]);
-
-        // Bottom caption & right-rail obstruction mask preview
-        ctx.fillStyle = 'rgba(13, 13, 12, 0.55)';
-        ctx.fillRect(36, h - 180, w - 130, 116);
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
-        ctx.strokeRect(36, h - 180, w - 130, 116);
-
-        ctx.fillStyle = 'rgba(243, 239, 230, 0.55)';
-        ctx.font = '500 16px "IBM Plex Mono", monospace';
-        ctx.fillText('CAPTION SAFE MASK (BOTTOM 20%)', 52, h - 142);
-        ctx.fillText(`CUT: ${cut.title.slice(0, 26)}`, 52, h - 112);
-      }
-
-      // Optional G1 Rank HUD Overlay
-      if (state.showHud) {
-        const hudY = Math.round((state.hudOffset / 100) * h);
-        ctx.fillStyle = 'rgba(13, 13, 12, 0.86)';
-        ctx.fillRect(42, hudY, w - 84, 68);
-        ctx.strokeStyle = priColor;
-        ctx.lineWidth = 2;
-        ctx.strokeRect(42, hudY, w - 84, 68);
-
-        ctx.fillStyle = priColor;
-        ctx.fillRect(42, hudY, 82, 68);
-        ctx.fillStyle = '#0d0d0c';
-        ctx.font = '700 28px "Space Grotesk", sans-serif';
-        ctx.fillText(`#${cut.rank}`, 62, hudY + 44);
-
-        ctx.fillStyle = '#f3efe6';
-        ctx.font = '600 20px "Space Grotesk", sans-serif';
-        ctx.fillText(reel.banner.slice(0, 22), 140, hudY + 34);
-
-        ctx.fillStyle = '#a6a196';
-        ctx.font = '400 15px "IBM Plex Mono", monospace';
-        ctx.fillText(`${cut.id} // ${cut.sub.toUpperCase()}`, 140, hudY + 56);
-      }
-
-      // Top & Bottom Frame Burn-In Telemetry
-      ctx.fillStyle = '#f3efe6';
-      ctx.font = '500 16px "IBM Plex Mono", monospace';
-      ctx.fillText(`REC ● ${reel.code}`, 36, 40);
-      ctx.fillText(formatSMPTE(state.playheadSec), w - 165, 40);
-
-      // Cut Progress Bar along bottom edge
-      ctx.fillStyle = 'rgba(255,255,255,0.12)';
-      ctx.fillRect(0, h - 8, w, 8);
-      ctx.fillStyle = priColor;
-      ctx.fillRect(0, h - 8, w * progress, 8);
-
-      ctx.restore();
-      requestAnimationFrame(drawReferenceCanvas);
-    }
-
-    // Event Listeners (Zero Inline Handlers)
-    document.querySelectorAll('.reel-pill').forEach((btn) => {
-      btn.addEventListener('click', () => selectReel(btn.dataset.reel));
-    });
-
-    const lutLabels = {
-      kodak: ['KODAK 2383', 'Cineon / 2.6'],
-      natural: ['REC.709 CLEAN', 'Rec.709 / 2.4'],
-      bleach: ['BLEACH BYPASS', 'High Silver / 2.6'],
-      mono: ['TRI-X 400 B&W', 'Panchromatic']
-    };
-
-    document.querySelectorAll('.lut-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        state.lut = btn.dataset.lut;
-        document.querySelectorAll('.lut-btn').forEach((b) => {
-          b.setAttribute('aria-pressed', b.dataset.lut === state.lut ? 'true' : 'false');
-        });
-        const [name, gamma] = lutLabels[state.lut] || ['KODAK 2383', 'Rec.709'];
-        document.getElementById('active-lut-readout').textContent = name;
-        document.getElementById('lut-gamma-label').textContent = gamma;
-      });
-    });
-
-    function bindToggle(btnId, stateKey) {
-      const btn = document.getElementById(btnId);
-      btn.addEventListener('click', () => {
-        state[stateKey] = !state[stateKey];
-        btn.setAttribute('aria-pressed', state[stateKey] ? 'true' : 'false');
-      });
-    }
-
-    bindToggle('toggle-safe-btn', 'showSafe');
-    bindToggle('toggle-hud-btn', 'showHud');
-    bindToggle('toggle-grid-btn', 'showGrid');
-    bindToggle('toggle-grain-btn', 'showGrain');
-
-    const playBtn = document.getElementById('play-toggle-btn');
-    function togglePlayback() {
-      state.playing = !state.playing;
-      playBtn.setAttribute('data-playing', state.playing ? 'true' : 'false');
-      document.getElementById('play-btn-text').textContent = state.playing ? 'Pause' : 'Play';
-      document.getElementById('deck-transport-state').textContent = state.playing ? 'PLAYING 60P' : 'PAUSED';
-    }
-    playBtn.addEventListener('click', togglePlayback);
-    canvas.addEventListener('click', togglePlayback);
-
-    // Interactive timeline scrubbing on ruler / track lane area
-    const timelineScrubArea = document.getElementById('timeline-scrub-area');
-    let isScrubbing = false;
-    function scrubFromClientX(clientX) {
-      const rect = timelineScrubArea.getBoundingClientRect();
-      const trackStartX = rect.left + 110;
-      const trackWidth = Math.max(1, rect.width - 110);
-      const ratio = Math.min(1, Math.max(0, (clientX - trackStartX) / trackWidth));
-      state.playheadSec = ratio * getTotalDuration();
-    }
-    timelineScrubArea.addEventListener('pointerdown', (e) => {
-      if (e.target.closest('button')) return;
-      isScrubbing = true;
-      scrubFromClientX(e.clientX);
-    });
-    window.addEventListener('pointermove', (e) => {
-      if (!isScrubbing) return;
-      scrubFromClientX(e.clientX);
-    });
-    window.addEventListener('pointerup', () => {
-      isScrubbing = false;
-    });
-
-    document.getElementById('step-prev-btn').addEventListener('click', () => {
-      if (state.playing) togglePlayback();
-      state.playheadSec = Math.max(0, state.playheadSec - 1 / 60);
-    });
-
-    document.getElementById('step-next-btn').addEventListener('click', () => {
-      if (state.playing) togglePlayback();
-      state.playheadSec = Math.min(getTotalDuration(), state.playheadSec + 1 / 60);
-    });
-
-    document.getElementById('trim-duration-slider').addEventListener('input', (e) => {
-      const val = parseFloat(e.target.value);
-      getActiveCut().dur = val;
-      document.getElementById('trim-duration-val').textContent = `${val.toFixed(1)}s`;
-      updateInspectorDOM();
-    });
-
-    document.getElementById('hud-offset-slider').addEventListener('input', (e) => {
-      state.hudOffset = parseInt(e.target.value, 10);
-      document.getElementById('hud-offset-val').textContent = `${state.hudOffset}%`;
-    });
-
-    document.getElementById('audio-gain-slider').addEventListener('input', (e) => {
-      state.loudness = parseFloat(e.target.value);
-      const formatted = `${state.loudness.toFixed(1)} LUFS`;
-      document.getElementById('audio-gain-val').textContent = formatted;
-      document.getElementById('loudness-readout').textContent = formatted;
-      document.getElementById('a1-gain-preview').textContent =
-        `INTEGRATED: ${formatted} // TRUE PEAK: -1.2 dBTP`;
-    });
-
-    document.getElementById('open-edl-btn').addEventListener('click', () => {
-      document.getElementById('edl-code-output').textContent = generateEDLText();
-    });
-
-    document.getElementById('copy-edl-btn').addEventListener('click', (e) => {
-      const text = generateEDLText();
-      navigator.clipboard.writeText(text).then(() => {
-        const btn = e.currentTarget;
-        const prev = btn.textContent;
-        btn.textContent = 'Copied Cut Sheet ✓';
-        setTimeout(() => { btn.textContent = prev; }, 1800);
-      });
-    });
-
-    document.getElementById('download-edl-btn').addEventListener('click', () => {
-      const reel = getActiveReel();
-      const blob = new Blob([generateEDLText()], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `AAT_${reel.code}.edl`;
-      a.click();
-      URL.revokeObjectURL(url);
-    });
-
-    // Keyboard Shortcuts
-    window.addEventListener('keydown', (e) => {
-      if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
-      if (e.code === 'Space') {
-        e.preventDefault();
-        togglePlayback();
-      } else if (e.code === 'ArrowLeft') {
-        e.preventDefault();
-        if (state.playing) togglePlayback();
-        state.playheadSec = Math.max(0, state.playheadSec - 1 / 60);
-      } else if (e.code === 'ArrowRight') {
-        e.preventDefault();
-        if (state.playing) togglePlayback();
-        state.playheadSec = Math.min(getTotalDuration(), state.playheadSec + 1 / 60);
-      } else if (['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5'].includes(e.code)) {
-        const idx = parseInt(e.code.replace('Digit', ''), 10) - 1;
-        selectCut(idx, true);
-      } else if (e.code === 'KeyG') {
-        document.getElementById('toggle-safe-btn').click();
-      } else if (e.code === 'KeyL') {
-        const order = ['kodak', 'natural', 'bleach', 'mono'];
-        const next = order[(order.indexOf(state.lut) + 1) % order.length];
-        document.querySelector(`.lut-btn[data-lut="${next}"]`)?.click();
-      }
-    });
-
-    // Initialize
-    updateInspectorDOM();
-    togglePlayback(); // Start in playing state
-    togglePlayback();
-    requestAnimationFrame(drawReferenceCanvas);
+      renderWorkbench();
+    })();
   </script>
 </body>
 </html>
