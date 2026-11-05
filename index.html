@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AAT Studio | Short-Form Video &amp; Editorial Suite</title>
-  <meta name="description" content="AAT Studio is a short-form video production and pacing suite for vertical 9:16 countdowns, editorial timing, and channel analytics." />
+  <meta name="description" content="AAT Studio is a short-form video production suite for vertical 9:16 countdowns, editorial timing, and channel analytics." />
   <link rel="icon" type="image/png" href="/aat_app_icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,7 +14,7 @@
 
     @layer reset {
       html, body, div, span, header, main, footer, section, nav,
-      h1, h2, h3, p, a, img, button, input, label, code, pre, strong, dl, dt, dd {
+      h1, h2, h3, p, a, img, button, code, pre, strong, iframe {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
@@ -72,7 +72,7 @@
 
     @layer components {
       .container {
-        max-width: 1120px;
+        max-width: 1040px;
         margin-inline: auto;
         padding-inline: 24px;
       }
@@ -170,16 +170,13 @@
 
       /* Hero Section */
       .hero {
-        padding: 68px 0 60px;
-        display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
-        gap: 48px;
-        align-items: center;
+        padding: 76px 0 64px;
+        max-width: 720px;
         border-bottom: 1px solid var(--border);
       }
 
       h1 {
-        font-size: clamp(2.2rem, 4vw, 3.25rem);
+        font-size: clamp(2.25rem, 4.2vw, 3.35rem);
         font-weight: 800;
         line-height: 1.12;
         letter-spacing: -0.03em;
@@ -188,9 +185,9 @@
       }
 
       .hero p {
-        font-size: 1.05rem;
+        font-size: 1.06rem;
         color: var(--text-muted);
-        max-width: 520px;
+        max-width: 600px;
         margin-bottom: 28px;
       }
 
@@ -238,7 +235,7 @@
       .hero-specs-line {
         display: flex;
         flex-wrap: wrap;
-        gap: 20px;
+        gap: 24px;
         padding-top: 20px;
         border-top: 1px solid var(--border);
         font-family: var(--font-mono);
@@ -246,102 +243,7 @@
         color: var(--text-muted);
       }
 
-      /* Vertical 9:16 Studio Frame Preview (Single Flat Surface, No Nested Cards) */
-      .studio-preview-wrap {
-        display: flex;
-        justify-content: center;
-      }
-
-      .phone-frame {
-        width: 300px;
-        border-radius: 20px;
-        background-color: var(--surface);
-        border: 1px solid var(--border);
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-      }
-
-      .hud-banner {
-        padding: 14px 16px;
-        border-bottom: 1px solid var(--border);
-        font-family: var(--font-display);
-        font-weight: 700;
-        font-size: 0.82rem;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        color: var(--text);
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .hud-banner span {
-        color: var(--accent);
-      }
-
-      .rank-list {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .rank-slot {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        text-align: left;
-        font-family: var(--font-mono);
-        font-size: 0.78rem;
-        color: var(--text-muted);
-        padding: 12px 16px;
-        background: transparent;
-        border: none;
-        border-bottom: 1px solid var(--border);
-        cursor: pointer;
-      }
-
-      .rank-slot:hover {
-        color: var(--text);
-        background-color: rgba(255, 255, 255, 0.02);
-      }
-
-      .rank-slot.active {
-        color: var(--text);
-        font-weight: 600;
-        background-color: rgba(255, 85, 69, 0.08);
-      }
-
-      .rank-slot-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .rank-tag {
-        color: var(--accent);
-        font-weight: 600;
-      }
-
-      .hud-footer {
-        padding: 14px 16px;
-        background-color: var(--bg);
-      }
-
-      .hud-caption {
-        font-size: 0.82rem;
-        color: var(--text);
-        margin-bottom: 8px;
-      }
-
-      .hud-meta {
-        display: flex;
-        justify-content: space-between;
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-        color: var(--text-muted);
-      }
-
-      /* Architecture Specification Section (Editorial Table, No Identical Feature Cards) */
+      /* Sections */
       section {
         padding: 60px 0;
         border-bottom: 1px solid var(--border);
@@ -370,7 +272,7 @@
 
       .spec-row {
         display: grid;
-        grid-template-columns: 260px 1fr 200px;
+        grid-template-columns: 240px 1fr 180px;
         gap: 24px;
         padding: 22px 0;
         border-bottom: 1px solid var(--border);
@@ -395,74 +297,29 @@
         text-align: right;
       }
 
-      /* Interactive Pacing Workbench (Flat Split Layout, No Cards Inside Cards) */
-      .workbench-split {
+      /* Featured YouTube Video Section */
+      .video-showcase {
         display: grid;
-        grid-template-columns: 1fr 1.15fr;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background-color: var(--surface);
-        overflow: hidden;
+        grid-template-columns: 1fr 340px;
+        gap: 48px;
+        align-items: center;
       }
 
-      .workbench-controls {
-        padding: 28px;
-        border-right: 1px solid var(--border);
-      }
-
-      .control-group {
-        margin-bottom: 22px;
-      }
-
-      .control-label {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.88rem;
-        font-weight: 600;
-        margin-bottom: 8px;
-      }
-
-      .control-label span.val {
-        font-family: var(--font-mono);
-        color: var(--accent);
-      }
-
-      input[type="range"] {
+      .video-frame-wrap {
         width: 100%;
-        accent-color: var(--accent);
-        cursor: pointer;
+        max-width: 340px;
+        aspect-ratio: 9 / 16;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background-color: #000;
       }
 
-      .workbench-Log {
-        padding: 28px;
-        background-color: var(--bg);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-
-      .workbench-summary-bar {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 12px;
-        padding-bottom: 14px;
-        margin-bottom: 16px;
-        border-bottom: 1px solid var(--border);
-        font-family: var(--font-mono);
-        font-size: 0.8rem;
-        color: var(--text-muted);
-      }
-
-      .workbench-summary-bar strong {
-        color: var(--text);
-      }
-
-      .cut-sheet {
-        font-family: var(--font-mono);
-        font-size: 0.82rem;
-        color: var(--text);
-        line-height: 1.85;
+      .video-frame-wrap iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
       }
 
       /* Footer */
@@ -493,27 +350,21 @@
       @media (prefers-reduced-motion: no-preference) {
         .btn-console,
         .btn-primary,
-        .btn-secondary,
-        .rank-slot {
+        .btn-secondary {
           transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
         }
       }
 
-      @media (max-width: 860px) {
-        .hero,
-        .workbench-split {
-          grid-template-columns: 1fr;
-        }
-        .workbench-controls {
-          border-right: none;
-          border-bottom: 1px solid var(--border);
-        }
+      @media (max-width: 820px) {
         .spec-row {
           grid-template-columns: 1fr;
           gap: 6px;
         }
         .spec-tech {
           text-align: left;
+        }
+        .video-showcase {
+          grid-template-columns: 1fr;
         }
         .nav-links .hide-mobile {
           display: none;
@@ -531,7 +382,7 @@
       </a>
       <nav class="nav-links" aria-label="Main navigation">
         <a href="#capabilities" class="hide-mobile">Specifications</a>
-        <a href="#workbench" class="hide-mobile">Pacing Lab</a>
+        <a href="#featured" class="hide-mobile">Featured Short</a>
         <a href="/privacy.html">Privacy</a>
         <a href="/terms.html">Terms</a>
         <a href="/callback/" class="btn-console">Studio Auth</a>
@@ -554,60 +405,20 @@
 
     <!-- Hero -->
     <div class="hero">
-      <div>
-        <h1>
-          Editorial Mastering for Short-Form Video.
-        </h1>
-        <p>
-          AAT Studio brings together frame-accurate 9:16 video assembly, scene-level audio and timing adjustments, clean countdown graphics, and YouTube Analytics retention tracking.
-        </p>
-        <div class="hero-actions">
-          <a href="#workbench" class="btn-primary">Open Pacing Workbench</a>
-          <a href="https://www.youtube.com/@aatfunnyclip" target="_blank" rel="noopener" class="btn-secondary">YouTube Channel (@aatfunnyclip)</a>
-        </div>
-        <div class="hero-specs-line">
-          <span>1080×1920 60fps</span>
-          <span>ITU-R BS.1770-4 Loudness</span>
-          <span>YouTube Data &amp; Analytics API</span>
-        </div>
+      <h1>
+        Editorial Mastering for Short-Form Video.
+      </h1>
+      <p>
+        AAT Studio brings together frame-accurate 9:16 video assembly, scene-level audio and timing adjustments, clean countdown graphics, and YouTube Analytics retention tracking.
+      </p>
+      <div class="hero-actions">
+        <a href="#featured" class="btn-primary">Watch Featured Short</a>
+        <a href="https://www.youtube.com/@aatfunnyclip" target="_blank" rel="noopener" class="btn-secondary">YouTube Channel (@aatfunnyclip)</a>
       </div>
-
-      <div class="studio-preview-wrap">
-        <div class="phone-frame" aria-label="AAT Studio 9:16 Vertical Mastering Preview">
-          <div class="hud-banner">
-            <span>RANKED SEQUENCE</span>
-            <span id="previewCutTag">CUT #3</span>
-          </div>
-          <div class="rank-list" role="listbox" aria-label="Interactive countdown preview">
-            <button type="button" class="rank-slot" data-rank="1" data-dur="8.8s" data-avp="91.2%" data-caption="Chest control with his back to goal right before the overhead finish.">
-              <span class="rank-slot-left"><span class="rank-tag">#1</span><span>Stoppage Winner</span></span>
-              <span>8.8s</span>
-            </button>
-            <button type="button" class="rank-slot" data-rank="2" data-dur="8.1s" data-avp="89.5%" data-caption="Full-stretch parry across the six-yard box to deny the rebound.">
-              <span class="rank-slot-left"><span class="rank-tag">#2</span><span>Sideline Save</span></span>
-              <span>8.1s</span>
-            </button>
-            <button type="button" class="rank-slot active" data-rank="3" data-dur="8.4s" data-avp="88.4%" data-caption="Watch the back foot right before he recovers his balance.">
-              <span class="rank-slot-left"><span class="rank-tag">#3</span><span>Mid-Air Recovery</span></span>
-              <span>8.4s</span>
-            </button>
-            <button type="button" class="rank-slot" data-rank="4" data-dur="7.9s" data-avp="86.9%" data-caption="Threads the ball cleanly between two pressing defenders.">
-              <span class="rank-slot-left"><span class="rank-tag">#4</span><span>Touchline Skill</span></span>
-              <span>7.9s</span>
-            </button>
-            <button type="button" class="rank-slot" data-rank="5" data-dur="7.6s" data-avp="85.1%" data-caption="Bends around the four-man wall into the top corner.">
-              <span class="rank-slot-left"><span class="rank-tag">#5</span><span>Opening Strike</span></span>
-              <span>7.6s</span>
-            </button>
-          </div>
-          <div class="hud-footer">
-            <div class="hud-caption" id="previewCaption">Watch the back foot right before he recovers his balance.</div>
-            <div class="hud-meta">
-              <span id="previewAvp">Retention: 88.4%</span>
-              <span>-14.0 LUFS</span>
-            </div>
-          </div>
-        </div>
+      <div class="hero-specs-line">
+        <span>1080×1920 60fps</span>
+        <span>ITU-R BS.1770-4 Loudness</span>
+        <span>YouTube Data &amp; Analytics API</span>
       </div>
     </div>
 
@@ -641,49 +452,28 @@
       </div>
     </section>
 
-    <!-- Interactive Workbench -->
-    <section id="workbench" style="border-bottom: none;">
-      <div class="section-intro">
-        <h2>Short-Form Pacing Workbench</h2>
-        <p>Adjust your countdown size, average clip duration, and opening hook timing to generate a timestamped editorial cut sheet.</p>
-      </div>
-      <div class="workbench-split">
-        <div class="workbench-controls">
-          <div class="control-group">
-            <div class="control-label">
-              <label for="clipCountInput">Ranked Segments (Countdown Size)</label>
-              <span class="val" id="clipCountVal">5 Clips</span>
-            </div>
-            <input type="range" id="clipCountInput" min="3" max="7" step="1" value="5" />
+    <!-- Featured YouTube Video -->
+    <section id="featured" style="border-bottom: none;">
+      <div class="video-showcase">
+        <div>
+          <div class="section-intro" style="margin-bottom: 24px;">
+            <h2>Featured Channel Short</h2>
+            <p>Watch a published 5-to-1 countdown compilation directly from the official @aatfunnyclip YouTube channel.</p>
           </div>
-          <div class="control-group">
-            <div class="control-label">
-              <label for="pacingInput">Average Segment Pacing</label>
-              <span class="val" id="pacingVal">8.5s / clip</span>
-            </div>
-            <input type="range" id="pacingInput" min="5.0" max="13.0" step="0.5" value="8.5" />
-          </div>
-          <div class="control-group">
-            <div class="control-label">
-              <label for="hookInput">Opening Hook Window (Rank #5 Lead)</label>
-              <span class="val" id="hookVal">2.0s</span>
-            </div>
-            <input type="range" id="hookInput" min="1.0" max="3.5" step="0.5" value="2.0" />
-          </div>
-          <button type="button" id="copySheetBtn" class="btn-secondary" style="width:100%; justify-content:center; margin-top:8px;">
-            Copy Timestamped Cut Sheet
-          </button>
+          <a href="https://www.youtube.com/@aatfunnyclip/shorts" target="_blank" rel="noopener" class="btn-secondary">
+            View More on YouTube (@aatfunnyclip)
+          </a>
         </div>
 
-        <div class="workbench-Log">
-          <div>
-            <div class="workbench-summary-bar">
-              <span>Runtime: <strong id="totalDurKpi">42.5s</strong></span>
-              <span>Target AVP: <strong id="targetAvpKpi">84%</strong></span>
-              <span>Stay Goal: <strong id="stayedKpi">72%+</strong></span>
-            </div>
-            <div class="cut-sheet" id="cutSheetBox" tabindex="0"></div>
-          </div>
+        <div class="video-frame-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/6mE3zQhp1H8?rel=0"
+            title="AAT Official YouTube Short"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
         </div>
       </div>
     </section>
@@ -719,80 +509,6 @@
           copyBtn.textContent = "Copied Handshake Command";
         });
       }
-
-      const rankSlots = document.querySelectorAll(".rank-slot");
-      const previewAvp = document.getElementById("previewAvp");
-      const previewCaption = document.getElementById("previewCaption");
-      const previewCutTag = document.getElementById("previewCutTag");
-
-      rankSlots.forEach(function (slot) {
-        slot.addEventListener("click", function () {
-          rankSlots.forEach(function (s) { s.classList.remove("active"); });
-          slot.classList.add("active");
-          previewAvp.textContent = "Retention: " + slot.dataset.avp;
-          previewCaption.textContent = slot.dataset.caption;
-          previewCutTag.textContent = "CUT #" + slot.dataset.rank;
-        });
-      });
-
-      const countEl = document.getElementById("clipCountInput");
-      const pacingEl = document.getElementById("pacingInput");
-      const hookEl = document.getElementById("hookInput");
-      const countVal = document.getElementById("clipCountVal");
-      const pacingVal = document.getElementById("pacingVal");
-      const hookVal = document.getElementById("hookVal");
-      const totalDurKpi = document.getElementById("totalDurKpi");
-      const targetAvpKpi = document.getElementById("targetAvpKpi");
-      const stayedKpi = document.getElementById("stayedKpi");
-      const cutSheetBox = document.getElementById("cutSheetBox");
-      const copySheetBtn = document.getElementById("copySheetBtn");
-
-      function fmtSec(s) {
-        const mins = Math.floor(s / 60);
-        const secs = (s % 60).toFixed(1).padStart(4, "0");
-        return String(mins).padStart(2, "0") + ":" + secs;
-      }
-
-      function renderWorkbench() {
-        const count = parseInt(countEl.value, 10);
-        const pacing = parseFloat(pacingEl.value);
-        const hook = parseFloat(hookEl.value);
-
-        countVal.textContent = count + " Clips";
-        pacingVal.textContent = pacing.toFixed(1) + "s / clip";
-        hookVal.textContent = hook.toFixed(1) + "s";
-
-        const total = count * pacing;
-        totalDurKpi.textContent = total.toFixed(1) + "s";
-
-        const projectedAvp = Math.max(68, Math.min(96, Math.round(104 - total * 0.42 - (hook - 1.5) * 3)));
-        const projectedStay = Math.max(62, Math.min(88, Math.round(84 - (hook - 1.5) * 6)));
-        targetAvpKpi.textContent = projectedAvp + "%";
-        stayedKpi.textContent = projectedStay + "%+";
-
-        cutSheetBox.replaceChildren();
-        let cursor = 0;
-        for (let r = count; r >= 1; r--) {
-          const segDur = r === 1 ? +(pacing * 1.1).toFixed(1) : +(pacing * 0.97).toFixed(1);
-          const start = cursor;
-          const end = +(cursor + segDur).toFixed(1);
-          const role = r === count ? "Opening Visual Hook (" + hook.toFixed(1) + "s lead)" : (r === 1 ? "Main Payoff + Loop Cut" : "Escalation Segment");
-          const row = document.createElement("div");
-          row.textContent = "Rank #" + r + "  [" + fmtSec(start) + " to " + fmtSec(end) + "]  |  " + role;
-          cutSheetBox.appendChild(row);
-          cursor = end;
-        }
-      }
-
-      countEl.addEventListener("input", renderWorkbench);
-      pacingEl.addEventListener("input", renderWorkbench);
-      hookEl.addEventListener("input", renderWorkbench);
-      copySheetBtn.addEventListener("click", function () {
-        navigator.clipboard.writeText(cutSheetBox.innerText);
-        copySheetBtn.textContent = "Copied Cut Sheet to Clipboard";
-        setTimeout(function () { copySheetBtn.textContent = "Copy Timestamped Cut Sheet"; }, 2000);
-      });
-      renderWorkbench();
     })();
   </script>
 </body>
