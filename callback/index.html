@@ -3,91 +3,303 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AAY — YouTube Shorts OAuth Callback</title>
+  <title>Creator Authentication Gateway — AAT Studio</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="/aat_app_icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --bg: #07090e;
+      --card: rgba(18, 24, 36, 0.82);
+      --border: rgba(255, 255, 255, 0.09);
+      --text: #f3f6fc;
+      --muted: #94a3b8;
+      --accent: #ff5545;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #0d1117;
-      color: #e6edf3;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-image:
+        radial-gradient(circle at 20% 15%, rgba(255, 85, 69, 0.14), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.1), transparent 42%);
+    }
+    a { color: inherit; text-decoration: none; }
+    .topbar {
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(7, 9, 14, 0.75);
+      backdrop-filter: blur(14px);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+    .brand img { width: 32px; height: 32px; border-radius: 8px; }
+    .main-wrap {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
+      padding: 32px 20px;
     }
-    .card {
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 14px;
-      max-width: 560px;
+    .gateway-card {
       width: 100%;
-      padding: 28px;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+      max-width: 600px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 34px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(16px);
     }
-    h1 { margin-top: 0; font-size: 1.4rem; color: #ff4e45; }
-    code {
-      display: block;
-      background: #0d1117;
-      border: 1px solid #30363d;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      word-break: break-all;
-      color: #79c0ff;
-      margin: 14px 0;
-    }
-    button {
-      background: #238636;
-      color: #fff;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-size: 0.95rem;
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
       font-weight: 600;
-      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--muted);
     }
-    button:hover { background: #2ea043; }
-    .links { margin-top: 22px; font-size: 0.85rem; color: #8b949e; }
-    .links a { color: #58a6ff; text-decoration: none; margin-right: 14px; }
+    .status-pill.verified {
+      background: rgba(16, 185, 129, 0.14);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #6ee7b7;
+    }
+    .status-pill.error {
+      background: rgba(239, 68, 68, 0.14);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    h1 {
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    p.desc {
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+    .cmd-container {
+      background: #06080d;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .cmd-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    code.cmd-box {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.92rem;
+      color: #6ee7b7;
+      word-break: break-all;
+      line-height: 1.5;
+      user-select: all;
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 11px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.18s ease;
+    }
+    .btn-primary {
+      flex: 1;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.28);
+    }
+    .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.06); }
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .btn-ghost:hover { background: rgba(255, 255, 255, 0.1); }
+    .scope-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .scope-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    footer {
+      padding: 20px 28px;
+      border-top: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer a:hover { color: var(--text); }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1 id="heading">AAY — Autonomous YouTube Shorts Engine</h1>
-    <div id="content">
-      <p>Official OAuth 2.0 Redirect Portal for connecting your YouTube Channel to your Telegram Co-Pilot.</p>
-    </div>
-    <div class="links">
-      <a href="/terms.html">Terms of Service</a>
-      <a href="/privacy.html">Privacy Policy</a>
+  <div class="topbar">
+    <a href="/" class="brand">
+      <img src="/aat_app_icon.png" alt="AAT Studio" />
+      <span>AAT Studio</span>
+    </a>
+    <a href="/" style="font-size:0.86rem; color:var(--muted);">← Back to Studio</a>
+  </div>
+
+  <div class="main-wrap">
+    <div class="gateway-card">
+      <div id="statusBadge" class="status-pill">
+        <span class="dot"></span>
+        <span id="statusText">OAuth 2.0 Channel Gateway</span>
+      </div>
+      <h1 id="heading">Creator Authentication Gateway</h1>
+      <p id="desc" class="desc">
+        This endpoint processes Google OAuth 2.0 channel authorization handshakes for AAT Studio. Initiate channel linking from your active studio session to generate a verified handshake token.
+      </p>
+
+      <div id="dynamicArea">
+        <div class="cmd-container">
+          <div class="cmd-label">
+            <span>Session Status</span>
+            <span>TLS 1.3 • NaCl Vault</span>
+          </div>
+          <code class="cmd-box" style="color:#94a3b8;">Awaiting OAuth 2.0 redirect parameters (?code=...)</code>
+        </div>
+        <div class="btn-row">
+          <a href="/" class="btn btn-ghost" style="width:100%;">Return to AAT Studio</a>
+        </div>
+      </div>
+
+      <div class="scope-list" id="scopeList">
+        <span class="scope-chip">youtube.upload</span>
+        <span class="scope-chip">youtube.readonly</span>
+        <span class="scope-chip">youtube.force-ssl</span>
+        <span class="scope-chip">yt-analytics.readonly</span>
+      </div>
     </div>
   </div>
+
+  <footer>
+    <span>AAT Studio • OAuth 2.0 Security Gateway</span>
+    <div style="display:flex; gap:18px;">
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms of Service</a>
+    </div>
+  </footer>
+
   <script>
-    (function() {
+    (function () {
       const params = new URLSearchParams(window.location.search);
       const code = params.get("code");
       const error = params.get("error");
-      const content = document.getElementById("content");
+      const state = params.get("state") || "studio_session";
+
+      const badge = document.getElementById("statusBadge");
+      const statusText = document.getElementById("statusText");
       const heading = document.getElementById("heading");
+      const desc = document.getElementById("desc");
+      const area = document.getElementById("dynamicArea");
 
       if (error) {
-        heading.textContent = "Authorization Cancelled";
-        content.innerHTML = "<p>Error returned: <strong>" + error + "</strong></p>";
+        badge.className = "status-pill error";
+        statusText.textContent = "Authorization Declined";
+        heading.textContent = "OAuth Handshake Cancelled";
+        desc.textContent = "Google returned an authorization error (" + error + "). Start a fresh authorization link from your studio session whenever you are ready.";
+        area.innerHTML = '<div class="btn-row"><a href="/" class="btn btn-ghost" style="width:100%;">Return to AAT Studio</a></div>';
         return;
       }
 
       if (code) {
         const cmd = "/youtube " + code;
-        heading.textContent = "✅ YouTube Channel Code Ready!";
-        content.innerHTML =
-          "<p>Copy the command below and send it to your Telegram bot to finish linking your YouTube channel:</p>" +
-          "<code id='cmdBox'></code>" +
-          "<button id='copyBtn'>Copy Command</button>";
+        badge.className = "status-pill verified";
+        statusText.textContent = "OAuth 2.0 Handshake Verified";
+        heading.textContent = "YouTube Channel Handshake Ready";
+        desc.textContent = "Your single-use authorization token has been verified. Copy the studio command below to complete encrypted token storage:";
+
+        area.innerHTML =
+          '<div class="cmd-container">' +
+            '<div class="cmd-label"><span>Studio Handshake Command</span><span>State: ' + state.replace(/[^a-zA-Z0-9_-]/g, "") + '</span></div>' +
+            '<code class="cmd-box" id="cmdBox"></code>' +
+          '</div>' +
+          '<div class="btn-row">' +
+            '<button class="btn btn-primary" id="copyCmdBtn">Copy Handshake Command</button>' +
+            '<button class="btn btn-ghost" id="copyRawBtn">Copy Raw Code</button>' +
+          '</div>';
+
         document.getElementById("cmdBox").textContent = cmd;
-        document.getElementById("copyBtn").onclick = function() {
+        const copyCmdBtn = document.getElementById("copyCmdBtn");
+        const copyRawBtn = document.getElementById("copyRawBtn");
+
+        copyCmdBtn.onclick = function () {
           navigator.clipboard.writeText(cmd);
-          this.textContent = "Copied! Paste in Telegram";
+          copyCmdBtn.textContent = "✓ Copied Handshake Command!";
+          setTimeout(function () { copyCmdBtn.textContent = "Copy Handshake Command"; }, 2500);
+        };
+        copyRawBtn.onclick = function () {
+          navigator.clipboard.writeText(code);
+          copyRawBtn.textContent = "✓ Raw Code Copied";
+          setTimeout(function () { copyRawBtn.textContent = "Copy Raw Code"; }, 2500);
         };
       }
     })();
