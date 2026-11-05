@@ -1,0 +1,126 @@
+@layer reset, base, components;
+
+@layer reset {
+  html, body, div, span, header, main, h1, p, a, img, button, code, pre {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer base {
+  :root {
+    --bg: #0b0e14;
+    --surface: #111620;
+    --border: #1e2636;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --accent: #ff5545;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+  }
+
+  /* Keep completely hidden in background unless relay.js verifies a live OAuth code */
+  body[data-ready="false"] {
+    display: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .gateway-panel {
+    width: 100%;
+    max-width: 540px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .panel-section {
+    padding: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-section:last-child {
+    border-bottom: none;
+  }
+
+  h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  p.desc {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .cmd-label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  code.cmd-box {
+    display: block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.88rem;
+    color: var(--text);
+    word-break: break-all;
+    line-height: 1.5;
+    user-select: all;
+  }
+
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    flex: 1;
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .btn-ghost {
+    background-color: var(--bg);
+    color: var(--text);
+  }
+}

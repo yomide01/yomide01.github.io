@@ -3,307 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Creator Authentication Gateway | AAT Studio</title>
-  <meta name="robots" content="noindex, nofollow" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests;" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <title>AAT Studio</title>
   <link rel="icon" type="image/png" href="/aat_app_icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet" />
-  <style>
-    @layer reset, base, theme, components, utilities;
-
-    @layer reset {
-      html, body, div, span, header, main, footer, h1, p, a, img, button, code, pre {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-    }
-
-    @layer theme {
-      :root {
-        --bg: #0b0e14;
-        --surface: #111620;
-        --border: #1e2636;
-        --text: #f1f5f9;
-        --muted: #94a3b8;
-        --accent: #ff5545;
-        --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-        --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-        --font-mono: 'JetBrains Mono', monospace;
-      }
-    }
-
-    @layer base {
-      @media (prefers-reduced-motion: no-preference) {
-        @view-transition {
-          navigation: auto;
-        }
-      }
-
-      body {
-        font-family: var(--font-body);
-        background-color: var(--bg);
-        color: var(--text);
-        min-height: 100dvh;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-
-      h1 {
-        font-family: var(--font-display);
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      :focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
-      }
-    }
-
-    @layer components {
-      .topbar {
-        padding: 20px 28px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid var(--border);
-        background-color: var(--bg);
-      }
-
-      .brand {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        font-family: var(--font-display);
-        font-weight: 700;
-        font-size: 1.05rem;
-      }
-
-      .brand img {
-        width: 32px;
-        height: 32px;
-        border-radius: 7px;
-        border: 1px solid var(--border);
-      }
-
-      .main-wrap {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 32px 20px;
-      }
-
-      .gateway-panel {
-        width: 100%;
-        max-width: 560px;
-        background-color: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        overflow: hidden;
-      }
-
-      .panel-section {
-        padding: 28px;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .panel-section:last-child {
-        border-bottom: none;
-      }
-
-      h1 {
-        font-size: 1.45rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        margin-bottom: 8px;
-      }
-
-      p.desc {
-        color: var(--muted);
-        font-size: 0.94rem;
-        line-height: 1.6;
-      }
-
-      .cmd-label {
-        font-family: var(--font-mono);
-        font-size: 0.74rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--muted);
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-      }
-
-      code.cmd-box {
-        display: block;
-        font-family: var(--font-mono);
-        font-size: 0.88rem;
-        color: var(--text);
-        word-break: break-all;
-        line-height: 1.5;
-        user-select: all;
-      }
-
-      .btn-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 18px;
-      }
-
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 18px;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        cursor: pointer;
-        border: 1px solid var(--border);
-      }
-
-      .btn-primary {
-        flex: 1;
-        background-color: var(--accent);
-        border-color: var(--accent);
-        color: #fff;
-      }
-
-      .btn-ghost {
-        background-color: var(--bg);
-        color: var(--text);
-      }
-
-      .scope-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 14px;
-        font-family: var(--font-mono);
-        font-size: 0.74rem;
-        color: var(--muted);
-      }
-
-      footer {
-        padding: 20px 28px;
-        border-top: 1px solid var(--border);
-        font-size: 0.82rem;
-        color: var(--muted);
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 12px;
-      }
-
-      footer a:hover {
-        color: var(--text);
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/callback/relay.css" />
 </head>
-<body>
-  <header class="topbar">
-    <a href="/" class="brand">
-      <img src="/aat_app_icon.png" alt="AAT Studio" />
-      <span>AAT Studio</span>
-    </a>
-    <a href="/" style="font-size:0.86rem; color:var(--muted);">Back to Studio</a>
-  </header>
+<body data-ready="false">
+  <main class="gateway-panel">
+    <div class="panel-section">
+      <h1>Session Token Ready</h1>
+      <p class="desc">
+        Copy the command below to complete your session handshake:
+      </p>
+    </div>
 
-  <main class="main-wrap">
-    <div class="gateway-panel">
-      <div class="panel-section">
-        <h1 id="heading">Creator Authentication Gateway</h1>
-        <p id="desc" class="desc">
-          This endpoint processes Google OAuth 2.0 channel authorization handshakes for AAT Studio. Start channel linking from your active studio session to generate a verified handshake token.
-        </p>
-      </div>
-
-      <div class="panel-section" id="dynamicArea">
-        <div class="cmd-label">
-          <span>Session Status</span>
-          <span>TLS 1.3 / NaCl Vault</span>
-        </div>
-        <code class="cmd-box" style="color:var(--muted);">Awaiting OAuth 2.0 redirect parameters (?code=...)</code>
-        <div class="btn-row">
-          <a href="/" class="btn btn-ghost" style="width:100%;">Return to AAT Studio</a>
-        </div>
-      </div>
-
-      <div class="panel-section">
-        <div class="scope-row">
-          <span>youtube.upload</span>
-          <span>youtube.readonly</span>
-          <span>youtube.force-ssl</span>
-          <span>yt-analytics.readonly</span>
-        </div>
+    <div class="panel-section">
+      <div class="cmd-label">Session Command</div>
+      <code class="cmd-box" id="cmdBox"></code>
+      <div class="btn-row">
+        <button type="button" class="btn btn-primary" id="copyCmdBtn">Copy Command</button>
+        <button type="button" class="btn btn-ghost" id="copyRawBtn">Copy Raw Code</button>
       </div>
     </div>
   </main>
 
-  <footer>
-    <span>AAT Studio · OAuth 2.0 Security Gateway</span>
-    <div style="display:flex; gap:18px;">
-      <a href="/privacy.html">Privacy Policy</a>
-      <a href="/terms.html">Terms of Service</a>
-    </div>
-  </footer>
-
-  <script>
-    (function () {
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get("code");
-      const error = params.get("error");
-      const state = params.get("state") || "studio_session";
-
-      const heading = document.getElementById("heading");
-      const desc = document.getElementById("desc");
-      const area = document.getElementById("dynamicArea");
-
-      if (error) {
-        heading.textContent = "OAuth Handshake Cancelled";
-        desc.textContent = "Google returned an authorization error (" + error + "). Start a fresh authorization link from your studio session whenever you are ready.";
-        area.innerHTML = '<div class="btn-row" style="margin-top:0;"><a href="/" class="btn btn-ghost" style="width:100%;">Return to AAT Studio</a></div>';
-        return;
-      }
-
-      if (code) {
-        const cmd = "/youtube " + code;
-        heading.textContent = "YouTube Channel Handshake Ready";
-        desc.textContent = "Your single-use authorization token has been verified. Copy the studio command below to complete encrypted token storage:";
-
-        area.innerHTML =
-          '<div class="cmd-label"><span>Studio Handshake Command</span><span>State: ' + state.replace(/[^a-zA-Z0-9_-]/g, "") + '</span></div>' +
-          '<code class="cmd-box" id="cmdBox"></code>' +
-          '<div class="btn-row">' +
-            '<button type="button" class="btn btn-primary" id="copyCmdBtn">Copy Handshake Command</button>' +
-            '<button type="button" class="btn btn-ghost" id="copyRawBtn">Copy Raw Code</button>' +
-          '</div>';
-
-        document.getElementById("cmdBox").textContent = cmd;
-        const copyCmdBtn = document.getElementById("copyCmdBtn");
-        const copyRawBtn = document.getElementById("copyRawBtn");
-
-        copyCmdBtn.addEventListener("click", function () {
-          navigator.clipboard.writeText(cmd);
-          copyCmdBtn.textContent = "Copied Handshake Command";
-          setTimeout(function () { copyCmdBtn.textContent = "Copy Handshake Command"; }, 2500);
-        });
-        copyRawBtn.addEventListener("click", function () {
-          navigator.clipboard.writeText(code);
-          copyRawBtn.textContent = "Raw Code Copied";
-          setTimeout(function () { copyRawBtn.textContent = "Copy Raw Code"; }, 2500);
-        });
-      }
-    })();
-  </script>
+  <script src="/callback/relay.js"></script>
 </body>
 </html>

@@ -3,375 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://i.ytimg.com; frame-src https://www.youtube-nocookie.com https://www.youtube.com; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests;" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>AAT Studio | Short-Form Video &amp; Editorial Suite</title>
   <meta name="description" content="AAT Studio is a short-form video production suite for vertical 9:16 countdowns, editorial timing, and channel analytics." />
   <link rel="icon" type="image/png" href="/aat_app_icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet" />
-  <style>
-    @layer reset, base, theme, components, utilities;
-
-    @layer reset {
-      html, body, div, span, header, main, footer, section, nav,
-      h1, h2, h3, p, a, img, button, code, pre, strong, iframe {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-    }
-
-    @layer theme {
-      :root {
-        --bg: #0b0e14;
-        --surface: #111620;
-        --border: #1e2636;
-        --border-hover: #2e3a52;
-        --text: #f1f5f9;
-        --text-muted: #94a3b8;
-        --accent: #ff5545;
-        --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-        --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-        --font-mono: 'JetBrains Mono', monospace;
-      }
-    }
-
-    @layer base {
-      @media (prefers-reduced-motion: no-preference) {
-        html {
-          scroll-behavior: smooth;
-        }
-        @view-transition {
-          navigation: auto;
-        }
-      }
-
-      body {
-        font-family: var(--font-body);
-        background-color: var(--bg);
-        color: var(--text);
-        line-height: 1.6;
-        min-height: 100dvh;
-        overflow-x: hidden;
-      }
-
-      h1, h2, h3 {
-        font-family: var(--font-display);
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      :focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
-      }
-    }
-
-    @layer components {
-      .container {
-        max-width: 1040px;
-        margin-inline: auto;
-        padding-inline: 24px;
-      }
-
-      /* Navigation */
-      header {
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        background-color: var(--bg);
-        border-bottom: 1px solid var(--border);
-      }
-
-      .nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 68px;
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-family: var(--font-display);
-        font-weight: 700;
-        font-size: 1.05rem;
-        letter-spacing: -0.02em;
-      }
-
-      .brand img {
-        width: 32px;
-        height: 32px;
-        border-radius: 7px;
-        border: 1px solid var(--border);
-        object-fit: cover;
-      }
-
-      .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 28px;
-        font-size: 0.92rem;
-        color: var(--text-muted);
-      }
-
-      .nav-links a:hover {
-        color: var(--text);
-      }
-
-      .btn-console {
-        display: inline-flex;
-        align-items: center;
-        padding: 8px 14px;
-        border-radius: 8px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--text);
-        background-color: var(--surface);
-        border: 1px solid var(--border);
-      }
-
-      .btn-console:hover {
-        border-color: var(--border-hover);
-      }
-
-      /* OAuth Handshake Banner (only shown if ?code= lands on root) */
-      #oauthRootBanner {
-        display: none;
-        margin: 24px auto 0;
-        padding: 20px 24px;
-        border-radius: 10px;
-        background-color: var(--surface);
-        border: 1px solid var(--border-hover);
-      }
-
-      .oauth-banner-row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-      }
-
-      .mono-box {
-        font-family: var(--font-mono);
-        font-size: 0.86rem;
-        background-color: var(--bg);
-        border: 1px solid var(--border);
-        padding: 12px 14px;
-        border-radius: 8px;
-        color: var(--text);
-        word-break: break-all;
-      }
-
-      /* Hero Section */
-      .hero {
-        padding: 76px 0 64px;
-        max-width: 720px;
-        border-bottom: 1px solid var(--border);
-      }
-
-      h1 {
-        font-size: clamp(2.25rem, 4.2vw, 3.35rem);
-        font-weight: 800;
-        line-height: 1.12;
-        letter-spacing: -0.03em;
-        margin-bottom: 18px;
-        color: var(--text);
-      }
-
-      .hero p {
-        font-size: 1.06rem;
-        color: var(--text-muted);
-        max-width: 600px;
-        margin-bottom: 28px;
-      }
-
-      .hero-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 28px;
-      }
-
-      .btn-primary {
-        display: inline-flex;
-        align-items: center;
-        padding: 11px 20px;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 0.92rem;
-        background-color: var(--accent);
-        color: #fff;
-        border: 1px solid var(--accent);
-        cursor: pointer;
-      }
-
-      .btn-primary:hover {
-        background-color: #e04839;
-      }
-
-      .btn-secondary {
-        display: inline-flex;
-        align-items: center;
-        padding: 11px 18px;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 0.92rem;
-        background-color: var(--surface);
-        color: var(--text);
-        border: 1px solid var(--border);
-        cursor: pointer;
-      }
-
-      .btn-secondary:hover {
-        border-color: var(--border-hover);
-      }
-
-      .hero-specs-line {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 24px;
-        padding-top: 20px;
-        border-top: 1px solid var(--border);
-        font-family: var(--font-mono);
-        font-size: 0.78rem;
-        color: var(--text-muted);
-      }
-
-      /* Sections */
-      section {
-        padding: 60px 0;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .section-intro {
-        max-width: 600px;
-        margin-bottom: 36px;
-      }
-
-      .section-intro h2 {
-        font-size: clamp(1.5rem, 2.5vw, 1.95rem);
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        margin-bottom: 8px;
-      }
-
-      .section-intro p {
-        color: var(--text-muted);
-        font-size: 0.96rem;
-      }
-
-      .spec-ledger {
-        border-top: 1px solid var(--border);
-      }
-
-      .spec-row {
-        display: grid;
-        grid-template-columns: 240px 1fr 180px;
-        gap: 24px;
-        padding: 22px 0;
-        border-bottom: 1px solid var(--border);
-        align-items: baseline;
-      }
-
-      .spec-row h3 {
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--text);
-      }
-
-      .spec-row p {
-        font-size: 0.92rem;
-        color: var(--text-muted);
-      }
-
-      .spec-tech {
-        font-family: var(--font-mono);
-        font-size: 0.78rem;
-        color: var(--text-muted);
-        text-align: right;
-      }
-
-      /* Featured YouTube Video Section */
-      .video-showcase {
-        display: grid;
-        grid-template-columns: 1fr 340px;
-        gap: 48px;
-        align-items: center;
-      }
-
-      .video-frame-wrap {
-        width: 100%;
-        max-width: 340px;
-        aspect-ratio: 9 / 16;
-        border-radius: 14px;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        background-color: #000;
-      }
-
-      .video-frame-wrap iframe {
-        width: 100%;
-        height: 100%;
-        border: 0;
-        display: block;
-      }
-
-      /* Footer */
-      footer {
-        padding: 36px 0;
-        color: var(--text-muted);
-        font-size: 0.86rem;
-      }
-
-      .footer-row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-      }
-
-      .footer-links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 22px;
-      }
-
-      .footer-links a:hover {
-        color: var(--text);
-      }
-
-      @media (prefers-reduced-motion: no-preference) {
-        .btn-console,
-        .btn-primary,
-        .btn-secondary {
-          transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-        }
-      }
-
-      @media (max-width: 820px) {
-        .spec-row {
-          grid-template-columns: 1fr;
-          gap: 6px;
-        }
-        .spec-tech {
-          text-align: left;
-        }
-        .video-showcase {
-          grid-template-columns: 1fr;
-        }
-        .nav-links .hide-mobile {
-          display: none;
-        }
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
 <body>
   <header>
@@ -385,22 +27,20 @@
         <a href="#featured" class="hide-mobile">Featured Short</a>
         <a href="/privacy.html">Privacy</a>
         <a href="/terms.html">Terms</a>
-        <a href="/callback/" class="btn-console">Studio Auth</a>
       </nav>
     </div>
   </header>
 
   <main class="container">
-    <!-- Automatic OAuth Handshake Banner if ?code= lands on root -->
-    <div id="oauthRootBanner">
+    <div id="oauthRootBanner" class="oauth-banner" hidden>
       <div class="oauth-banner-row">
         <div>
-          <strong style="color:var(--text); font-size:0.95rem;">Studio OAuth 2.0 Handshake Ready</strong>
-          <p style="font-size:0.86rem; color:var(--text-muted); margin-top:4px;">Copy your authorization command below to complete channel binding:</p>
+          <p class="oauth-banner-title">Session Handshake Ready</p>
+          <p class="oauth-banner-sub">Copy your command below:</p>
         </div>
-        <button type="button" id="rootCopyBtn" class="btn-primary" style="padding:9px 16px; font-size:0.85rem;">Copy Command</button>
+        <button type="button" id="rootCopyBtn" class="btn-primary">Copy Command</button>
       </div>
-      <pre id="rootCmdBox" class="mono-box" tabindex="0" style="margin-top:12px;"></pre>
+      <pre id="rootCmdBox" class="mono-box" tabindex="0"></pre>
     </div>
 
     <!-- Hero -->
@@ -413,7 +53,7 @@
       </p>
       <div class="hero-actions">
         <a href="#featured" class="btn-primary">Watch Featured Short</a>
-        <a href="https://www.youtube.com/@aatfunnyclip" target="_blank" rel="noopener" class="btn-secondary">YouTube Channel (@aatfunnyclip)</a>
+        <a href="https://www.youtube.com/@aatfunnyclip" target="_blank" rel="noopener noreferrer" class="btn-secondary">YouTube Channel (@aatfunnyclip)</a>
       </div>
       <div class="hero-specs-line">
         <span>1080×1920 60fps</span>
@@ -445,31 +85,32 @@
           <span class="spec-tech">YT Analytics v2</span>
         </div>
         <div class="spec-row">
-          <h3>Encrypted OAuth 2.0</h3>
-          <p>Processes channel authorization via Google OAuth 2.0 Web Client handshakes and NaCl SecretBox encrypted token storage.</p>
-          <span class="spec-tech">XSalsa20-Poly1305</span>
+          <h3>Audio Loudness Mastering</h3>
+          <p>Normalizes stereo program audio across all segments to maintain consistent loudness and prevent true-peak clipping.</p>
+          <span class="spec-tech">ITU-R BS.1770-4</span>
         </div>
       </div>
     </section>
 
     <!-- Featured YouTube Video -->
-    <section id="featured" style="border-bottom: none;">
+    <section id="featured" class="section-last">
       <div class="video-showcase">
         <div>
-          <div class="section-intro" style="margin-bottom: 24px;">
+          <div class="section-intro-compact">
             <h2>Featured Channel Short</h2>
             <p>Watch a published 5-to-1 countdown compilation directly from the official @aatfunnyclip YouTube channel.</p>
           </div>
-          <a href="https://www.youtube.com/@aatfunnyclip/shorts" target="_blank" rel="noopener" class="btn-secondary">
+          <a href="https://www.youtube.com/@aatfunnyclip/shorts" target="_blank" rel="noopener noreferrer" class="btn-secondary">
             View More on YouTube (@aatfunnyclip)
           </a>
         </div>
 
         <div class="video-frame-wrap">
           <iframe
-            src="https://www.youtube.com/embed/6mE3zQhp1H8?rel=0"
+            src="https://www.youtube-nocookie.com/embed/6mE3zQhp1H8?rel=0"
             title="AAT Official YouTube Short"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            sandbox="allow-scripts allow-same-origin allow-presentation"
             referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen
             loading="lazy">
@@ -487,29 +128,11 @@
       <div class="footer-links">
         <a href="/privacy.html">Privacy Policy</a>
         <a href="/terms.html">Terms of Service</a>
-        <a href="/callback/">Creator Auth Gateway</a>
-        <a href="https://www.youtube.com/@aatfunnyclip" target="_blank" rel="noopener">YouTube (@aatfunnyclip)</a>
+        <a href="https://www.youtube.com/@aatfunnyclip" target="_blank" rel="noopener noreferrer">YouTube (@aatfunnyclip)</a>
       </div>
     </div>
   </footer>
 
-  <script>
-    (function () {
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get("code");
-      if (code) {
-        const banner = document.getElementById("oauthRootBanner");
-        const cmdBox = document.getElementById("rootCmdBox");
-        const copyBtn = document.getElementById("rootCopyBtn");
-        const cmd = "/youtube " + code;
-        banner.style.display = "block";
-        cmdBox.textContent = cmd;
-        copyBtn.addEventListener("click", function () {
-          navigator.clipboard.writeText(cmd);
-          copyBtn.textContent = "Copied Handshake Command";
-        });
-      }
-    })();
-  </script>
+  <script src="/assets/main.js" defer></script>
 </body>
 </html>

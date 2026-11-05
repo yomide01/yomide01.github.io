@@ -3,131 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests;" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Terms of Service | AAT Studio</title>
   <link rel="icon" type="image/png" href="/aat_app_icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet" />
-  <style>
-    @layer reset, base, theme, components, utilities;
-
-    @layer reset {
-      html, body, div, span, header, main, h1, h2, p, ul, li, a, img, strong {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-    }
-
-    @layer theme {
-      :root {
-        --bg: #0b0e14;
-        --border: #1e2636;
-        --text: #f1f5f9;
-        --muted: #94a3b8;
-        --accent: #ff5545;
-        --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-        --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      }
-    }
-
-    @layer base {
-      @media (prefers-reduced-motion: no-preference) {
-        @view-transition {
-          navigation: auto;
-        }
-      }
-
-      body {
-        font-family: var(--font-body);
-        background-color: var(--bg);
-        color: var(--text);
-        line-height: 1.7;
-      }
-
-      h1, h2 {
-        font-family: var(--font-display);
-      }
-
-      a {
-        color: var(--accent);
-        text-decoration: none;
-      }
-
-      a:hover {
-        text-decoration: underline;
-      }
-    }
-
-    @layer components {
-      .topbar {
-        padding: 20px 28px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid var(--border);
-        background-color: var(--bg);
-      }
-
-      .brand {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        font-family: var(--font-display);
-        font-weight: 700;
-        color: var(--text);
-      }
-
-      .brand img {
-        width: 32px;
-        height: 32px;
-        border-radius: 7px;
-        border: 1px solid var(--border);
-      }
-
-      .container {
-        max-width: 780px;
-        margin: 56px auto;
-        padding: 0 24px;
-      }
-
-      h1 {
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 8px;
-        letter-spacing: -0.02em;
-      }
-
-      .meta {
-        font-size: 0.86rem;
-        color: var(--muted);
-        margin-bottom: 28px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid var(--border);
-      }
-
-      h2 {
-        font-size: 1.15rem;
-        font-weight: 700;
-        margin: 28px 0 10px;
-        color: var(--text);
-      }
-
-      p, ul {
-        color: var(--muted);
-        font-size: 0.95rem;
-        margin-bottom: 14px;
-      }
-
-      ul {
-        padding-left: 20px;
-      }
-
-      li {
-        margin-bottom: 6px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
 <body>
   <header class="topbar">
@@ -135,26 +20,26 @@
       <img src="/aat_app_icon.png" alt="AAT Studio" />
       <span>AAT Studio</span>
     </a>
-    <a href="/" style="color:var(--muted); font-size:0.88rem;">Back to Studio</a>
+    <a href="/" class="back-link">Back to Studio</a>
   </header>
 
-  <main class="container">
-    <h1>Terms of Service</h1>
-    <div class="meta">Updated November 2026 · AAT Studio</div>
+  <main class="doc-container">
+    <h1 class="doc-title">Terms of Service</h1>
+    <div class="doc-meta">Updated November 2026 · AAT Studio</div>
 
-    <p>By accessing or using AAT Studio ("the Studio"), you agree to these Terms of Service and all applicable platform policies.</p>
+    <p class="doc-copy">By accessing or using AAT Studio ("the Studio"), you agree to these Terms of Service and all applicable platform policies.</p>
 
-    <h2>Scope of Service</h2>
-    <p>AAT Studio provides vertical video editorial mastering, countdown layout synthesis, pacing diagnostics, and authorized channel publishing via official YouTube API Services.</p>
+    <h2 class="doc-heading">Scope of Service</h2>
+    <p class="doc-copy">AAT Studio provides vertical video editorial mastering, countdown layout synthesis, pacing diagnostics, and authorized channel publishing via official YouTube API Services.</p>
 
-    <h2>YouTube Terms of Service</h2>
-    <p>Use of AAT Studio's YouTube publishing and analytics integrations is also governed by the <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">YouTube Terms of Service</a>. By connecting a YouTube channel via OAuth 2.0, you agree to be bound by the YouTube Terms of Service.</p>
+    <h2 class="doc-heading">YouTube Terms of Service</h2>
+    <p class="doc-copy">Use of AAT Studio's YouTube publishing and analytics integrations is also governed by the <a class="doc-link" href="https://www.youtube.com/t/terms" target="_blank" rel="noopener noreferrer">YouTube Terms of Service</a>. By connecting a YouTube channel via OAuth 2.0, you agree to be bound by the YouTube Terms of Service.</p>
 
-    <h2>Editorial Standards and Content Responsibility</h2>
-    <p>Authorized creators retain full editorial approval over every video prior to publication and are responsible for ensuring all published works include transformative commentary, visual restructuring, creator attribution, and compliance with platform community guidelines.</p>
+    <h2 class="doc-heading">Editorial Standards and Content Responsibility</h2>
+    <p class="doc-copy">Authorized creators retain full editorial approval over every video prior to publication and are responsible for ensuring all published works include transformative commentary, visual restructuring, creator attribution, and compliance with platform community guidelines.</p>
 
-    <h2>Limitation of Liability</h2>
-    <p>AAT Studio is provided on an "as is" and "as available" basis without warranties of any kind, either express or implied.</p>
+    <h2 class="doc-heading">Limitation of Liability</h2>
+    <p class="doc-copy">AAT Studio is provided on an "as is" and "as available" basis without warranties of any kind, either express or implied.</p>
   </main>
 </body>
 </html>
