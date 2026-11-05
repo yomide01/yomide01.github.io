@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy Policy — AAT Studio</title>
+  <title>Privacy Policy | AAT Studio</title>
   <link rel="icon" type="image/png" href="/aat_app_icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet" />
   <style>
     @layer reset, base, theme, components, utilities;
 
@@ -21,12 +21,13 @@
 
     @layer theme {
       :root {
-        --bg: #090b10;
-        --card: #121722;
-        --border: rgba(255, 255, 255, 0.09);
-        --text: #f3f6fc;
+        --bg: #0b0e14;
+        --border: #1e2636;
+        --text: #f1f5f9;
         --muted: #94a3b8;
         --accent: #ff5545;
+        --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       }
     }
 
@@ -38,14 +39,18 @@
       }
 
       body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: var(--font-body);
         background-color: var(--bg);
         color: var(--text);
         line-height: 1.7;
       }
 
+      h1, h2 {
+        font-family: var(--font-display);
+      }
+
       a {
-        color: #ff7a6e;
+        color: var(--accent);
         text-decoration: none;
       }
 
@@ -61,14 +66,14 @@
         align-items: center;
         justify-content: space-between;
         border-bottom: 1px solid var(--border);
-        background: rgba(9, 11, 16, 0.85);
-        backdrop-filter: blur(12px);
+        background-color: var(--bg);
       }
 
       .brand {
         display: inline-flex;
         align-items: center;
         gap: 10px;
+        font-family: var(--font-display);
         font-weight: 700;
         color: var(--text);
       }
@@ -76,20 +81,14 @@
       .brand img {
         width: 32px;
         height: 32px;
-        border-radius: 8px;
+        border-radius: 7px;
+        border: 1px solid var(--border);
       }
 
       .container {
-        max-width: 820px;
-        margin: 48px auto;
+        max-width: 780px;
+        margin: 56px auto;
         padding: 0 24px;
-      }
-
-      .doc-card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 40px;
       }
 
       h1 {
@@ -110,8 +109,8 @@
       h2 {
         font-size: 1.15rem;
         font-weight: 700;
-        margin: 26px 0 10px;
-        color: #fff;
+        margin: 28px 0 10px;
+        color: var(--text);
       }
 
       p, ul {
@@ -136,34 +135,32 @@
       <img src="/aat_app_icon.png" alt="AAT Studio" />
       <span>AAT Studio</span>
     </a>
-    <a href="/" style="color:var(--muted); font-size:0.88rem;">← Back to Studio</a>
+    <a href="/" style="color:var(--muted); font-size:0.88rem;">Back to Studio</a>
   </header>
 
   <main class="container">
-    <div class="doc-card">
-      <h1>Privacy Policy</h1>
-      <div class="meta">Effective Date: November 2026 • AAT Studio Digital Media Platform</div>
+    <h1>Privacy Policy</h1>
+    <div class="meta">Updated November 2026 · AAT Studio</div>
 
-      <p>AAT Studio ("we", "our", or "the Studio") respects your privacy and is committed to protecting the security of creator credentials, channel analytics, and media assets.</p>
+    <p>AAT Studio ("we", "our", or "the Studio") respects your privacy and is committed to protecting the security of creator credentials, channel analytics, and media assets.</p>
 
-      <h2>1. Information We Collect</h2>
-      <ul>
-        <li><strong>OAuth 2.0 Authorization Credentials:</strong> When an authorized creator connects a YouTube channel via Google OAuth 2.0, we receive scoped access and refresh tokens strictly for the authorized channel. We never collect or store account passwords.</li>
-        <li><strong>Channel &amp; Video Telemetry:</strong> Through the YouTube Data API v3 and YouTube Analytics API v2, we retrieve channel-level statistics and per-video performance metrics (such as views, average view percentage, engaged views, and audience retention cohorts) for editorial optimization.</li>
-      </ul>
+    <h2>Information We Collect</h2>
+    <ul>
+      <li><strong>OAuth 2.0 Authorization Credentials:</strong> When an authorized creator connects a YouTube channel via Google OAuth 2.0, we receive scoped access and refresh tokens strictly for the authorized channel. We never collect or store account passwords.</li>
+      <li><strong>Channel and Video Telemetry:</strong> Through the YouTube Data API v3 and YouTube Analytics API v2, we retrieve channel-level statistics and per-video performance metrics (such as views, average view percentage, engaged views, and audience retention cohorts) for editorial optimization.</li>
+    </ul>
 
-      <h2>2. How We Use Information</h2>
-      <ul>
-        <li>To upload creator-approved vertical short-form videos, titles, descriptions, tags, and top-level engagement comments to the creator's authorized YouTube channel.</li>
-        <li>To generate internal editorial pacing diagnostics and retention reports for the channel owner.</li>
-      </ul>
+    <h2>How We Use Information</h2>
+    <ul>
+      <li>To upload creator-approved vertical short-form videos, titles, descriptions, tags, and top-level engagement comments to the creator's authorized YouTube channel.</li>
+      <li>To generate internal editorial pacing diagnostics and retention reports for the channel owner.</li>
+    </ul>
 
-      <h2>3. Google API Services User Data Policy (Limited Use Disclosure)</h2>
-      <p>AAT Studio's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements. We do not sell, license, or share Google user data with third parties or advertising networks.</p>
+    <h2>Google API Services User Data Policy</h2>
+    <p>AAT Studio's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements. We do not sell, license, or share Google user data with third parties or advertising networks.</p>
 
-      <h2>4. Credential Storage, Encryption &amp; Revocation</h2>
-      <p>All OAuth 2.0 refresh tokens are encrypted at rest using NaCl SecretBox (XSalsa20-Poly1305) authenticated encryption. Creators may revoke AAT Studio's access at any time directly via their <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google Account Security Permissions</a> page, as well as review the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.</p>
-    </div>
+    <h2>Credential Storage, Encryption and Revocation</h2>
+    <p>All OAuth 2.0 refresh tokens are encrypted at rest using NaCl SecretBox (XSalsa20-Poly1305) authenticated encryption. Creators may revoke AAT Studio's access at any time directly via their <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google Account Security Permissions</a> page, as well as review the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.</p>
   </main>
 </body>
 </html>

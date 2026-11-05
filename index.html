@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AAT Studio — Short-Form Video &amp; Editorial Suite</title>
+  <title>AAT Studio | Short-Form Video &amp; Editorial Suite</title>
   <meta name="description" content="AAT Studio is a short-form video production and pacing suite for vertical 9:16 countdowns, editorial timing, and channel analytics." />
   <link rel="icon" type="image/png" href="/aat_app_icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet" />
   <style>
     @layer reset, base, theme, components, utilities;
 
     @layer reset {
       html, body, div, span, header, main, footer, section, nav,
-      h1, h2, h3, p, a, img, button, input, label, code, pre, svg, strong {
+      h1, h2, h3, p, a, img, button, input, label, code, pre, strong, dl, dt, dd {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
@@ -23,16 +23,16 @@
 
     @layer theme {
       :root {
-        --bg: #090b10;
-        --bg-elevated: #10141d;
-        --bg-card: #121722;
-        --border: rgba(255, 255, 255, 0.08);
-        --border-hover: rgba(255, 255, 255, 0.16);
-        --text: #f3f6fc;
+        --bg: #0b0e14;
+        --surface: #111620;
+        --border: #1e2636;
+        --border-hover: #2e3a52;
+        --text: #f1f5f9;
         --text-muted: #94a3b8;
         --accent: #ff5545;
-        --emerald: #10b981;
-        --radius: 16px;
+        --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
       }
     }
 
@@ -47,13 +47,16 @@
       }
 
       body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: var(--font-body);
         background-color: var(--bg);
         color: var(--text);
         line-height: 1.6;
         min-height: 100dvh;
         overflow-x: hidden;
-        background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.035), transparent 55%);
+      }
+
+      h1, h2, h3 {
+        font-family: var(--font-display);
       }
 
       a {
@@ -69,7 +72,7 @@
 
     @layer components {
       .container {
-        max-width: 1160px;
+        max-width: 1120px;
         margin-inline: auto;
         padding-inline: 24px;
       }
@@ -79,9 +82,7 @@
         position: sticky;
         top: 0;
         z-index: 50;
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        background: rgba(9, 11, 16, 0.85);
+        background-color: var(--bg);
         border-bottom: 1px solid var(--border);
       }
 
@@ -89,42 +90,32 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 70px;
+        height: 68px;
       }
 
       .brand {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
+        font-family: var(--font-display);
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 1.05rem;
         letter-spacing: -0.02em;
       }
 
       .brand img {
-        width: 34px;
-        height: 34px;
-        border-radius: 9px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        object-fit: cover;
-      }
-
-      .brand-badge {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.7rem;
-        font-weight: 500;
-        padding: 3px 8px;
-        border-radius: 6px;
-        background: rgba(255, 255, 255, 0.05);
-        color: var(--text-muted);
+        width: 32px;
+        height: 32px;
+        border-radius: 7px;
         border: 1px solid var(--border);
+        object-fit: cover;
       }
 
       .nav-links {
         display: flex;
         align-items: center;
         gap: 28px;
-        font-size: 0.9rem;
+        font-size: 0.92rem;
         color: var(--text-muted);
       }
 
@@ -135,36 +126,27 @@
       .btn-console {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        padding: 8px 15px;
-        border-radius: 10px;
+        padding: 8px 14px;
+        border-radius: 8px;
         font-size: 0.85rem;
         font-weight: 600;
         color: var(--text);
-        background: rgba(255, 255, 255, 0.04);
+        background-color: var(--surface);
         border: 1px solid var(--border);
       }
 
       .btn-console:hover {
         border-color: var(--border-hover);
-        background: rgba(255, 255, 255, 0.08);
       }
 
-      .dot-live {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--emerald);
-      }
-
-      /* OAuth Handshake Alert Banner (only shown if ?code= lands on root) */
+      /* OAuth Handshake Banner (only shown if ?code= lands on root) */
       #oauthRootBanner {
         display: none;
         margin: 24px auto 0;
         padding: 20px 24px;
-        border-radius: var(--radius);
-        background: var(--bg-elevated);
-        border: 1px solid rgba(16, 185, 129, 0.35);
+        border-radius: 10px;
+        background-color: var(--surface);
+        border: 1px solid var(--border-hover);
       }
 
       .oauth-banner-row {
@@ -176,344 +158,256 @@
       }
 
       .mono-box {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.88rem;
-        background: var(--bg);
+        font-family: var(--font-mono);
+        font-size: 0.86rem;
+        background-color: var(--bg);
         border: 1px solid var(--border);
         padding: 12px 14px;
-        border-radius: 10px;
-        color: #6ee7b7;
+        border-radius: 8px;
+        color: var(--text);
         word-break: break-all;
       }
 
       /* Hero Section */
       .hero {
-        padding: 72px 0 56px;
+        padding: 68px 0 60px;
         display: grid;
-        grid-template-columns: 1.15fr 0.85fr;
+        grid-template-columns: 1.2fr 0.8fr;
         gap: 48px;
         align-items: center;
-      }
-
-      .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 6px 12px;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--border);
-        font-size: 0.8rem;
-        font-weight: 500;
-        color: var(--text-muted);
-        margin-bottom: 20px;
+        border-bottom: 1px solid var(--border);
       }
 
       h1 {
-        font-size: clamp(2.25rem, 4.2vw, 3.45rem);
+        font-size: clamp(2.2rem, 4vw, 3.25rem);
         font-weight: 800;
-        line-height: 1.1;
+        line-height: 1.12;
         letter-spacing: -0.03em;
-        margin-bottom: 20px;
+        margin-bottom: 18px;
         color: var(--text);
-      }
-
-      h1 span {
-        color: var(--accent);
       }
 
       .hero p {
         font-size: 1.05rem;
         color: var(--text-muted);
-        max-width: 540px;
-        margin-bottom: 32px;
+        max-width: 520px;
+        margin-bottom: 28px;
       }
 
       .hero-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-        margin-bottom: 36px;
+        margin-bottom: 28px;
       }
 
       .btn-primary {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        padding: 12px 22px;
-        border-radius: 10px;
+        padding: 11px 20px;
+        border-radius: 8px;
         font-weight: 600;
         font-size: 0.92rem;
-        background: var(--accent);
+        background-color: var(--accent);
         color: #fff;
         border: 1px solid var(--accent);
         cursor: pointer;
       }
 
       .btn-primary:hover {
-        background: #ff6759;
+        background-color: #e04839;
       }
 
       .btn-secondary {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        padding: 12px 20px;
-        border-radius: 10px;
+        padding: 11px 18px;
+        border-radius: 8px;
         font-weight: 600;
         font-size: 0.92rem;
-        background: rgba(255, 255, 255, 0.04);
+        background-color: var(--surface);
         color: var(--text);
         border: 1px solid var(--border);
         cursor: pointer;
       }
 
       .btn-secondary:hover {
-        background: rgba(255, 255, 255, 0.08);
         border-color: var(--border-hover);
       }
 
-      .hero-metrics {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-        padding-top: 24px;
+      .hero-specs-line {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding-top: 20px;
         border-top: 1px solid var(--border);
-      }
-
-      .metric-val {
-        font-size: 1.35rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-      }
-
-      .metric-lbl {
-        font-size: 0.8rem;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
         color: var(--text-muted);
       }
 
-      /* Vertical 9:16 Studio Frame Preview */
+      /* Vertical 9:16 Studio Frame Preview (Single Flat Surface, No Nested Cards) */
       .studio-preview-wrap {
         display: flex;
         justify-content: center;
       }
 
       .phone-frame {
-        width: 310px;
-        height: 540px;
-        border-radius: 28px;
-        background: #0d111a;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
-        padding: 16px;
-        position: relative;
+        width: 300px;
+        border-radius: 20px;
+        background-color: var(--surface);
+        border: 1px solid var(--border);
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
         overflow: hidden;
       }
 
       .hud-banner {
-        position: relative;
-        z-index: 2;
-        background: #141926;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 10px;
-        padding: 10px 12px;
-        text-align: center;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--border);
+        font-family: var(--font-display);
         font-weight: 700;
-        font-size: 0.84rem;
-        letter-spacing: 0.03em;
+        font-size: 0.82rem;
+        letter-spacing: 0.02em;
         text-transform: uppercase;
-        color: #fff;
+        color: var(--text);
+        display: flex;
+        justify-content: space-between;
       }
 
       .hud-banner span {
         color: var(--accent);
       }
 
-      .hud-middle {
-        position: relative;
-        z-index: 2;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin: auto 0;
-        gap: 10px;
-      }
-
-      .rank-tower {
+      .rank-list {
         display: flex;
         flex-direction: column;
-        gap: 6px;
-        background: #121722;
-        padding: 8px;
-        border-radius: 12px;
-        border: 1px solid var(--border);
-        flex: 1;
       }
 
       .rank-slot {
         display: flex;
         align-items: center;
-        gap: 8px;
+        justify-content: space-between;
         width: 100%;
         text-align: left;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.73rem;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
         color: var(--text-muted);
-        padding: 6px 8px;
-        border-radius: 8px;
+        padding: 12px 16px;
         background: transparent;
-        border: 1px solid transparent;
+        border: none;
+        border-bottom: 1px solid var(--border);
         cursor: pointer;
       }
 
       .rank-slot:hover {
         color: var(--text);
-        background: rgba(255, 255, 255, 0.04);
+        background-color: rgba(255, 255, 255, 0.02);
       }
 
       .rank-slot.active {
-        background: rgba(255, 85, 69, 0.14);
-        color: #fff;
+        color: var(--text);
         font-weight: 600;
-        border-color: rgba(255, 85, 69, 0.38);
+        background-color: rgba(255, 85, 69, 0.08);
       }
 
-      .rank-num {
-        width: 20px;
-        height: 20px;
-        display: inline-flex;
+      .rank-slot-left {
+        display: flex;
         align-items: center;
-        justify-content: center;
-        border-radius: 5px;
-        font-weight: 700;
-        font-size: 0.7rem;
-        background: rgba(255, 255, 255, 0.07);
-        flex-shrink: 0;
+        gap: 10px;
       }
 
-      .rank-slot.active .rank-num {
-        background: var(--accent);
-        color: #fff;
-      }
-
-      .telemetry-floating {
-        background: #121722;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 10px;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.7rem;
-        color: var(--text-muted);
-        line-height: 1.6;
-      }
-
-      .telemetry-floating strong {
-        color: #6ee7b7;
+      .rank-tag {
+        color: var(--accent);
         font-weight: 600;
       }
 
       .hud-footer {
-        position: relative;
-        z-index: 2;
-        background: #141926;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        padding: 10px 12px;
+        padding: 14px 16px;
+        background-color: var(--bg);
       }
 
       .hud-caption {
-        font-size: 0.8rem;
-        font-weight: 500;
+        font-size: 0.82rem;
         color: var(--text);
-        margin-bottom: 6px;
+        margin-bottom: 8px;
       }
 
       .hud-meta {
         display: flex;
         justify-content: space-between;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.68rem;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
         color: var(--text-muted);
       }
 
-      /* Section Styling */
+      /* Architecture Specification Section (Editorial Table, No Identical Feature Cards) */
       section {
-        padding: 64px 0;
+        padding: 60px 0;
+        border-bottom: 1px solid var(--border);
       }
 
-      .section-head {
-        text-align: center;
-        max-width: 640px;
-        margin: 0 auto 44px;
+      .section-intro {
+        max-width: 600px;
+        margin-bottom: 36px;
       }
 
-      .section-head h2 {
-        font-size: clamp(1.65rem, 2.8vw, 2.2rem);
+      .section-intro h2 {
+        font-size: clamp(1.5rem, 2.5vw, 1.95rem);
         font-weight: 700;
         letter-spacing: -0.02em;
-        margin-bottom: 10px;
-      }
-
-      .section-head p {
-        color: var(--text-muted);
-        font-size: 0.98rem;
-      }
-
-      /* Capabilities Grid */
-      .grid-4 {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-      }
-
-      .card {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 26px;
-      }
-
-      .card:hover {
-        border-color: var(--border-hover);
-      }
-
-      .card-icon {
-        width: 38px;
-        height: 38px;
-        border-radius: 9px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 16px;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid var(--border);
-        color: var(--accent);
-      }
-
-      .card h3 {
-        font-size: 1.05rem;
-        font-weight: 700;
         margin-bottom: 8px;
       }
 
-      .card p {
-        font-size: 0.9rem;
+      .section-intro p {
+        color: var(--text-muted);
+        font-size: 0.96rem;
+      }
+
+      .spec-ledger {
+        border-top: 1px solid var(--border);
+      }
+
+      .spec-row {
+        display: grid;
+        grid-template-columns: 260px 1fr 200px;
+        gap: 24px;
+        padding: 22px 0;
+        border-bottom: 1px solid var(--border);
+        align-items: baseline;
+      }
+
+      .spec-row h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text);
+      }
+
+      .spec-row p {
+        font-size: 0.92rem;
         color: var(--text-muted);
       }
 
-      /* Interactive Pacing & Retention Workbench */
-      .workbench {
-        background: var(--bg-elevated);
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 32px;
+      .spec-tech {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        text-align: right;
+      }
+
+      /* Interactive Pacing Workbench (Flat Split Layout, No Cards Inside Cards) */
+      .workbench-split {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 36px;
-        align-items: start;
+        grid-template-columns: 1fr 1.15fr;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background-color: var(--surface);
+        overflow: hidden;
+      }
+
+      .workbench-controls {
+        padding: 28px;
+        border-right: 1px solid var(--border);
       }
 
       .control-group {
@@ -523,13 +417,13 @@
       .control-label {
         display: flex;
         justify-content: space-between;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
         font-weight: 600;
         margin-bottom: 8px;
       }
 
       .control-label span.val {
-        font-family: 'JetBrains Mono', monospace;
+        font-family: var(--font-mono);
         color: var(--accent);
       }
 
@@ -539,48 +433,41 @@
         cursor: pointer;
       }
 
-      .sim-output {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 22px;
+      .workbench-Log {
+        padding: 28px;
+        background-color: var(--bg);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
 
-      .sim-kpis {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
+      .workbench-summary-bar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
         gap: 12px;
-        margin-bottom: 18px;
-        padding-bottom: 16px;
+        padding-bottom: 14px;
+        margin-bottom: 16px;
         border-bottom: 1px solid var(--border);
-      }
-
-      .sim-kpi-val {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #fff;
-      }
-
-      .sim-kpi-lbl {
-        font-size: 0.75rem;
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
         color: var(--text-muted);
       }
 
+      .workbench-summary-bar strong {
+        color: var(--text);
+      }
+
       .cut-sheet {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.8rem;
-        color: #cbd5e1;
-        max-height: 210px;
-        overflow-y: auto;
-        line-height: 1.75;
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        color: var(--text);
+        line-height: 1.85;
       }
 
       /* Footer */
       footer {
-        border-top: 1px solid var(--border);
         padding: 36px 0;
-        margin-top: 48px;
         color: var(--text-muted);
         font-size: 0.86rem;
       }
@@ -607,16 +494,26 @@
         .btn-console,
         .btn-primary,
         .btn-secondary,
-        .card,
         .rank-slot {
-          transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+          transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
         }
       }
 
       @media (max-width: 860px) {
         .hero,
-        .workbench {
+        .workbench-split {
           grid-template-columns: 1fr;
+        }
+        .workbench-controls {
+          border-right: none;
+          border-bottom: 1px solid var(--border);
+        }
+        .spec-row {
+          grid-template-columns: 1fr;
+          gap: 6px;
+        }
+        .spec-tech {
+          text-align: left;
         }
         .nav-links .hide-mobile {
           display: none;
@@ -629,19 +526,15 @@
   <header>
     <div class="container nav">
       <a href="/" class="brand">
-        <img src="/aat_app_icon.png" alt="AAT Studio Icon" />
+        <img src="/aat_app_icon.png" alt="AAT Studio" />
         <span>AAT Studio</span>
-        <span class="brand-badge">Studio Suite</span>
       </a>
       <nav class="nav-links" aria-label="Main navigation">
-        <a href="#capabilities" class="hide-mobile">Architecture</a>
+        <a href="#capabilities" class="hide-mobile">Specifications</a>
         <a href="#workbench" class="hide-mobile">Pacing Lab</a>
         <a href="/privacy.html">Privacy</a>
         <a href="/terms.html">Terms</a>
-        <a href="/callback/" class="btn-console" title="Creator OAuth 2.0 Gateway">
-          <span class="dot-live" aria-hidden="true"></span>
-          <span>Studio Auth</span>
-        </a>
+        <a href="/callback/" class="btn-console">Studio Auth</a>
       </nav>
     </div>
   </header>
@@ -651,10 +544,10 @@
     <div id="oauthRootBanner">
       <div class="oauth-banner-row">
         <div>
-          <strong style="color:#6ee7b7; font-size:0.98rem;">Studio OAuth 2.0 Handshake Ready</strong>
+          <strong style="color:var(--text); font-size:0.95rem;">Studio OAuth 2.0 Handshake Ready</strong>
           <p style="font-size:0.86rem; color:var(--text-muted); margin-top:4px;">Copy your authorization command below to complete channel binding:</p>
         </div>
-        <button type="button" id="rootCopyBtn" class="btn-primary" style="padding:10px 18px; font-size:0.86rem;">Copy Command</button>
+        <button type="button" id="rootCopyBtn" class="btn-primary" style="padding:9px 16px; font-size:0.85rem;">Copy Command</button>
       </div>
       <pre id="rootCmdBox" class="mono-box" tabindex="0" style="margin-top:12px;"></pre>
     </div>
@@ -662,133 +555,100 @@
     <!-- Hero -->
     <div class="hero">
       <div>
-        <div class="eyebrow">
-          <span class="dot-live" aria-hidden="true"></span>
-          <span>9:16 Video Production • Editorial Pacing • Channel Analytics</span>
-        </div>
         <h1>
-          Editorial Mastering for <span>Short-Form Video.</span>
+          Editorial Mastering for Short-Form Video.
         </h1>
         <p>
           AAT Studio brings together frame-accurate 9:16 video assembly, scene-level audio and timing adjustments, clean countdown graphics, and YouTube Analytics retention tracking.
         </p>
         <div class="hero-actions">
           <a href="#workbench" class="btn-primary">Open Pacing Workbench</a>
-          <a href="https://www.youtube.com/@aatfunnyclip" target="_blank" rel="noopener" class="btn-secondary">Official Channel (@aatfunnyclip)</a>
+          <a href="https://www.youtube.com/@aatfunnyclip" target="_blank" rel="noopener" class="btn-secondary">YouTube Channel (@aatfunnyclip)</a>
         </div>
-        <div class="hero-metrics">
-          <div>
-            <div class="metric-val">1080×1920</div>
-            <div class="metric-lbl">60fps Vertical Output</div>
-          </div>
-          <div>
-            <div class="metric-val">Adaptive</div>
-            <div class="metric-lbl">Scene &amp; Audio Timing</div>
-          </div>
-          <div>
-            <div class="metric-val">OAuth 2.0</div>
-            <div class="metric-lbl">YouTube API v3 Publishing</div>
-          </div>
+        <div class="hero-specs-line">
+          <span>1080×1920 60fps</span>
+          <span>ITU-R BS.1770-4 Loudness</span>
+          <span>YouTube Data &amp; Analytics API</span>
         </div>
       </div>
 
       <div class="studio-preview-wrap">
         <div class="phone-frame" aria-label="AAT Studio 9:16 Vertical Mastering Preview">
-          <div class="hud-banner" id="previewBanner">
-            TOP 5 MOMENTS: <span id="previewBannerAccent">#1 DEFIES PHYSICS</span>
+          <div class="hud-banner">
+            <span>RANKED SEQUENCE</span>
+            <span id="previewCutTag">CUT #3</span>
           </div>
-          <div class="hud-middle">
-            <div class="rank-tower" role="listbox" aria-label="Interactive countdown preview">
-              <button type="button" class="rank-slot" data-rank="1" data-label="Stoppage-Time Bicycle" data-avp="91.2%" data-stay="79.4%" data-caption="“Chest control with his back to goal right before the overhead finish…”">
-                <span class="rank-num">1</span><span>Stoppage Winner</span>
-              </button>
-              <button type="button" class="rank-slot" data-rank="2" data-label="Sideline Reflex Save" data-avp="89.5%" data-stay="77.8%" data-caption="“Full-stretch parry across the six-yard box to deny the rebound…”">
-                <span class="rank-num">2</span><span>Sideline Save</span>
-              </button>
-              <button type="button" class="rank-slot active" data-rank="3" data-label="Mid-Air Recovery" data-avp="88.4%" data-stay="76.2%" data-caption="“Watch the back foot right before he recovers his balance…”">
-                <span class="rank-num">3</span><span>Mid-Air Recovery</span>
-              </button>
-              <button type="button" class="rank-slot" data-rank="4" data-label="Touchline Nutmeg" data-avp="86.9%" data-stay="74.8%" data-caption="“Threads the ball cleanly between two pressing defenders…”">
-                <span class="rank-num">4</span><span>Touchline Skill</span>
-              </button>
-              <button type="button" class="rank-slot" data-rank="5" data-label="Curled Free Kick" data-avp="85.1%" data-stay="73.5%" data-caption="“Bends around the four-man wall into the top corner…”">
-                <span class="rank-num">5</span><span>Opening Strike</span>
-              </button>
-            </div>
-            <div class="telemetry-floating">
-              <div>AVP: <strong id="previewAvp">88.4%</strong></div>
-              <div>STAY: <strong id="previewStay">76.2%</strong></div>
-              <div>LUFS: <strong>-14.0</strong></div>
-            </div>
+          <div class="rank-list" role="listbox" aria-label="Interactive countdown preview">
+            <button type="button" class="rank-slot" data-rank="1" data-dur="8.8s" data-avp="91.2%" data-caption="Chest control with his back to goal right before the overhead finish.">
+              <span class="rank-slot-left"><span class="rank-tag">#1</span><span>Stoppage Winner</span></span>
+              <span>8.8s</span>
+            </button>
+            <button type="button" class="rank-slot" data-rank="2" data-dur="8.1s" data-avp="89.5%" data-caption="Full-stretch parry across the six-yard box to deny the rebound.">
+              <span class="rank-slot-left"><span class="rank-tag">#2</span><span>Sideline Save</span></span>
+              <span>8.1s</span>
+            </button>
+            <button type="button" class="rank-slot active" data-rank="3" data-dur="8.4s" data-avp="88.4%" data-caption="Watch the back foot right before he recovers his balance.">
+              <span class="rank-slot-left"><span class="rank-tag">#3</span><span>Mid-Air Recovery</span></span>
+              <span>8.4s</span>
+            </button>
+            <button type="button" class="rank-slot" data-rank="4" data-dur="7.9s" data-avp="86.9%" data-caption="Threads the ball cleanly between two pressing defenders.">
+              <span class="rank-slot-left"><span class="rank-tag">#4</span><span>Touchline Skill</span></span>
+              <span>7.9s</span>
+            </button>
+            <button type="button" class="rank-slot" data-rank="5" data-dur="7.6s" data-avp="85.1%" data-caption="Bends around the four-man wall into the top corner.">
+              <span class="rank-slot-left"><span class="rank-tag">#5</span><span>Opening Strike</span></span>
+              <span>7.6s</span>
+            </button>
           </div>
           <div class="hud-footer">
-            <div class="hud-caption" id="previewCaption">“Watch the back foot right before he recovers his balance…”</div>
+            <div class="hud-caption" id="previewCaption">Watch the back foot right before he recovers his balance.</div>
             <div class="hud-meta">
-              <span id="previewCutTag">CUT #3 • 1080p60</span>
-              <span>AAT STUDIO</span>
+              <span id="previewAvp">Retention: 88.4%</span>
+              <span>-14.0 LUFS</span>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Capabilities -->
+    <!-- Specifications Ledger -->
     <section id="capabilities">
-      <div class="section-head">
-        <h2>Studio Workflow &amp; Architecture</h2>
-        <p>Built on Google Cloud and YouTube API services to handle vertical video assembly, cut verification, and audience retention diagnostics.</p>
+      <div class="section-intro">
+        <h2>Pipeline Specifications</h2>
+        <p>Built on Google Cloud and YouTube API services for vertical video assembly, cut verification, and audience retention diagnostics.</p>
       </div>
-      <div class="grid-4">
-        <div class="card">
-          <div class="card-icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-              <path d="M10 4v4M14 4v4M10 16v4M14 16v4M2 12h20"></path>
-            </svg>
-          </div>
+      <div class="spec-ledger">
+        <div class="spec-row">
           <h3>Scene-Accurate Trimming</h3>
-          <p>Frame and audio inspection isolates the setup, peak action, and reaction window for each segment in a sequence.</p>
+          <p>Frame and audio inspection isolates the setup, peak action, and reaction window for each segment in a countdown sequence.</p>
+          <span class="spec-tech">FFmpeg / 60fps</span>
         </div>
-        <div class="card">
-          <div class="card-icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="6" y="2" width="12" height="20" rx="2"></rect>
-              <path d="M9 6h6M9 18h6"></path>
-            </svg>
-          </div>
-          <h3>Clean 9:16 Layouts</h3>
-          <p>Composes readable title banners, 5-to-1 countdown badges, and safe-zone captions tailored for vertical mobile players.</p>
+        <div class="spec-row">
+          <h3>9:16 Safe-Zone Graphics</h3>
+          <p>Renders readable title headers, 5-to-1 countdown markers, and lower-third captions positioned clear of mobile player overlays.</p>
+          <span class="spec-tech">1080×1920 H.264</span>
         </div>
-        <div class="card">
-          <div class="card-icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 20V10M12 20V4M6 20v-6"></path>
-            </svg>
-          </div>
+        <div class="spec-row">
           <h3>Retention Diagnostics</h3>
-          <p>Connects with YouTube Analytics API v2 to review Average View Percentage (AVP), Stayed-to-Watch rates, and clip pacing.</p>
+          <p>Queries YouTube Analytics API v2 to review Average View Percentage (AVP), Stayed-to-Watch ratios, and per-clip pacing.</p>
+          <span class="spec-tech">YT Analytics v2</span>
         </div>
-        <div class="card">
-          <div class="card-icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="11" width="18" height="11" rx="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-          </div>
+        <div class="spec-row">
           <h3>Encrypted OAuth 2.0</h3>
-          <p>Handles channel authorization via Google OAuth 2.0 Web Client handshakes and NaCl SecretBox encrypted token storage.</p>
+          <p>Processes channel authorization via Google OAuth 2.0 Web Client handshakes and NaCl SecretBox encrypted token storage.</p>
+          <span class="spec-tech">XSalsa20-Poly1305</span>
         </div>
       </div>
     </section>
 
     <!-- Interactive Workbench -->
-    <section id="workbench">
-      <div class="section-head">
-        <h2>Interactive Short-Form Pacing Workbench</h2>
+    <section id="workbench" style="border-bottom: none;">
+      <div class="section-intro">
+        <h2>Short-Form Pacing Workbench</h2>
         <p>Adjust your countdown size, average clip duration, and opening hook timing to generate a timestamped editorial cut sheet.</p>
       </div>
-      <div class="workbench">
-        <div>
+      <div class="workbench-split">
+        <div class="workbench-controls">
           <div class="control-group">
             <div class="control-label">
               <label for="clipCountInput">Ranked Segments (Countdown Size)</label>
@@ -815,22 +675,15 @@
           </button>
         </div>
 
-        <div class="sim-output">
-          <div class="sim-kpis">
-            <div>
-              <div class="sim-kpi-val" id="totalDurKpi">42.5s</div>
-              <div class="sim-kpi-lbl">Total Runtime</div>
+        <div class="workbench-Log">
+          <div>
+            <div class="workbench-summary-bar">
+              <span>Runtime: <strong id="totalDurKpi">42.5s</strong></span>
+              <span>Target AVP: <strong id="targetAvpKpi">84%</strong></span>
+              <span>Stay Goal: <strong id="stayedKpi">72%+</strong></span>
             </div>
-            <div>
-              <div class="sim-kpi-val" id="targetAvpKpi">84%</div>
-              <div class="sim-kpi-lbl">Target AVP</div>
-            </div>
-            <div>
-              <div class="sim-kpi-val" id="stayedKpi">72%+</div>
-              <div class="sim-kpi-lbl">Stay vs. Swipe Goal</div>
-            </div>
+            <div class="cut-sheet" id="cutSheetBox" tabindex="0"></div>
           </div>
-          <div class="cut-sheet" id="cutSheetBox" tabindex="0"></div>
         </div>
       </div>
     </section>
@@ -839,7 +692,7 @@
   <footer>
     <div class="container footer-row">
       <div>
-        <strong>AAT Studio</strong> — Short-Form Video Production Suite
+        <strong>AAT Studio</strong> · Short-Form Video Production Suite
       </div>
       <div class="footer-links">
         <a href="/privacy.html">Privacy Policy</a>
@@ -852,7 +705,6 @@
 
   <script>
     (function () {
-      // 1. Check if Google OAuth redirected directly to root with ?code=
       const params = new URLSearchParams(window.location.search);
       const code = params.get("code");
       if (code) {
@@ -868,10 +720,8 @@
         });
       }
 
-      // 2. Interactive 9:16 Phone Preview Rank Slots
       const rankSlots = document.querySelectorAll(".rank-slot");
       const previewAvp = document.getElementById("previewAvp");
-      const previewStay = document.getElementById("previewStay");
       const previewCaption = document.getElementById("previewCaption");
       const previewCutTag = document.getElementById("previewCutTag");
 
@@ -879,14 +729,12 @@
         slot.addEventListener("click", function () {
           rankSlots.forEach(function (s) { s.classList.remove("active"); });
           slot.classList.add("active");
-          previewAvp.textContent = slot.dataset.avp;
-          previewStay.textContent = slot.dataset.stay;
+          previewAvp.textContent = "Retention: " + slot.dataset.avp;
           previewCaption.textContent = slot.dataset.caption;
-          previewCutTag.textContent = "CUT #" + slot.dataset.rank + " • 1080p60";
+          previewCutTag.textContent = "CUT #" + slot.dataset.rank;
         });
       });
 
-      // 3. Interactive Pacing Workbench
       const countEl = document.getElementById("clipCountInput");
       const pacingEl = document.getElementById("pacingInput");
       const hookEl = document.getElementById("hookInput");
@@ -928,9 +776,9 @@
           const segDur = r === 1 ? +(pacing * 1.1).toFixed(1) : +(pacing * 0.97).toFixed(1);
           const start = cursor;
           const end = +(cursor + segDur).toFixed(1);
-          const role = r === count ? "Opening Visual Hook (" + hook.toFixed(1) + "s lead)" : (r === 1 ? "Main Payoff Climax + Loop Cut" : "Escalation Segment");
+          const role = r === count ? "Opening Visual Hook (" + hook.toFixed(1) + "s lead)" : (r === 1 ? "Main Payoff + Loop Cut" : "Escalation Segment");
           const row = document.createElement("div");
-          row.textContent = "Rank #" + r + "  [" + fmtSec(start) + " → " + fmtSec(end) + "]  •  " + role;
+          row.textContent = "Rank #" + r + "  [" + fmtSec(start) + " to " + fmtSec(end) + "]  |  " + role;
           cutSheetBox.appendChild(row);
           cursor = end;
         }
